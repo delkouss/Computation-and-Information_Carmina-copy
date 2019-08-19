@@ -1,9 +1,422 @@
 \chapterimage{chapter_head_shannon.jpg} % Chapter heading image
 \chapter{Measures of information}
 %------------------------------------------------
+In the age of information, we are permanently in contact with it.
+We open documents, consume media, echange text messages or watch the weather forecast to name a few.
+But what is exactly information? Can we quantify it? Is it possible to say that
+one weather forecast contains more information than another? In this chapter,
+we will learn that this is indeed possible. Our exposition, follows to a great
+extent the visionary paper of Claude Shannon in 194X.
+
 \booksection{Information as uncertainty}
+\begin{exercise}
+Let us investigate the following situation. For some reason you want to know the weather forecast, but don't want to watch it or read it yourself. However, in order to get some information that allows you to choose appropriately your clothing for the next day, you ask a friend to send you a message to your phone every night with a summary of the forecast. You agree on a very simple encoding for the message, your friend will send a $1$ if the forecast predicts precipitations and $0$ otherwise. Let us assume that you are living in a dessert where it never rains and you receive a $0$. Do you think you learn much with the message? Does it contain information? Now let us assume that you live in the Netherlands where it does rain quite often, but certainly not every day. You also receive a $0$, does the message contain information? What about if you receive a $1$? Does the $1$ message contain more or less information than the message $0$? 
+\end{exercise}
+
+You can give different answers to the questions above, there is no one answer. 
+Here, we will follow an operational approach, and define the information content of a message, as the amount of information that one learns from the message. Hence, if we learn more from one message than from another one, the first one contains more information.
+This is still not a mathematical definition. 
+Some other properties that we want to impose to a measure of information are as follows. 
+Information is never negative, i.e. if we know already the content of a message, we can say that it contains zero information. 
+This is the worst case, in any other case, the content of the message will always complement our understanding of the world and will in consequence contain some information. 
+Finally, the information we learn, when we learn about unrelated events should add up. 
+The sum of the informatio nthat we elarn when we know that tomorrow will rain and the one we learn when we know that we have won the lottery should be the same as the information we learn when we learn both events. However, as we saw in the weather information, context does play a role. Learning that it will rain, will have different value depending on the location or on the time of the year. In the following we will make use of our desided properties of an information quantity and find a mathematical function that fulfills them all.
+
+\booksection{Refresher on probability theory}
+The collection of all possible outcomes $s$ in an experiment is called the sample space $\mathcal{S}$. We limit our interest to experiments with a finite number of outcomes. Any subset of the sample space is called an event. Let $a$ and $b$ be two events in $\mathcal{S}$, we define $a\cup b$ and $a\cap b$ as the union and intersection of $a$ and $b$. $a\cup b$ is the event that contains all outcomes belonging to $a$, to $b$ and to both. $a\cap b$ is the event that contains all outcomes belonging to both $a$ and $b$. Two events are disjoint if their intersection is null.
+
+We can define a function $p: \mathcal{S}\rightarrow [0,1]$ that associates every outcome $s\in \mathcal{S}$ with $p(s)$. The extension of $p$ to any $\mathcal{A}\subseteq \mathcal{S}$ is straightforward:
+
+\begin{equation}
+p(\mathcal{A})=\sum_{a\in \mathcal{A}}p(a)
+\end{equation} 
+
+We say that $p$ is a probability distribution if $\forall s\in \mathcal{S}, p(s)\geq 0$ and $p(\mathcal{S})=1$. Following Gallager's notation in~\cite{Gallager_68} we call an ensemble $\mathbf U$ the tuple of a sample space $\mathcal S$ together with a probability distribution $p$ defined on $\mathcal S$.
+
+We call a discrete random variable $\mathbf{X}$ over alphabet $\mathcal{X}$ a mapping $\mathbf{X}:\mathcal{X}\rightarrow \mathcal{S}$ such that:
+
+\begin{equation}
+p_\mathbf{X}(x)=\sum_{s:\mathbf{X}(s)=x}p(s)
+\end{equation} 
+
+We will write $p(x)$ for $p_\mathbf{X}(x)$. That is, we will drop the subscript that identifies the ensemble or the random variable whenever there is no possible confusion. 
+
+Let us consider a second experiment with two outcomes $x$ and $y$. The joint sample space of the experiment is the direct product of the sample space associated with the individual outcomes: $\mathcal S = \mathcal X \times \mathcal Y$. We can associate, as well, a probability distribution function to map all tuples $(x,y)$ to $[0,1]$. The probability of an event in the joint experiment is equally defined as the sum of the probability of the individual outcomes. In particular we can define for every $x\in\mathcal X$ the probability of $p(x)$ as the sum of $p(x,y)$ for all $y\in\mathcal Y$:
+
+\begin{equation}
+p(x)=\sum_{y}p(x,y)
+\end{equation} 
+
+\noindent and equivalently $p(y)$:
+\begin{equation}
+p(y)=\sum_{x}p(x,y)
+\end{equation} 
+
+Let $a$ and $b$ be two events with non zero probability. We call $p(a|b)$ the conditional probability of $a$ given that $b$ occurs. If we repeat the experiment many times it is easy to see that $p(a|b)$ is given by the ratio of $p(a\cap b)$ and $p(b)$. $a$ and $b$ are said to be independent if $p(a\cap b)=p(a)p(b)$. It follows that if and only if $a$ and $b$ are independent $p(a|b)=p(a)$.
+
 \booksection{Axiomatic derivation of entropy}
-\booksection{Properties of entropy}
-\booksection{Conditional entropy}
-\booksection{Mutual information}
+We proceed to introduce a measure of the information that the occurrence of an event $x$ in a sample space $\mathcal{X}$ provides to an observer. This measure is related to certainty about the events. If an observer is completely certain that an event is about to happen, the observation that the event indeed happens provides the observer with no additional information, whereas observing an unlikely event yields new information. More formally let $\mathbf{X}$ be an ensemble. Below we list some intuitive properties that an information measure should possess. 
+
+\begin{itemize}
+\item The occurrence of two independent events should yield the same information that the occurrence of the single events would provide an observer. If we let $h$ be an information measuring function
+         \begin{eqnarray}
+         p(a\cap b)=p(a) p(b)\Rightarrow h(a\cap b) = h(a)+h(b)
+         \end{eqnarray}
+         and more generally the information that $n$ independent identical events provide:
+         \begin{equation}
+         \label{eq:indepentr}
+         h(a^n) = nh(a)         
+         \end{equation}
+\item The measure should be non-negative, that is, an event gives either none or some information, but it can not give negative information:
+         \begin{equation}
+         h(a)\geq 0         
+         \end{equation}
+\item Less probable events provide more information than more probable events. For example, if we think of a coin and a die, an outcome of the die is more informative than an outcome of the coin:
+         \begin{eqnarray}
+         \label{eq:incentr}
+         p(a)< p(b) \Rightarrow h(a)> h(b)
+         \end{eqnarray}
+\item $h$ should be a continuous function.     
+\end{itemize}
+
+We now informally derive a family of functions complying with these basic properties following Shannon's original paper~\cite{Shannon_48}. Several authors have shown that this family is the only one complying with these or related sets of requirements. For a complete discussion on axiomatic derivations of entropy and information please refer to~ \cite{Aczel_74,Aczel_75,Csiszar_08,Feinstein_58}. The following derivation allows us to gain some intuition in the appropriateness of the information measure. However, as the axioms have no inherent validity, this approach "lends a certain plausibility" to the information definitions, "the real justification" of these definitions "resides in their implications"~\cite{Shannon_48}.
+
+Let an event with probability $1/r$ be independently repeated $m$ times, we can always define an event with probability $1/t$ independently repeated $n$ times such that $r$, $m$, $t$ and $n$ verify:
+         \begin{equation}
+         \label{eq:probpow}
+         r^m \le t^n < r^{m+1}
+         \end{equation}
+\noindent which applying logarithms and operating becomes:
+         \begin{equation}
+         \label{eq:h1}
+         \frac{m}{n} \le \frac{\log t}{\log r} < \frac{m+1}{n}
+         \end{equation}
+
+Given Eq.~\ref{eq:probpow} and Eq.~\ref{eq:incentr}, we can write the following relation between the information that $r^m$, $t^n$ and $r^{m+1}$ yield: 
+\begin{equation}
+         h(r^m) \leq h(t^n) < h(r^{m+1})
+\end{equation}
+
+\noindent and applying Eq.~\ref{eq:indepentr}:
+
+\begin{equation}
+\label{eq:h2}
+         mh(r) \leq nh(t) < (m+1)h(r)
+\end{equation}
+
+Finally we obtain the form of the information measure by combining Eq.~\ref{eq:h1} with Eq.~\ref{eq:h2} and taking into account that $n$ can take arbitrarily large values:
+\begin{equation}
+\label{eq:h}
+         h(t) = \lambda \log t
+\end{equation}
+
+\noindent with $\lambda < 0$ for the measure to be positive. Choosing different values of $\lambda$ allows us to measure information with different units. 
+
+\booksection{Entropy}
+\label{subsec:entropy}
+Let $\mathbf{X}^n$ be an ensemble that represents a source with $n$ outcomes $x_1, x_2, ..., x_n$. Every outcome $x_i$ is independently and identically distributed by the ensemble $\mathbf{X}$. Then, the probability of an event in the joint sample space is given by:
+
+\begin{equation}
+p(x_1, x_2, ..., x_n)=\prod_{i=1}^np(x_i)
+\end{equation}
+
+Note that we will use the same notation for an ensemble $\mathbf{X}$ and for the {iid} source that it spans.
+
+\begin{definition}The average information a symbol in $X$ yields is called the entropy of a source:         
+        \begin{equation}\label{eq:entr}
+        H(\mathbf{X})=-\sum_{x} p(x)\log p(x)   
+        \end{equation}
+\end{definition}
+
+\noindent where we take the convention that $0\log 0=0$, i.e. adding a  zero-probability event to a source does not affect its entropy.
+ 
+The definition that we have just provided reads as the average or mean information that the individual symbols in $\mathbf{X}$ yield; we can then naturally identify the entropy of $\mathbf{X}$ with the expected value of the random variable $-\log p(\mathbf{X})$.
+
+\begin{equation}
+  \label{eq:mean}
+  H(\mathbf{X})=-\sum_{x} p(x)\log p(x) = E(-\log p(\mathbf{X}))
+\end{equation}
+
+We prove some basic properties of entropy that we will use through this course.
+
+\begin{lemma}The entropy is non-negative.
+  \label{lem:entropynonnegative}
+  \begin{equation*}
+    H(\mathbf{X})\geq 0
+  \end{equation*}
+\end{lemma}
+
+\begin{proof}
+  \begin{equation}
+    0 \leq p(x) \leq 1 \Rightarrow -\log p(x) \geq 0 \Rightarrow H(X) \geq 0
+  \end{equation}
+\end{proof}
+
+%\begin{definition} A function $f(x)$ defined on the interval $(a,b)$ is concave if any two points $x_1$, $x_2$ in the interval and any $t\in[0,1]$ verify:
+%        \begin{equation}
+%        f(tx_1+(1-t)x_2) \geq tf(x_1)+(1-t)f(x_2)
+%         \end{equation}
+%\end{definition}
+
+%We prove the corollary of Jensen's inequality for concave functions as it demonstrates the non-negativity of the entropy function~\cite{Cover_91}.
+
+%\begin{theorem} The expected value of a discrete random variable $\mathbf{X}$ taking values in $\mathcal{X}$ transformed by a concave function $f$ is greater than or equal to the mean of the transformation of the random variable.
+%  \label{th:jensen}
+%  \begin{equation*}
+%    f(E(\mathbf{X}))\geq E(f(\mathbf{X}))
+%  \end{equation*}
+%\end{theorem}
+%
+%\begin{proof}
+%  We proceed to show by induction on the number of elements  in $\mathcal{X}$.
+%  \begin{equation}
+%    \label{eq:jensenbasis}
+%    f(p_1x_1+p_2x_2) \geq p_1f(x_1)+p_2f(x_2)
+%  \end{equation}
+%  \noindent Eq.~\ref{eq:jensenbasis}, that follows from the concavity of $f(x)$, shows that Jensen's inequality holds for $|\mathcal{X}|=2$, if we assume that it holds for $|\mathcal{X}|=n$:
+%
+%  \begin{equation}
+%    f(\sum_{i=1}^np_ix_i) \geq \sum_{i=1}^np_if(x_i)
+%  \end{equation}
+%  \noindent the induction hypothesis implies that it should also hold for $|\mathcal{X}|=n+1$
+%
+%  \begin{eqnarray}
+%    f(\sum_{i=1}^{n+1}p_ix_i) 
+%        & =    & f\left( p_{n+1}x_{n+1} + (1-p_{n+1}) \sum_{i=1}^{n}\frac{p_i}{1-p_{n+1}}x_i \right) \nonumber \\
+%        &\geq & p_{n+1}f(x_{n+1}) + (1-p_{n+1}) f\left( \sum_{i=1}^{n}\frac{p_i}{1-p_{n+1}}x_i \right) \nonumber \\
+%        &\geq & p_{n+1}f(x_{n+1}) + (1-p_{n+1}) \sum_{i=1}^{n}\frac{p_i}{1-p_{n+1}}f(x_i) \nonumber \\
+%        & = &    p_{n+1}f(x_{n+1}) + \sum_{i=1}^{n}p_if(x_i) \nonumber \\
+%        & = &   \sum_{i=1}^{n+1}p_if(x_i)
+%  \end{eqnarray}
+%  \noindent where the first inequality follows from the concavity of $f(x)$ and the second from the induction hypothesis.
+%\end{proof}
+%
+%\begin{lemma}The entropy of the uniform distribution equals the logarithm of the number of elements.
+%  \begin{equation*}
+%    H(\dfrac{1}{n}, ..., \dfrac{1}{n}) = \log n
+%  \end{equation*}
+%\end{lemma}
+%\begin{proof}
+%  \begin{equation}
+%    H(\dfrac{1}{n}, ..., \dfrac{1}{n}) = -\sum_{i=1}^n \dfrac{1}{n} \log \dfrac{1}{n} = \log n        
+%  \end{equation}
+%\end{proof}
+
+\begin{lemma}
+\label{lem:uniform}
+The distribution that maximizes entropy for any alphabet is the uniform distribution.
+\begin{equation*}
+H(p_1, ..., p_n)\leq \log n
+\end{equation*}
+\end{lemma}
+\begin{proof}
+\begin{eqnarray}
+H(p_1, ..., p_n)  - \log n & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \sum_{i=1}^n \dfrac{1}{n} \log n \nonumber \\
+                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \log n \sum_{i=1}^n \dfrac{1}{n} \nonumber \\
+                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \log n \sum_{i=1}^n p_i \nonumber \\
+                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \sum_{i=1}^n p_i \log n \nonumber \\
+                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{np_i} \nonumber \\                                      
+                                       & \leq &  \log \sum_{i=1}^n \dfrac{1}{n} = 0\nonumber \\
+\end{eqnarray}
+\noindent where the second equality follows from the fact that a probability distribution adds up to one and the last inequality holds from $\log$ being a concave function and applying Jensen's inequality.
+\end{proof}
+
+%\subsection{Data Compression}
+%Once presented an information measure, we review some of its operational interpretations, in particular its relation with the theoretical limits for data compression.
+%
+%A source code $C$ in alphabet $\mathcal{Y}$ for a random variable taking values in $\mathcal{X}$ is a function $c:\mathcal{X}\longrightarrow \mathcal{Y}^*$, where $\mathcal{Y}^*$ is any finite direct product of $\mathcal{Y}$. We call $c(x)$ the codeword for $x$ and $l(x)=|c(x)|$ the length of the codeword for $x$.
+%
+%The length of a source code $C$ is the sum of the lengths of every codeword in $C$ weighted by its relative frequency.
+%\begin{equation}
+%L(C(\mathbf X)) = \sum_{x} p(x) l(x)
+%\end{equation}
+%
+%A source code is uniquely decodable if any concatenation of codewords can only be generated by a unique concatenation of source symbols. In other words, the source symbols generating the codewords can be recovered with no possible equivocation. 
+%
+%The next inequality on the length of uniquely decodable source codes was first proved by McMillan~\cite{McMillan_56} however the following proof is a simpler version by Karush~\cite{Karush_61,Cover_91}.
+%
+%\begin{theorem} The length of a uniquely decodable source code $C$ for a random variable $\mathbf{X}$ taking values in alphabet $\mathcal{Y}$ verifies:
+%\begin{equation*}
+%\sum_{x}\frac{1}{|\mathcal{Y}|^{l(x)}} \leq 1
+%\end{equation*}
+%\label{th:mcmillan}
+%\end{theorem}
+%\begin{proof}
+%Let $c(x_1, x_2, ..., x_k)$ be a concatenation of codewords of aggregated length $l(x_1, x_2, ..., x_k)=\sum_{i=1}^k l(x_i)$. Since $C$ is uniquely decodable for any aggregated length $k$, no more than $|\mathcal{Y}|^k$ different concatenation of codewords can be generated. 
+%
+%We can consider the related expression on the aggregated length:
+%\begin{eqnarray}
+%\left( \sum_{x}\frac{1}{|\mathcal{Y}|^{l(x)}} \right)^n &=& \sum_{x_1}\frac{1}{|\mathcal{Y}|^{l(x_1)}} \sum_{x_2}\frac{1}{|\mathcal{Y}|^{l(x_2)}} \dots \sum_{x_n }\frac{1}{|\mathcal{Y}|^{l(x_n)}} \nonumber \\
+%&=& \sum_{x_1,x_2,\dots,x_n }\frac{1}{|\mathcal{Y}|^{l(x_1)+l(x_2)+\dots +l(x_n)}} \nonumber \\
+%&=& \sum_{x_1,x_2,\dots,x_n }\frac{1}{|\mathcal{Y}|^{l(x_1+x_2+\dots +x_n)}}
+%\end{eqnarray}
+%\noindent which can also be written as the sum for all possible lengths $i$ of the number $T_i$ of concatenation of $n$ codewords:
+%
+%\begin{eqnarray}
+%\left( \sum_{x }\frac{1}{|\mathcal{Y}|^{l(x)}} \right)^n &=& \sum_{i=1}^{nl_{max}}\frac{T_i}{|\mathcal{Y}|^i} \nonumber \\
+%&\leq & \sum_{i=1}^{nl_{max}}\frac{|\mathcal{Y}|^i}{|\mathcal{Y}|^i} \nonumber \\
+%&\leq & nl_{max}
+%\end{eqnarray}
+%\noindent where $l_{max} = \max_{x}l(x)$. And taking the $n$-th root in both sides:
+%
+%\begin{eqnarray}
+%\sum_{x }\frac{1}{|\mathcal{Y}|^{l(x)}}  &\leq & (nl_{max})^{1/n}
+%\end{eqnarray}
+%\noindent now since the limit $\lim_{n \to \infty } (nl_{max})^{1/n} = 1$ and the result holds for all $n$:
+%
+%\begin{eqnarray}
+%\sum_{x }\frac{1}{|\mathcal{Y}|^{l(x)}}  &\leq 1
+%\end{eqnarray}
+%\end{proof}
+%
+%We finish this brief overview of source coding with Th.~\ref{th:sourcecoding}~\cite{Cover_91}, it shows that the length  of a uniquely decodable code is lower bounded by the entropy of the random variable.
+%\begin{theorem}
+%\label{th:sourcecoding}
+%The length of a uniquely decodable code taking values from finite alphabet $\mathcal{Y}$ for random variable $\mathbf{X}$ is lower bounded by the entropy of $\mathbf{X}$.
+%\begin{equation*}
+%L\geq H_{|\mathcal{Y}|}(\mathbf{X})
+%\end{equation*}
+%\begin{proof}
+%\begin{eqnarray}
+%H_{|\mathcal{Y}|}(\mathbf{X}) - L &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1}{p(x)} - \sum_{x}p(x)l(x) \nonumber \\
+%                                      &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1}{p(x)} - \sum_{x} p(x)  \log_{|\mathcal{Y}|} |\mathcal{Y}|^{-l(x)} \nonumber \\
+%                                      &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{|\mathcal{Y}|^{-l(x)} }{p(x)} \nonumber \\
+%                                      &\leq & \log_{|\mathcal{Y}|} \sum_{x} |\mathcal{Y}|^{-l(x)} \nonumber \\
+%                                      &\leq & \log_{|\mathcal{Y}|} 1 = 0
+%\end{eqnarray}
+%\noindent where the first inequality is again an application of Jensen's result Th.~\ref{th:jensen} and the second one results from applying McMillan's Th.~\ref{th:mcmillan}.
+%\end{proof}
+%\end{theorem}
+%
+%This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble $\mathbf{X}$. That is, a source  $\mathbf{X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C(\mathbf {X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source $\mathbf{X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source:
+%
+%\begin{eqnarray}
+%R &=& L(C(\mathbf {X^n}))/n \nonumber\\
+%  &\geq& H_{|\mathcal{Y}|}(\mathbf{X^n})/n \nonumber\\
+% &=& H_{|\mathcal{Y}|}(\mathbf{X})
+%\end{eqnarray}
+
+
+\booksection{Conditional Entropy, Joint Entropy and Mutual Information}
+The conditional entropy of a source $\mathbf X$ given a second source $\mathbf Y$ can be regarded as the average uncertainty that the events in $\mathbf X$ provide given that we know the outcomes of another possibly correlated variable $Y$. Following the reasoning in Sec.~\ref{subsec:information}, we begin by defining the conditional information of one event $a$ given a second event $b$:
+\begin{equation}
+h(a|b) = -\log p (a|b)
+\end{equation}
+\noindent where the conditional information allows us to define the entropy of a source given one event:
+\begin{equation}
+H(\mathbf{X}|y) = \sum_x p(x|y) h(x|y)
+\end{equation}
+\noindent where at the left hand of the equation, we write $H(\mathbf{X}|y)$ as a proxy for $H(\mathbf{X}|\mathbf{Y}=y)$. 
+
+The entropy of one source given another is just the weighed average of $H(\mathbf{X}|y)$ for all $y$.
+\begin{equation}
+H(\mathbf{X}|\mathbf{Y}) = \sum_y p(y) \sum_x p(x|y) h(x|y) = \sum_y p(y) H(\mathbf{X}|y)
+\end{equation}
+
+We prove some basic properties of the conditional entropy.
+\begin{lemma}The conditional entropy is non-negative.
+\begin{equation*}
+H(\mathbf{X}|\mathbf{Y}) \geq 0
+\end{equation*}
+\end{lemma}
+\begin{proof}
+$H(\mathbf{X}|\mathbf{Y})$ is a sum of entropies, which are positive by Lem.~\ref{lem:entropynonnegative}, weighed by the probabilities of each event which are also positive.
+\end{proof}
+
+\begin{lemma}
+\label{lem:entgeqcond}
+The entropy of the random variable $\mathbf{X}$ given any random variable $\mathbf{Y}$ is not greater than the entropy of $\mathbf{X}$.
+\begin{equation*}
+H(\mathbf{X}|\mathbf{Y}) \leq H(\mathbf{X})
+\end{equation*}
+\end{lemma}
+\begin{proof}
+\begin{eqnarray}
+H(\mathbf{X}|\mathbf{Y}) - H(\mathbf{X}) &=& \sum_{y }p(y) \sum_{x} p(x|y)\log \frac{1}{p(x|y)} - \sum_{x}p(x) \log  \frac{1}{p(x)}\nonumber \\
+                         &=& \sum_{y}\sum_{x}p(x,y) \log \frac{1}{p(x|y)} + \sum_{x,y}p(x,y) \log  p(x) \nonumber \\
+                         &=& \sum_{x,y}p(x,y) \log  \frac{p(x)}{p(x|y)} \nonumber \\
+                         &=& \sum_{x,y}p(x,y) \log  \frac{p(x)p(y)}{p(x,y)} \nonumber \\
+                         &\leq & \log \sum_{x,y} p(x) p(y) = 0
+\end{eqnarray}
+\end{proof}
+
+\begin{lemma}
+\label{lem:function}
+Given random variables $\mathbf{X}$ and $\mathbf{Y}$ if $\mathbf{X}=f(\mathbf{Y})$: 
+\begin{equation*}
+H(\mathbf{X}|\mathbf{Y}) = 0
+\end{equation*}
+\end{lemma}
+\begin{proof}
+If $\mathbf{X}=f(\mathbf{Y})$, then given $\mathbf{Y}$ we know $\mathbf{X}$ with absolute certainty, in other words, given $\mathbf{Y}$ there is just one possible outcome.
+\begin{eqnarray}
+H(\mathbf{X}|\mathbf{Y})&=&\sum_{y}p(y) H(\mathbf{X}|y)\nonumber\\
+         &=& 0
+\end{eqnarray}
+\end{proof}
+
+\begin{definition}
+Given two discrete random variables $\mathbf{X}$ and $\mathbf{Y}$ taking values in sets $\mathcal{X}$ and $\mathcal{Y}$ with joint probability $p(x,y)$ we define the joint entropy as:
+\begin{equation}
+H(\mathbf{XY}) = - \sum_{x,y} p(x,y)\log p(x,y)
+\end{equation}
+\end{definition}
+
+This definition does not introduce a new concept: we can derive a random variable $\mathbf{Z}$ taking values in set $\mathcal{X}\times\mathcal{Y}$ with probability $p(\mathbf{Z}=(x,y))=p(x,y)$. It is evident that $H(\mathbf{Z})=H(\mathbf{X}\mathbf{Y})$ and, the non negativity and maximization by the uniform distribution of $H(\mathbf{X}\mathbf{Y})$ directly follow. 
+%We now derive the so called chain rule of joint entropy.
+
+%\begin{lemma}
+%\begin{equation*}
+%H(\mathbf{XY}) = H(\mathbf{X}) + H(\mathbf{Y}|\mathbf{X})
+%\end{equation*}
+%\end{lemma}
+%\begin{proof}
+%\begin{eqnarray}
+%H(\mathbf{XY}) &=& - \sum_{x,y} p(x,y)\log p(x,y) \nonumber \\
+%       &=& - \sum_{x}p(x)\sum_{y} p(y|x)\log p(x)p(y|x) \nonumber \\
+%       &=& - \sum_{x}p(x)\log p(x)\sum_{y} p(y|x) \nonumber \\
+%       & & - \sum_{x}p(x)\sum_{y} p(y|x)\log p(y|x) \nonumber \\
+%       &=& H(\mathbf{X}) + H(\mathbf{Y}|\mathbf{X})
+%\end{eqnarray}
+%\end{proof}
+
+The joint and conditional entropy definitions can be also naturally extended to multiple variables. %We show a %second 
+%chain rule for the joint entropy of $\mathbf{X}$ and $\mathbf{Y}$ given a variable $\mathbf{Z}$.  
+%\begin{lemma}
+%\label{lem:chain2}
+%Let $\mathbf{X}$, $\mathbf{Y}$, and $\mathbf{Z}$ be three random variables, then:
+%\begin{equation*}
+%H(\mathbf{XY}|\mathbf{Z}) = H(\mathbf{X}|\mathbf{Z}) + H(\mathbf{Y}|\mathbf{X}\mathbf{Z})
+%\end{equation*}
+%\end{lemma}
+%\begin{proof}
+%\begin{eqnarray}
+%H(\mathbf{XY}|\mathbf{Z}) &=& - \sum_{z}p(z)H(\mathbf{X}\mathbf{Y}|z)\nonumber \\
+%         &=& - \sum_{z}p(z) \sum_{x,y} p(x,y|z)\log p(x,y|z) \nonumber \\
+%         &=& - \sum_{z}p(z) \sum_{x} p(x|z)\sum_{y} p(y|xz)\log p(x|z)p(y|xz) \nonumber \\
+%         &=& - \sum_{z}p(z) \sum_{x} p(x|z)\log p(x|z)\sum_{y} p(y|xz) \nonumber \\
+%         & & - \sum_{z}p(z) \sum_{x}p(x|z)\sum_{y} p(y|xz)\log p(y|xz)  \nonumber \\ 
+%         &=& H(\mathbf{X}|\mathbf{Z}) + H(\mathbf{Y}|\mathbf{X}\mathbf{Z})  
+%\end{eqnarray}
+%\end{proof}
+
+Let $\mathbf{X}$ and $\mathbf{Y}$ be two discrete random variables. The mutual information $I(\mathbf{X};\mathbf{Y})$ is a measure of the information shared between the two variables $\mathbf{X}$ and $\mathbf{Y}$. Fig.~\ref{fig:infmeasures} shows the relationship between the four measures that we have defined: entropy, joint entropy, conditional entropy and mutual information.
+
+\begin{figure}
+\begin{center}
+\def\svgwidth{.8\columnwidth} 
+\input{gfx/infmeasures.pdf_tex} 
+\caption{Graphical representation of the information measures.}
+\label{fig:infmeasures}
+\end{center}
+\end{figure}
+
+\begin{eqnarray}
+\label{eq:mutualinformation}
+I(\mathbf{X};\mathbf{Y}) &=& H(\mathbf{Y}) - H(\mathbf{Y}|\mathbf{X}) \nonumber\\
+         &=& H(\mathbf{X}) - H(\mathbf{X}|\mathbf{Y}) \nonumber\\
+         &=& I(\mathbf{Y};\mathbf{X})
+\end{eqnarray}
+
 \booksection{Further reading}
+The mathematical foundations of information theory were to a certain extent developped single handedly by Claude Shannon. His original paper \cite{} developped the framework and also solved some of the most important problems. The text has not aged with time and remains a greatly written and accessible introduction to the field. A second excellent source for digging deeper into the material is the book of Cover and Thomas \cite{}, it is the reference of the field and widely used in most introductory courses on information theory. Chapters X and Y expand on the material covered in this chapter.
