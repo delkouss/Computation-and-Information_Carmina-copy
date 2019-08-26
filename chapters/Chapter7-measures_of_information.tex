@@ -1,156 +1,217 @@
 \chapterimage{chapter_head_shannon.jpg} % Chapter heading image
 \chapter{Measures of information}
 %------------------------------------------------
-In the age of information, we are permanently in contact with it.
-We open documents, consume media, echange text messages or watch the weather forecast to name a few.
+This is the age of information.
+We open documents, consume media, exchange text messages, perform videoconferences or watch the weather forecast to name a few examples.
 But what is exactly information? Can we quantify it? Is it possible to say that
 one weather forecast contains more information than another? In this chapter,
 we will learn that this is indeed possible. Our exposition, follows to a great
 extent the visionary paper of Claude Shannon in 194X.
 
-\booksection{Information as uncertainty}
+\booksection{Surprising information}
+Let us warm up with a series of questions. 
+The premise of all of them is the following: 
+For some reason you want to know the weather forecast for tomorrow, but don't want to watch it or read it yourself. 
+However, in order to get some information that allows you to choose appropriately your clothing for the next day, you ask a friend to send you a message to your phone every night with a summary of the forecast. 
+You agree on a very simple encoding for the message, your friend will send a $1$ if the forecast predicts precipitations and $0$ otherwise. Think about these questions and come back to them after reading the whole chapter.
+\begin{table}[h!]
+  \begin{center}
+    \label{tab:table1}
+    \begin{tabular}{l|l|l} 
+      \textbf{Location} & \textbf{Days of rain} & \textbf{Days with no rain}\\
+      \hline
+      \text{Rotterdam\footnote{source:knmi.nl}} & 153 & 212\\%\footnote{source:knmi.nl}
+      \text{Atacama desert} & 5 & 360
+    \end{tabular}
+    \caption{Summary of precipitations in the year 2018.}
+  \end{center}
+\end{table}
 \begin{exercise}
-Let us investigate the following situation. For some reason you want to know the weather forecast, but don't want to watch it or read it yourself. However, in order to get some information that allows you to choose appropriately your clothing for the next day, you ask a friend to send you a message to your phone every night with a summary of the forecast. You agree on a very simple encoding for the message, your friend will send a $1$ if the forecast predicts precipitations and $0$ otherwise. Let us assume that you are living in a dessert where it never rains and you receive a $0$. Do you think you learn much with the message? Does it contain information? Now let us assume that you live in the Netherlands where it does rain quite often, but certainly not every day. You also receive a $0$, does the message contain information? What about if you receive a $1$? Does the $1$ message contain more or less information than the message $0$? 
+Let us assume that you are living in the Atacama desert where it rarely rains and you receive a $0$. How much information does this message carry? 
+\end{exercise}
+\begin{exercise}
+Now let us assume that you live in the Netherlands where it does rain quite often, but certainly not every day. You also receive a $0$, does the message contain information? What about if you receive a $1$? Does the $1$ message contain more or less information than the message $0$? 
+\end{exercise}
+\begin{exercise}
+Finally, let us assume that you live in the Netherlands and you happen to know that it is mid August. Does the message $0$ carry the same information as in winter?
 \end{exercise}
 
-You can give different answers to the questions above, there is no one answer. 
-Here, we will follow an operational approach, and define the information content of a message, as the amount of information that one learns from the message. Hence, if we learn more from one message than from another one, the first one contains more information.
-This is still not a mathematical definition. 
-Some other properties that we want to impose to a measure of information are as follows. 
-Information is never negative, i.e. if we know already the content of a message, we can say that it contains zero information. 
-This is the worst case, in any other case, the content of the message will always complement our understanding of the world and will in consequence contain some information. 
-Finally, the information we learn, when we learn about unrelated events should add up. 
-The sum of the informatio nthat we elarn when we know that tomorrow will rain and the one we learn when we know that we have won the lottery should be the same as the information we learn when we learn both events. However, as we saw in the weather information, context does play a role. Learning that it will rain, will have different value depending on the location or on the time of the year. In the following we will make use of our desided properties of an information quantity and find a mathematical function that fulfills them all.
+Before you continue reading, pause for a moment and think what is common in your answers.
+
+We have posed these questions to suggest a relation between the amount of information a message provides and how surprising it is. 
+We will make this connection stronger in the rest of these chapter. %Now, what other properties do you think an information measure should satisfy?
+%Information is never negative, i.e. if we know already the content of a message, we can say that it contains zero information. 
+%This is the worst case, in any other case, the content of the message will always complement our understanding of the world and will in consequence contain some information. 
+%Finally, the information we learn, when we learn about unrelated events should add up. 
+%The sum of the informatio nthat we elarn when we know that tomorrow will rain and the one we learn when we know that we have won the lottery should be the same as the information we learn when we learn both events. However, as we saw in the weather information, context does play a role. Learning that it will rain, will have different value depending on the location or on the time of the year. In the following we will make use of our desided properties of an information quantity and find a mathematical function that fulfills them all.
 
 \booksection{Refresher on probability theory}
-The collection of all possible outcomes $s$ in an experiment is called the sample space $\mathcal{S}$. We limit our interest to experiments with a finite number of outcomes. Any subset of the sample space is called an event. Let $a$ and $b$ be two events in $\mathcal{S}$, we define $a\cup b$ and $a\cap b$ as the union and intersection of $a$ and $b$. $a\cup b$ is the event that contains all outcomes belonging to $a$, to $b$ and to both. $a\cap b$ is the event that contains all outcomes belonging to both $a$ and $b$. Two events are disjoint if their intersection is null.
+A basic understanding of probability theory is essential for the material that follows. 
+Let us review the fundamental concepts and definitions together with the notation that we will use here. 
+As we will only deal with discrete probability distributions, the definitions that follow are not fully general but sufficient for our purposes.
+If you have troubles following this section and doing the exercises please go back to your undergraduate text on the topic. 
 
-We can define a function $p: \mathcal{S}\rightarrow [0,1]$ that associates every outcome $s\in \mathcal{S}$ with $p(s)$. The extension of $p$ to any $\mathcal{A}\subseteq \mathcal{S}$ is straightforward:
+Given a finite set $\mathcal X$, we call a probability distribution a function $p:\mathcal X\rightarrow[0,1]$, that is a function from the elements of $\mathcal X$ to the closed interval in the real line between zero and one, with the condition that $\sum_{x\in\mathcal X}p(x)=1$. 
+Note that it follows automatically from our definition that for all $x\in\mathcal X$ $p(x)\geq 0$. 
+\begin{example} Let $\mathcal X =\left\{\text{tails},\text{heads}\right\}$ we could define a probability distribution function $p$ such that $p(\text{heads})=0.3$ and $p(\text{tails})=0.7$.
+\end{example}
+\begin{example} An important example is the uniform distribution. Given a finite set $\mathcal X$, a uniform distribution on the set $\mathcal X$ is a function $p$ that for all $x\in\mathcal X$ assigns the value $$p(x)=\frac{1}{|\mathcal{X}|}\ .$$ where, we denote by $|\cdot|$ the number of elements in the set.
+\end{example}
+We define an ensemble $X$ as the tuple of a probability distribution $p_X$ together with its domain $\mathcal A_X$. 
+Generally, we will refer to $\mathcal A_X$ as the sample space of $X$ and to its elements as events. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
+In information theory, $X$ typically models an object in a communications setup (see \ref{}), in this context it is common to call $\mathcal A_X$ the alphabet of $X$ and refer to its elements as letters. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
+
+Note that we can extend the definition of $p_X$ to any subset $\mathcal{S}\subseteq \mathcal{A}_X$:
+\begin{equation}
+p_X(\mathcal{S})=\sum_{x\in \mathcal{S}}p_X(x)
+\end{equation} 
+\begin{example}
+Let $X$ be an ensemble with alphabet $\mathcal A_X=\{1,2,3\}$ and with $p_X$ the uniform distribution. Then if $\mathcal S=\{1,2\}$, $p(\mathcal S)=1/3+1/3=2/3$ 
+\end{example}
+Abusing notation, we will also call event any subset of the alphabet of an ensemble. For this particular case of set we will drop the caligraphic notation for sets.
+Let $a$ and $b$ be two events in $\mathcal{X}$, we define $a\cup b$ and $a\cap b$ as the union and intersection of $a$ and $b$. 
+$a\cup b$ is the event that contains all outcomes belonging to $a$, to $b$ and to both, we will also denote the event $a\cup b$ by $a \text{ or } b$. 
+$a\cap b$ is the event that contains all outcomes belonging to both $a$ and $b$, we will also denote the event $a\cap b$ by $a \text{ and } b$. Two events are disjoint if their intersection is null.
+
+Given an ensemble $X$ and two events $a,b$ we say that they are independent if:
+\begin{equation}
+p_X(a \text{ and } b)=p_X(a)p_X(b)
+\end{equation}
+Let $a$ and $b$ be two events with non zero probability. We call $p_X(a|b)=p_X(a \text{ and } b)/p_X(b)$ the conditional probability of $a$ given that $b$ occurs. It follows that if and only if $a$ and $b$ are independent $p_X(a|b)=p_X(a)$.
+
+In the following, we will use the explicit notation $p_X,\mathcal A_X$ for the probability distribution of ensemble $X$ and its alphabet whenever confusion can arise but we will drop the subscript whenever possible.
+\begin{exercise}
+Let $X$ be an ensemble modelling two fair coins. Identify two events $a,b$ that are independent and verify that $p_X(a|b)=p_X(a)$
+\end{exercise}
+\begin{solution}
+A
+\end{solution}
+Given two alphabets $\mathcal A_X,\mathcal A_Y$ we can define a joint ensemble on them with sample space or alphabet the direct product: $\mathcal A_{XY} = \mathcal A_X \times \mathcal A_Y$. 
+We can associate, as well, a probability distribution function to map all tuples $(x,y)$ to $[0,1]$. 
+
+The probability of an event in the joint ensemble is equally defined as the sum of the probability of the individual events. 
+In particular, we can define for every $x\in\mathcal X$ the probability of $p_X(x)$ as the sum of $p_{XY}(x,y)$ for all $y\in\mathcal Y$:
+\begin{equation}
+p_X(x)=\sum_{y}p_{XY}(x,y)
+\end{equation} 
+\noindent and equivalently $p_Y(y)$:
+\begin{equation}
+p_Y(y)=\sum_{x}p_{XY}(x,y)
+\end{equation} 
+\begin{example}
+Consider $n$ repetitions of an experiment, each repetition can be modelled by ensemble $X$ and events in different experiments are independent. We can model the set of $n$ repetitions via the joint ensemble $X_1\ldots X_N$, where $X_i$ is the ensemble associated with the $i$-th experiment, and joint the probability distribution is given by:
+\begin{equation}
+p_{X_1\ldots X_N}(x_1,x_2,\ldots,x_n)=\prod_{i=1}^np_X(x_i)
+\end{equation}
+\end{example}
+A random variable $V$ on the ensemble $X$ is a numerical function from the elements of $\mathcal A_X$ to (typically) the real line. That is, a function $V:\mathcal{A}_X\rightarrow \mathcal A_V$, where $\mathcal A_V$ is a finite subset of the reals. The random variable $V$ induces an ensemble with alphabet $\mathcal A_V$ and probability distribution $p_V$ where $p_V$ is given by:
 
 \begin{equation}
-p(\mathcal{A})=\sum_{a\in \mathcal{A}}p(a)
+p_V(v)=\sum_{x\in\mathcal A_X:V(x)=v}p_X(x)
 \end{equation} 
+for all $v\in\mathcal A_V$.
 
-We say that $p$ is a probability distribution if $\forall s\in \mathcal{S}, p(s)\geq 0$ and $p(\mathcal{S})=1$. Following Gallager's notation in~\cite{Gallager_68} we call an ensemble $\mathbf U$ the tuple of a sample space $\mathcal S$ together with a probability distribution $p$ defined on $\mathcal S$.
-
-We call a discrete random variable $\mathbf{X}$ over alphabet $\mathcal{X}$ a mapping $\mathbf{X}:\mathcal{X}\rightarrow \mathcal{S}$ such that:
-
+The mean or expectation of a random variable is given by:
 \begin{equation}
-p_\mathbf{X}(x)=\sum_{s:\mathbf{X}(s)=x}p(s)
-\end{equation} 
-
-We will write $p(x)$ for $p_\mathbf{X}(x)$. That is, we will drop the subscript that identifies the ensemble or the random variable whenever there is no possible confusion. 
-
-Let us consider a second experiment with two outcomes $x$ and $y$. The joint sample space of the experiment is the direct product of the sample space associated with the individual outcomes: $\mathcal S = \mathcal X \times \mathcal Y$. We can associate, as well, a probability distribution function to map all tuples $(x,y)$ to $[0,1]$. The probability of an event in the joint experiment is equally defined as the sum of the probability of the individual outcomes. In particular we can define for every $x\in\mathcal X$ the probability of $p(x)$ as the sum of $p(x,y)$ for all $y\in\mathcal Y$:
-
-\begin{equation}
-p(x)=\sum_{y}p(x,y)
-\end{equation} 
-
-\noindent and equivalently $p(y)$:
-\begin{equation}
-p(y)=\sum_{x}p(x,y)
-\end{equation} 
-
-Let $a$ and $b$ be two events with non zero probability. We call $p(a|b)$ the conditional probability of $a$ given that $b$ occurs. If we repeat the experiment many times it is easy to see that $p(a|b)$ is given by the ratio of $p(a\cap b)$ and $p(b)$. $a$ and $b$ are said to be independent if $p(a\cap b)=p(a)p(b)$. It follows that if and only if $a$ and $b$ are independent $p(a|b)=p(a)$.
+\mathbb E[V]=\sum_{x\in\mathcal A_X}p_X(x)V(x)=\sum_{v\in\mathcal A_V}p_Vv
+\end{equation}
 
 \booksection{Axiomatic derivation of entropy}
-We proceed to introduce a measure of the information that the occurrence of an event $x$ in a sample space $\mathcal{X}$ provides to an observer. This measure is related to certainty about the events. If an observer is completely certain that an event is about to happen, the observation that the event indeed happens provides the observer with no additional information, whereas observing an unlikely event yields new information. More formally let $\mathbf{X}$ be an ensemble. Below we list some intuitive properties that an information measure should possess. 
+Let us now try to understand what type of functions can quantify information in a satisfactory way. Let us make this investigation more precise. In particular, suppose that given some ensemble $X$ we observe the occurrence of an event $x\in\mathcal A_X$. As we informally argued in the introduction, the information we gain seems to be related to the likelihood of the event we observed. But how can we make this intuition quantitative? %What information does the observation provide?
+
+A function that quantifies information will be a function from a subset of $\mathcal A_X$ to the reals. 
+Let us call this function $h$. 
+Then given some event $x$, $h(x)$ will be some number that will quantify the information we learn. 
+Let us discuss what properties an ideal information quantifier should have. 
 
 \begin{itemize}
-\item The occurrence of two independent events should yield the same information that the occurrence of the single events would provide an observer. If we let $h$ be an information measuring function
-         \begin{eqnarray}
-         p(a\cap b)=p(a) p(b)\Rightarrow h(a\cap b) = h(a)+h(b)
-         \end{eqnarray}
-         and more generally the information that $n$ independent identical events provide:
+\item The measure should be non-negative, that is, an event gives either none or some information, but it can not give negative information. That is, for all events $x\in\mathcal A_X$ we require:
          \begin{equation}
-         \label{eq:indepentr}
-         h(a^n) = nh(a)         
+         h(x)\geq 0         
          \end{equation}
-\item The measure should be non-negative, that is, an event gives either none or some information, but it can not give negative information:
+\item Suppose that we buy two lottery tickets in two different lottery games, event $x$ is: "our first ticket wins a prize", event $y$ is: "our second ticket does not win a prize". 
+We expect these two events to be independent and the information content of knowing both events should be the sum of the information of the individual events.
+The occurrence of two independent events should yield the same information that the occurrence of the single events would provide an observer. If we let $h$ be an information measuring function
          \begin{equation}
-         h(a)\geq 0         
+         p_X(x \text{ and } y)=p_X(x) p_X(y)\Rightarrow h(x\text{ and } y) = h(x)+h(y)
          \end{equation}
-\item Less probable events provide more information than more probable events. For example, if we think of a coin and a die, an outcome of the die is more informative than an outcome of the coin:
-         \begin{eqnarray}
+         %and more generally the information that $n$ independent identical events provide:
+         %\begin{equation}
+         %\label{eq:indepentr}
+         %h(a^n) = nh(a)         
+         %\end{equation}
+\item Following our discussion about information and surprise, we want $h$ to quantify less probable events with a larger value than more probable events. For any two ensembles $X,Y$ and events $x\in\mathcal A_X$ and $y\in\mathcal A_Y$, we require:
+         \begin{equation}
          \label{eq:incentr}
-         p(a)< p(b) \Rightarrow h(a)> h(b)
-         \end{eqnarray}
-\item $h$ should be a continuous function.     
+         p_X(x)< p_Y(y) \Rightarrow h(x)> h(y)
+         \end{equation}
+\item The final condition is that we don't want that arbitrarily small changes in probability lead to a change in the information quantity, i.e. $h$ should be a continuous function.     
 \end{itemize}
 
-We now informally derive a family of functions complying with these basic properties following Shannon's original paper~\cite{Shannon_48}. Several authors have shown that this family is the only one complying with these or related sets of requirements. For a complete discussion on axiomatic derivations of entropy and information please refer to~ \cite{Aczel_74,Aczel_75,Csiszar_08,Feinstein_58}. The following derivation allows us to gain some intuition in the appropriateness of the information measure. However, as the axioms have no inherent validity, this approach "lends a certain plausibility" to the information definitions, "the real justification" of these definitions "resides in their implications"~\cite{Shannon_48}.
-
-Let an event with probability $1/r$ be independently repeated $m$ times, we can always define an event with probability $1/t$ independently repeated $n$ times such that $r$, $m$, $t$ and $n$ verify:
-         \begin{equation}
-         \label{eq:probpow}
-         r^m \le t^n < r^{m+1}
-         \end{equation}
-\noindent which applying logarithms and operating becomes:
-         \begin{equation}
-         \label{eq:h1}
-         \frac{m}{n} \le \frac{\log t}{\log r} < \frac{m+1}{n}
-         \end{equation}
-
-Given Eq.~\ref{eq:probpow} and Eq.~\ref{eq:incentr}, we can write the following relation between the information that $r^m$, $t^n$ and $r^{m+1}$ yield: 
-\begin{equation}
-         h(r^m) \leq h(t^n) < h(r^{m+1})
-\end{equation}
-
-\noindent and applying Eq.~\ref{eq:indepentr}:
-
-\begin{equation}
-\label{eq:h2}
-         mh(r) \leq nh(t) < (m+1)h(r)
-\end{equation}
-
-Finally we obtain the form of the information measure by combining Eq.~\ref{eq:h1} with Eq.~\ref{eq:h2} and taking into account that $n$ can take arbitrarily large values:
+It turns out that there is a very limited set of functions that verify these properties. Given some ensemble $X$, the unique family of functions is of the form: 
 \begin{equation}
 \label{eq:h}
-         h(t) = \lambda \log t
+         h(x) = -\log_\lambda p_X(x)
 \end{equation}
+\noindent where $x\in\mathcal A_X$ and with $\lambda > 1$ for the measure to be positive. 
+Choosing different values of $\lambda$ allows us to measure information with different units. 
 
-\noindent with $\lambda < 0$ for the measure to be positive. Choosing different values of $\lambda$ allows us to measure information with different units. 
-
+There are some common choices of $\lambda$ that give rise to well known units of information: if we let $\lambda=2$, the unit of information is called bit. When $\lambda=3$ information is measured in trits, for $\lambda=10$ the unit is called a digit and when $\lambda=e$ nat. Unless stated otherwise, in the following we will assume that $\lambda=2$ and will let $\log=\log_2$.
+\begin{definition}
+Given an ensemble $X$ the information measured in bits of an event $S\subset \mathcal A_X$ is given by:
+\begin{equation}
+h(\mathcal S) = -\log p_X(\mathcal S)
+\end{equation}
+\end{definition}
+\begin{exercise}
+Let $X$ be an ensemble modelling a fair coin, that is with alphabet $\mathcal A_X=\{\text{heads},\text{tails}\}$ and with $p_X$ the uniform distribution. What is the information of the event heads and of the event tails?
+\end{exercise}
+\begin{solution}
+As $p_X$ is uniform, we have that $p(\text{heads})=p(\text{tails})=1/2$. Hence:
+\begin{equation*}
+h(\text{heads})=-\log(1/2)=1\text{ bit}
+\end{equation*}
+and
+\begin{equation*}
+h(\text{heads})=-\log(1/2)=1\text{ bit}\ .
+\end{equation*}
+\end{solution}
+Let us end this section by checking that all our desired conditions hold. First since the $\log$ function is continuous and monotonically increasing in the range $(0,1]$ it holds that $h$ is also continuous and monotonically decreasing in the range. Finally, if two events $a,b$ are independent, $p(a \text{ and } b)=p(a)p(b)$ and in consequence 
+\begin{align}
+h(a \text{ and } b) &= -\log \left(p(a \text{ and } b)\right)\\
+                    &= -\log \left(p(a) p(b)\right)\\
+                    &= -\log(p(a)) -\log(p(b))\\
+                    &= h(a)+h(b)
+\end{align}
 \booksection{Entropy}
 \label{subsec:entropy}
-Let $\mathbf{X}^n$ be an ensemble that represents a source with $n$ outcomes $x_1, x_2, ..., x_n$. Every outcome $x_i$ is independently and identically distributed by the ensemble $\mathbf{X}$. Then, the probability of an event in the joint sample space is given by:
-
-\begin{equation}
-p(x_1, x_2, ..., x_n)=\prod_{i=1}^np(x_i)
-\end{equation}
-
-Note that we will use the same notation for an ensemble $\mathbf{X}$ and for the {iid} source that it spans.
-
-\begin{definition}The average information a symbol in $X$ yields is called the entropy of a source:         
+We define the entropy of an ensemble as the average information content it provides:
+\begin{definition} Let $X$ be an ensemble, the entropy of the ensemble is defined as: 
         \begin{equation}\label{eq:entr}
         H(\mathbf{X})=-\sum_{x} p(x)\log p(x)   
         \end{equation}
-\end{definition}
-
 \noindent where we take the convention that $0\log 0=0$, i.e. adding a  zero-probability event to a source does not affect its entropy.
- 
-The definition that we have just provided reads as the average or mean information that the individual symbols in $\mathbf{X}$ yield; we can then naturally identify the entropy of $\mathbf{X}$ with the expected value of the random variable $-\log p(\mathbf{X})$.
+\end{definition}
+We can rewrite the definition of entropy as the expectation of the random variable $h(X)$. That is a random variable that associated each event with the negative logarithm of its probability: 
 
 \begin{equation}
   \label{eq:mean}
   H(\mathbf{X})=-\sum_{x} p(x)\log p(x) = E(-\log p(\mathbf{X}))
 \end{equation}
 
-We prove some basic properties of entropy that we will use through this course.
+Note that entropy only depends on the values of the probabilities. In the following we will sometimes be interested in the entropy a probability distribution independently of an ensemble. We will use the notation $H(p_1,\ldots,p_n)$ to indicate the probability distribution. Let us now investigate some basic properties of entropy that we will use through this course.
 
-\begin{lemma}The entropy is non-negative.
+\begin{exercise}Show that entropy can not be negative.
   \label{lem:entropynonnegative}
   \begin{equation*}
     H(\mathbf{X})\geq 0
   \end{equation*}
-\end{lemma}
-
-\begin{proof}
+\end{exercise}
+\begin{solution}
   \begin{equation}
     0 \leq p(x) \leq 1 \Rightarrow -\log p(x) \geq 0 \Rightarrow H(X) \geq 0
   \end{equation}
-\end{proof}
+\end{solution}
 
 %\begin{definition} A function $f(x)$ defined on the interval $(a,b)$ is concave if any two points $x_1$, $x_2$ in the interval and any $t\in[0,1]$ verify:
 %        \begin{equation}
@@ -160,12 +221,13 @@ We prove some basic properties of entropy that we will use through this course.
 
 %We prove the corollary of Jensen's inequality for concave functions as it demonstrates the non-negativity of the entropy function~\cite{Cover_91}.
 
-%\begin{theorem} The expected value of a discrete random variable $\mathbf{X}$ taking values in $\mathcal{X}$ transformed by a concave function $f$ is greater than or equal to the mean of the transformation of the random variable.
-%  \label{th:jensen}
-%  \begin{equation*}
-%    f(E(\mathbf{X}))\geq E(f(\mathbf{X}))
-%  \end{equation*}
-%\end{theorem}
+The following is known as Jensen's inequality and will be of use in the following. See~\cite{Cover_91} for a proof.
+\begin{theorem}[Jensen's inequality] Let $f$ be a concave function and $X$ a random variable. Then: 
+  \label{th:jensen}
+  \begin{equation*}
+    f(E(\mathbf{X}))\geq E(f(\mathbf{X}))
+  \end{equation*}
+\end{theorem}
 %
 %\begin{proof}
 %  We proceed to show by induction on the number of elements  in $\mathcal{X}$.
@@ -296,41 +358,50 @@ H(p_1, ..., p_n)  - \log n & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \su
 % &=& H_{|\mathcal{Y}|}(\mathbf{X})
 %\end{eqnarray}
 
+\booksection{Joint entropy, conditional entropy and mutual information}
+We will now explore three information measures that derive from entropy as we defined it in the previous section. The first measure is joint entropy, which is a direct application of the definition of entropy to a joint source.
+\begin{definition}
+Given two ensembles $\mathbf{X}$ and $\mathbf{Y}$ the entropy of the joint ensemble $XY$ is given by:
+\begin{equation}
+H(\mathbf{XY}) = - \sum_{x,y} p(x,y)\log p(x,y)
+\end{equation}
+\end{definition}
 
-\booksection{Conditional Entropy, Joint Entropy and Mutual Information}
-The conditional entropy of a source $\mathbf X$ given a second source $\mathbf Y$ can be regarded as the average uncertainty that the events in $\mathbf X$ provide given that we know the outcomes of another possibly correlated variable $Y$. Following the reasoning in Sec.~\ref{subsec:information}, we begin by defining the conditional information of one event $a$ given a second event $b$:
+Exercise \ref{} suggests that the information content depends on the context. The second information measure that we introduce is conditional entropy.
+First, we can extend in a straightforward way the reasoning in Sec.~\ref{subsec:information} to define an information measure conditional on the knowledge of some event $y$. 
+It can analogously be proved that a conditional information measure is of the form: 
 \begin{equation}
 h(a|b) = -\log p (a|b)
 \end{equation}
-\noindent where the conditional information allows us to define the entropy of a source given one event:
+Let $XY$ be a joint ensemble, we can define the conditional entropy of $X$ given the event $y$ as the average conditional information:
 \begin{equation}
 H(\mathbf{X}|y) = \sum_x p(x|y) h(x|y)
 \end{equation}
-\noindent where at the left hand of the equation, we write $H(\mathbf{X}|y)$ as a proxy for $H(\mathbf{X}|\mathbf{Y}=y)$. 
-
-The entropy of one source given another is just the weighed average of $H(\mathbf{X}|y)$ for all $y$.
+and the conditional entropy of $X$ given ensemble $Y$:
 \begin{equation}
-H(\mathbf{X}|\mathbf{Y}) = \sum_y p(y) \sum_x p(x|y) h(x|y) = \sum_y p(y) H(\mathbf{X}|y)
+H(\mathbf{X}|\mathbf{Y})=\sum_yH(X|y)
 \end{equation}
-
-We prove some basic properties of the conditional entropy.
-\begin{lemma}The conditional entropy is non-negative.
+\begin{exercise}
+Show that $H(X|Y)=H(XY)-H(Y)$.
+\end{exercise}
+Let us investigate some basic properties of the conditional entropy.
+\begin{exercise}Show that the conditional entropy is non-negative.
 \begin{equation*}
 H(\mathbf{X}|\mathbf{Y}) \geq 0
 \end{equation*}
-\end{lemma}
-\begin{proof}
+\end{exercise}
+\begin{solution}
 $H(\mathbf{X}|\mathbf{Y})$ is a sum of entropies, which are positive by Lem.~\ref{lem:entropynonnegative}, weighed by the probabilities of each event which are also positive.
-\end{proof}
+\end{solution}
 
-\begin{lemma}
+\begin{exercise}
 \label{lem:entgeqcond}
-The entropy of the random variable $\mathbf{X}$ given any random variable $\mathbf{Y}$ is not greater than the entropy of $\mathbf{X}$.
+Show that the entropy of the random variable $\mathbf{X}$ given any random variable $\mathbf{Y}$ is not greater than the entropy of $\mathbf{X}$.
 \begin{equation*}
 H(\mathbf{X}|\mathbf{Y}) \leq H(\mathbf{X})
 \end{equation*}
-\end{lemma}
-\begin{proof}
+\end{exercise}
+\begin{solution}
 \begin{eqnarray}
 H(\mathbf{X}|\mathbf{Y}) - H(\mathbf{X}) &=& \sum_{y }p(y) \sum_{x} p(x|y)\log \frac{1}{p(x|y)} - \sum_{x}p(x) \log  \frac{1}{p(x)}\nonumber \\
                          &=& \sum_{y}\sum_{x}p(x,y) \log \frac{1}{p(x|y)} + \sum_{x,y}p(x,y) \log  p(x) \nonumber \\
@@ -338,49 +409,41 @@ H(\mathbf{X}|\mathbf{Y}) - H(\mathbf{X}) &=& \sum_{y }p(y) \sum_{x} p(x|y)\log \
                          &=& \sum_{x,y}p(x,y) \log  \frac{p(x)p(y)}{p(x,y)} \nonumber \\
                          &\leq & \log \sum_{x,y} p(x) p(y) = 0
 \end{eqnarray}
-\end{proof}
+\end{solution}
 
-\begin{lemma}
+\begin{exercise}
 \label{lem:function}
 Given random variables $\mathbf{X}$ and $\mathbf{Y}$ if $\mathbf{X}=f(\mathbf{Y})$: 
 \begin{equation*}
 H(\mathbf{X}|\mathbf{Y}) = 0
 \end{equation*}
-\end{lemma}
-\begin{proof}
+\end{exercise}
+\begin{solution}
 If $\mathbf{X}=f(\mathbf{Y})$, then given $\mathbf{Y}$ we know $\mathbf{X}$ with absolute certainty, in other words, given $\mathbf{Y}$ there is just one possible outcome.
 \begin{eqnarray}
 H(\mathbf{X}|\mathbf{Y})&=&\sum_{y}p(y) H(\mathbf{X}|y)\nonumber\\
          &=& 0
 \end{eqnarray}
-\end{proof}
+\end{solution}
 
-\begin{definition}
-Given two discrete random variables $\mathbf{X}$ and $\mathbf{Y}$ taking values in sets $\mathcal{X}$ and $\mathcal{Y}$ with joint probability $p(x,y)$ we define the joint entropy as:
-\begin{equation}
-H(\mathbf{XY}) = - \sum_{x,y} p(x,y)\log p(x,y)
-\end{equation}
-\end{definition}
-
-This definition does not introduce a new concept: we can derive a random variable $\mathbf{Z}$ taking values in set $\mathcal{X}\times\mathcal{Y}$ with probability $p(\mathbf{Z}=(x,y))=p(x,y)$. It is evident that $H(\mathbf{Z})=H(\mathbf{X}\mathbf{Y})$ and, the non negativity and maximization by the uniform distribution of $H(\mathbf{X}\mathbf{Y})$ directly follow. 
 %We now derive the so called chain rule of joint entropy.
 
-%\begin{lemma}
-%\begin{equation*}
-%H(\mathbf{XY}) = H(\mathbf{X}) + H(\mathbf{Y}|\mathbf{X})
-%\end{equation*}
-%\end{lemma}
-%\begin{proof}
-%\begin{eqnarray}
-%H(\mathbf{XY}) &=& - \sum_{x,y} p(x,y)\log p(x,y) \nonumber \\
-%       &=& - \sum_{x}p(x)\sum_{y} p(y|x)\log p(x)p(y|x) \nonumber \\
-%       &=& - \sum_{x}p(x)\log p(x)\sum_{y} p(y|x) \nonumber \\
-%       & & - \sum_{x}p(x)\sum_{y} p(y|x)\log p(y|x) \nonumber \\
-%       &=& H(\mathbf{X}) + H(\mathbf{Y}|\mathbf{X})
-%\end{eqnarray}
-%\end{proof}
+\begin{exercise} Show that the following relation holds for any two ensembles $XY$:
+\begin{equation*}
+H(\mathbf{XY}) = H(\mathbf{X}) + H(\mathbf{Y}|\mathbf{X})
+\end{equation*}
+\end{exercise}
+\begin{solution}
+\begin{eqnarray}
+H(\mathbf{XY}) &=& - \sum_{x,y} p(x,y)\log p(x,y) \nonumber \\
+       &=& - \sum_{x}p(x)\sum_{y} p(y|x)\log p(x)p(y|x) \nonumber \\
+       &=& - \sum_{x}p(x)\log p(x)\sum_{y} p(y|x) \nonumber \\
+       & & - \sum_{x}p(x)\sum_{y} p(y|x)\log p(y|x) \nonumber \\
+       &=& H(\mathbf{X}) + H(\mathbf{Y}|\mathbf{X})
+\end{eqnarray}
+\end{solution}
 
-The joint and conditional entropy definitions can be also naturally extended to multiple variables. %We show a %second 
+%The joint and conditional entropy definitions can be also naturally extended to multiple variables. %We show a %second 
 %chain rule for the joint entropy of $\mathbf{X}$ and $\mathbf{Y}$ given a variable $\mathbf{Z}$.  
 %\begin{lemma}
 %\label{lem:chain2}
@@ -400,7 +463,25 @@ The joint and conditional entropy definitions can be also naturally extended to 
 %\end{eqnarray}
 %\end{proof}
 
-Let $\mathbf{X}$ and $\mathbf{Y}$ be two discrete random variables. The mutual information $I(\mathbf{X};\mathbf{Y})$ is a measure of the information shared between the two variables $\mathbf{X}$ and $\mathbf{Y}$. Fig.~\ref{fig:infmeasures} shows the relationship between the four measures that we have defined: entropy, joint entropy, conditional entropy and mutual information.
+The third information measure that we introduce is the mutual information:
+\begin{definition}
+Given a joint ensemble $XY$, we define the mutual information between $X$ and $Y$ by:
+\begin{equation*}
+I(X;Y)=H(X) + H(Y) - H(XY)
+\end{equation*}
+\end{definition}
+The mutual information $I(\mathbf{X};\mathbf{Y})$ is a measure of the information shared between the two variables $\mathbf{X}$ and $\mathbf{Y}$. Let us make this intuition more precise:
+\begin{exercise}
+Show that for any ensemble $X$: $I(X;X)=H(X)$.
+\end{exercise}
+\begin{exercise}
+Show that $I(X;Y)=0$ if and only if $X$ and $Y$ are independent. 
+\end{exercise}
+\begin{exercise}
+Show that $I(X;Y)\geq 0$
+\end{exercise}
+
+Fig.~\ref{fig:infmeasures} shows the relationship between the four measures that we have defined: entropy, joint entropy, conditional entropy and mutual information.
 
 \begin{figure}
 \begin{center}
@@ -420,3 +501,5 @@ I(\mathbf{X};\mathbf{Y}) &=& H(\mathbf{Y}) - H(\mathbf{Y}|\mathbf{X}) \nonumber\
 
 \booksection{Further reading}
 The mathematical foundations of information theory were to a certain extent developped single handedly by Claude Shannon. His original paper \cite{} developped the framework and also solved some of the most important problems. The text has not aged with time and remains a greatly written and accessible introduction to the field. A second excellent source for digging deeper into the material is the book of Cover and Thomas \cite{}, it is the reference of the field and widely used in most introductory courses on information theory. Chapters X and Y expand on the material covered in this chapter.
+
+We will not prove it here, for a complete discussion on axiomatic derivations of entropy and information please refer to~ \cite{Aczel_74,Aczel_75,Csiszar_08,Feinstein_58}. 
