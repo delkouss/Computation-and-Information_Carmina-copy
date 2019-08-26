@@ -75,7 +75,7 @@
 ~\vfill
 \thispagestyle{empty}
 
-\noindent Copyright \copyright\ 2019 David Elkouss \& Carmen Garc\'ia Almudever\\ % Copyright notice
+\noindent Copyright \copyright\ 2019 David Elkouss, Carmen Garc\'ia Almudever \& Ryoichi Ishihara\\ % Copyright notice
 
 %\noindent \textsc{Published by Publisher}\\ % Publisher
 
@@ -89,7 +89,7 @@
 %	TABLE OF CONTENTS
 %----------------------------------------------------------------------------------------
 
-\chapterimage{chapter_head_eniac.jpg} % Table of contents heading image
+%\chapterimage{chapter_head_eniac.jpg} % Table of contents heading image
 
 \pagestyle{empty} % Disable headers and footers for the following pages
 
@@ -99,19 +99,19 @@
 
 \pagestyle{fancy} % Enable headers and footers again
 
-\chapter*{Foreword}
-\addcontentsline{toc}{chapter}{\textcolor{ocre}{Foreword}} % Add a Bibliography heading to the table of contents
+\input{foreword.tex}
 \part{Computation}
-\input{Chapter1-computer_architecture.tex}
-\input{Chapter2-digital_systems.tex}
-\input{Chapter3-logical_gates.tex}
-\input{Chapter4-finite_state_machines.tex}
-\input{Chapter5-computability.tex}
-\input{Chapter6-complexity_theory.tex}
+%\input{chapters/Chapter1-computer_architecture.tex}
+%\input{chapters/Chapter2-digital_systems.tex}
+%\input{chapters/Chapter3-logical_gates.tex}
+%\input{chapters/Chapter4-finite_state_machines.tex}
+%\input{chapters/Chapter5-computability.tex}
+%\input{chapters/Chapter6-complexity_theory.tex}
+
 \part{Information}
-\input{Chapter7-measures_of_information.tex}
-\input{Chapter8-source_coding.tex}
-\input{Chapter9-channel-coding.tex}
+\input{chapters/Chapter7-measures_of_information.tex}
+\input{chapters/Chapter8-source_coding.tex}
+\input{chapters/Chapter9-channel-coding.tex}
 
 
 
@@ -119,7 +119,7 @@
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
-
+\chapterimage{}
 \chapter*{Bibliography}
 \addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}} % Add a Bibliography heading to the table of contents
 \printbibliography[heading=bibempty]

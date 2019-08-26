@@ -20,7 +20,7 @@
 %----------------------------------------------------------------------------------------
 
 \usepackage{graphicx} % Required for including pictures
-\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+\graphicspath{{figures/}} % Specifies the directory where pictures are stored
 
 \usepackage{lipsum} % Inserts dummy text
 
@@ -203,6 +203,13 @@
 
 \usepackage{amsmath,amsfonts,amssymb,amsthm} % For math equations, theorems, symbols, etc
 
+\newenvironment{solution}
+  {\begin{proof}[Solution]}
+  {\renewcommand{\qedsymbol}{\textcolor{ocre}{$\blacksquare$}}\end{proof}}
+
+%\newcommand{\or}{\text{ or }}
+%\newcommand{\and}{{\text{ and }}}
+
 \newcommand{\intoo}[2]{\mathopen{]}#1\,;#2\mathclose{[}}
 \newcommand{\ud}{\mathop{\mathrm{{}d}}\mathopen{}}
 \newcommand{\intff}[2]{\mathopen{[}#1\,;#2\mathclose{]}}
@@ -259,16 +266,21 @@
 % Defines the theorem text style for each type of theorem to one of the three styles above
 \newcounter{dummy} 
 \numberwithin{dummy}{section}
+
 \theoremstyle{ocrenumbox}
 \newtheorem{theoremeT}[dummy]{Theorem}
 \newtheorem{problem}{Problem}[chapter]
 \newtheorem{exerciseT}{Exercise}[chapter]
+
 \theoremstyle{blacknumex}
 \newtheorem{exampleT}{Example}[chapter]
+
 \theoremstyle{blacknumbox}
 \newtheorem{vocabulary}{Vocabulary}[chapter]
 \newtheorem{definitionT}{Definition}[section]
 \newtheorem{corollaryT}[dummy]{Corollary}
+\newtheorem{lemmaT}[dummy]{Lemma}
+
 \theoremstyle{ocrenum}
 \newtheorem{proposition}[dummy]{Proposition}
 
@@ -346,6 +358,7 @@ innerbottommargin=5pt]{cBox}
 \newenvironment{definition}{\begin{dBox}\begin{definitionT}}{\end{definitionT}\end{dBox}}	
 \newenvironment{example}{\begin{exampleT}}{\hfill{\tiny\ensuremath{\blacksquare}}\end{exampleT}}		
 \newenvironment{corollary}{\begin{cBox}\begin{corollaryT}}{\end{corollaryT}\end{cBox}}	
+\newenvironment{lemma}{\begin{cBox}\begin{lemmaT}}{\end{lemmaT}\end{cBox}}	
 
 %----------------------------------------------------------------------------------------
 %	REMARK ENVIRONMENT
