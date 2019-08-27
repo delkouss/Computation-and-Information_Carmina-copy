@@ -6,7 +6,7 @@
 #
 # # The first rule in a Makefile is the one executed by default ("make"). It
 # # should always be the "all" rule, so that "make" and "make all" are identical.
-all: main.pdf
+all: main.idx main.bcf main.ind main.bbl main.pdf
 #
 # # CUSTOM BUILD RULES
 #
@@ -27,8 +27,19 @@ all: main.pdf
 #  # -interaction=nonstopmode keeps the pdflatex backend from stopping at a
 # missing file reference and interactively asking you for an alternative.
 #
+main.bcf: main.tex
+	latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make main.tex 
+main.idx: main.tex
+	latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make main.tex 
+main.ind: main.idx
+	makeindex main.idx -s StyleInd.ist 
+
+main.bbl: main.bcf
+	biber main.bcf
+
 main.pdf: main.tex
-	latexmk -pvc -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make main.tex
+	latexmk -pvc -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make main.tex 
+
 #
 clean: 
 	latexmk -CA
