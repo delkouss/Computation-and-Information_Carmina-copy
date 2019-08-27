@@ -6,7 +6,7 @@ We open documents, consume media, exchange text messages, perform videoconferenc
 But what is exactly information? Can we quantify it? Is it possible to say that
 one weather forecast contains more information than another? In this chapter,
 we will learn that this is indeed possible. Our exposition, follows to a great
-extent the visionary paper of Claude Shannon in 194X.
+extent the visionary paper of Claude Shannon in 1948.
 
 \booksection{Surprising information}
 Let us warm up with a series of questions. 
@@ -33,6 +33,7 @@ Let us assume that you are living in the Atacama desert where it rarely rains an
 Now let us assume that you live in the Netherlands where it does rain quite often, but certainly not every day. You also receive a $0$, does the message contain information? What about if you receive a $1$? Does the $1$ message contain more or less information than the message $0$? 
 \end{exercise}
 \begin{exercise}
+\label{ex:infcontext}
 Finally, let us assume that you live in the Netherlands and you happen to know that it is mid August. Does the message $0$ carry the same information as in winter?
 \end{exercise}
 
@@ -117,6 +118,7 @@ The mean or expectation of a random variable is given by:
 \end{equation}
 
 \booksection{Axiomatic derivation of entropy}
+\label{sec:axent}
 Let us now try to understand what type of functions can quantify information in a satisfactory way. Let us make this investigation more precise. In particular, suppose that given some ensemble $X$ we observe the occurrence of an event $x\in\mathcal A_X$. As we informally argued in the introduction, the information we gain seems to be related to the likelihood of the event we observed. But how can we make this intuition quantitative? %What information does the observation provide?
 
 A function that quantifies information will be a function from a subset of $\mathcal A_X$ to the reals. 
@@ -367,7 +369,7 @@ H(\mathbf{XY}) = - \sum_{x,y} p(x,y)\log p(x,y)
 \end{equation}
 \end{definition}
 
-Exercise \ref{} suggests that the information content depends on the context. The second information measure that we introduce is conditional entropy.
+Exercise \ref{ex:infcontext} suggests that the information content depends on the context. The second information measure that we introduce is conditional entropy.
 First, we can extend in a straightforward way the reasoning in Sec.~\ref{subsec:information} to define an information measure conditional on the knowledge of some event $y$. 
 It can analogously be proved that a conditional information measure is of the form: 
 \begin{equation}
@@ -498,8 +500,36 @@ I(\mathbf{X};\mathbf{Y}) &=& H(\mathbf{Y}) - H(\mathbf{Y}|\mathbf{X}) \nonumber\
          &=& H(\mathbf{X}) - H(\mathbf{X}|\mathbf{Y}) \nonumber\\
          &=& I(\mathbf{Y};\mathbf{X})
 \end{eqnarray}
-
+\booksection{Exercises}
+\begin{exercise}
+Let $X$ be a random variable with $H(X)>0$ and let $Y=f(X)$. 
+\begin{enumerate}
+\item Give one function such that $H(Y)=H(X)$
+\item Give one function such that $0<H(Y)<H(X)$
+\item Give one function such that $H(Y)=0$
+\end{enumerate}
+\end{exercise}
+\begin{exercise}
+A classic logical problem (also classic in information theory texts!) states that you receive 12 coins one of which is a counterfeit. The counterfeit is either lighter or heavier than the normal coins, you do not know which is the case. Fortunately, you have access to a two-plate scale that can compare weights.
+\begin{enumerate}
+\item Give a non-trivial bound on the minimum number of weighings that could give the answer.
+\item Give an strategy that solves the problem if you know tha the counterfeit coin is heavier than normal coins.
+\item Give an strategy that solves the general problem.
+\end{enumerate}
+\end{exercise}
+\begin{exercise}
+Convex mixtures
+\end{exercise}
+\begin{exercise}
+Entropy of a sum goes to the minitest
+\end{exercise}
+\begin{exercise}
+World series like exercise
+\end{exercise}
+\begin{exercise}
+to minitet, for $X$, $Y$ independent $H(X,Y)=H(X)+H(Y)$.
+\end{exercise}
 \booksection{Further reading}
-The mathematical foundations of information theory were to a certain extent developped single handedly by Claude Shannon. His original paper \cite{} developped the framework and also solved some of the most important problems. The text has not aged with time and remains a greatly written and accessible introduction to the field. A second excellent source for digging deeper into the material is the book of Cover and Thomas \cite{}, it is the reference of the field and widely used in most introductory courses on information theory. Chapters X and Y expand on the material covered in this chapter.
+The mathematical foundations of information theory were to a certain extent developped single handedly by Claude Shannon. His original paper \cite{Shannon_48} developped the framework and also solved some of the most important problems. The text has not aged with time and remains a greatly written and accessible introduction to the field. A second excellent source for digging deeper into the material is the book of Cover and Thomas \cite{Cover_91}, it is the reference of the field and widely used in most introductory courses on information theory. 
 
-We will not prove it here, for a complete discussion on axiomatic derivations of entropy and information please refer to~ \cite{Aczel_74,Aczel_75,Csiszar_08,Feinstein_58}. 
+In section \ref{sec:axent} we sketched an axiomatic derivation of entropy. For a complete discussion on axiomatic derivations of entropy and information please refer to~ \cite{Aczel_74,Aczel_75,Csiszar_08,Feinstein_58}. 

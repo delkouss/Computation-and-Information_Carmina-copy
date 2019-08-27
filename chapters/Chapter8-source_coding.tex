@@ -1,21 +1,23 @@
 \chapterimage{Vibroplex_Anniversary.jpg} 
 \chapter{Source coding}
 %------------------------------------------------
-In the previous chapter we posed in an abstract way a series of conditions that information measures should possess. We built on top of those conditions and found a series of information measures satisfying them. Moreover, in a certain sense those measures are unique.
+In the previous chapter we posed a series of conditions that information measures should possess. We built on top of those conditions and found a series of information measures satisfying them. 
 
-In this chapter we will begin a journey to show that not only entropy is a good measure for information, but also that it carries a strong operational meaning. In fact, we will show that matching  our intuition, if a source has a certain entropy, i.e. it contains a certain amount of information. Then, then the length of the message that we need to send to some other party in order to transmit the source needs to be at least the entropy of the source. 
+In this chapter we will begin a journey to show that not only entropy is a good measure for information according to our desired properties, but also that it carries a strong operational meaning. In fact, we will show that matching  our intuition, if an ensemble has a certain entropy, then the length of a message that can communicate the content of the ensemble can not be smaller the entropy of then ensemble. 
 
-We will also begin to investigate the difference between proofs of existance and constructive methods. This will be a common pattern in information theory, though of limited importance in our introductory course. In fact, it is in many circumstances, possible to prove that codes with desired properties must exist by relying on random ensembles of codes, while actually pointing an example is more complicated.
+%We will also begin to investigate the difference between proofs of existence and constructive methods. This will be a common pattern in information theory, though of limited importance in our introductory course. In fact, it is in many circumstances, possible to prove that codes with desired properties must exist by relying on random ensembles of codes, while actually pointing an example is more complicated.
 
 \booksection{Transmitting the weather forecast}
-Let us first go back to our example from the previous chapter. It will give us enough material to formalize the discussion. Let us suppose again that we have a distant but commited friend that has agreed to send us a daily message summarizing the weather forecast. However, we want a little bit more information that in the previous chapter and now we want our friend to tell us whether tomorrow will be sunny, will snow, will rain or will GRANIZAR. Let us investigate different ways in which our friend can communicate this information to us:
+lossy/lossless
 
-A first simple way would be to send a message containing the appropriate word: "sun", "rain", "snow", "GRAN". However, since there are only four possible messages, we could instead just send a number: "0" for rain, "1" for sun, 2 for snow and 3 for GRAN. 
+Let us first go back to our example from the previous chapter. It will give us enough material to formalize the discussion. Let us suppose again that we have a distant but committed friend that has agreed to send us a daily message summarizing the weather forecast. However, we want a little bit more information that in the previous chapter and now we want our friend to tell us whether tomorrow will be sunny, will snow, will rain or will hail. Let us investigate different ways in which our friend can communicate this information to us:
+
+A first simple way would be to send a message containing the appropriate word: "sun", "rain", "snow", "hail". However, since there are only four possible messages, we could instead just send a number: "0" for rain, "1" for sun, 2 for snow and 3 for hail. 
 
 \begin{definition}
 Code
 \end{definition}
-We could be more sophisticated. Let us assume that the four events occur with the following probability: it rains with probability $1/2$, it snows with probability $1/4$, and both sunny days and GRAn days happen with probability $1/8$. We could assign the following words to each event: rain $0$, snow $10$, sun $110$ and GRAN $111$. That is, we have assigned more likely events shorter words? Why is this better?
+We could be more sophisticated. Let us assume that the four events occur with the following probability: it rains with probability $1/2$, it snows with probability $1/4$, and both sunny days and hailstone days happen with probability $1/8$. We could assign the following words to each event: rain $0$, snow $10$, sun $110$ and hail $111$. That is, we have assigned more likely events shorter words? Why is this better?
 
 \begin{definition}
 Given a discrete random variable $X$ taking events in the finite alphabet $\mathcal X$ and a code $C$ from $\mathcal X$ to the code alphabet $\mathcal X$, we define the average length of the code as follows:
@@ -28,7 +30,7 @@ where $|C(x)|$ is the length of the codeword of event $x$.
 With the definition of average legnth, we find that the first code taking each event to a two bit word, has average length 2 while the second code with variable length has average length 1.375 which is significantly shorter. 
 \end{exercise}
 
-Can we do better than 1.375? We can indeed, consider the code that assigns the events rain and sun the word 0 and the events snow and GRAN the word 1. 
+Can we do better than 1.375? We can indeed, consider the code that assigns the events rain and sun the word 0 and the events snow and hail the word 1. 
 This code has average length 1. 
 However, what is the problem? 
 The problem is that if we receive the message 0, we can not know whether tomorrow is going to rain or to be sunny. 
@@ -38,9 +40,9 @@ The code is not-singular.
 A code $C:\mathcal X\mapsto\mathcal Y$ is singular if $\forall x,y\in\mathcal X$ with $x\neq y$ $C(x)\neq C(y)$.
 \end{definition}
 
-However, in order to recover the information content, it is not enough for a code to be singular. Consider the following code: rain 0, sun 1, gran $01$ and snow $10$. 
+However, in order to recover the information content, it is not enough for a code to be singular. Consider the following code: rain 0, sun 1, hail $01$ and snow $10$. 
 And suppose that our friend wants to send the forecast of two consecutive days. 
-If we receive the message $010$, we could decode it as $01$ and $0$ with the meaning first day gran second day rain or we could decode it as $0$ and $10$ with the meaning rain and snow.
+If we receive the message $010$, we could decode it as $01$ and $0$ with the meaning first day hail second day rain or we could decode it as $0$ and $10$ with the meaning rain and snow.
 The code can not be uniquely decoded.
 
 \begin{definition}
