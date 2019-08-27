@@ -1,0 +1,21 @@
+[1] Config.pm:302> INFO - This is Biber 2.9
+[1] Config.pm:305> INFO - Logfile is 'main.blg'
+[96] biber:313> INFO - === Tue Aug 27, 2019, 06:02:38
+[264] Biber.pm:371> INFO - Reading 'main.bcf'
+[393] Biber.pm:857> INFO - Found 8 citekeys in bib section 0
+[423] Biber.pm:3981> INFO - Processing section 0
+[481] Biber.pm:4154> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[500] bibtex.pm:1468> INFO - LaTeX decoding ...
+[546] bibtex.pm:1294> INFO - Found BibTeX data source 'bibliography.bib'
+[570] Utils.pm:169> WARN - month field 'Jul.' in entry 'Shannon_48' is not an integer - this will probably not sort properly.
+[606] Utils.pm:169> WARN - Range field 'pages' in entry 'Aczel_74' is malformed, falling back to literal
+[633] Utils.pm:169> WARN - month field 'Dec.' in entry 'McMillan_56' is not an integer - this will probably not sort properly.
+[641] Utils.pm:169> WARN - month field 'Apr.' in entry 'Karush_61' is not an integer - this will probably not sort properly.
+[660] Utils.pm:169> WARN - BibTeX subsystem: /tmp/uss6M6fGTS/bibliography.bib_9411.utf8, line 39, warning: undefined macro "McGraw-Hill"
+[696] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[696] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[696] Biber.pm:3809> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[697] Biber.pm:3815> INFO - No sort tailoring available for locale 'en-US'
+[715] bbl.pm:617> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[721] bbl.pm:720> INFO - Output to main.bbl
+[730] Biber.pm:110> INFO - WARNINGS: 5

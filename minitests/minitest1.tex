@@ -1,0 +1,128 @@
+\documentclass[11pt,a4paper,twoside]{article}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{ifthen}
+%\usepackage{fdsymbol}
+\usepackage{tikz}
+%\usepackage{revsymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+
+\makeatletter
+
+\pagenumbering{arabic}
+
+
+\setlength{\oddsidemargin}{0.3cm}
+\setlength{\evensidemargin}{0.3cm}
+\setlength{\textwidth}{15.9cm}
+
+\newcommand{\checkedSquare}{\mbox{\ooalign{$\checkmark$\cr\hidewidth$\square$\hidewidth\cr}}}
+\newcommand{\soln}[1]
+{
+\ifthenelse{\equal{\solutions}{1}}{ \textcolor[RGB]{40, 60, 250}{#1}}{}
+}
+\newcommand{\qu}[1]
+{
+\ifthenelse{\equal{\solutions}{0}}{#1}{}
+}
+\newcommand{\anticomm}[2]{\{#1,#2\}}
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+
+\makeatother
+
+\def \solutions{0}
+
+\begin{document}
+\vspace*{-3cm}
+TN3125: Information and Computation 2019-20 \hspace*{2cm}{September $11^{\mathrm{th}}$, 2019}\\
+
+\vspace{8cm}
+
+\noindent \begin{center}
+\textbf{{\Large Minitest 1}}\\
+\par\end{center}
+
+\vspace*{1cm}
+
+\noindent \textbf{Important notes:}
+
+\begin{itemize}
+\item This exam is CLOSED book.
+\item The use of phones is not permitted. Please leave your phone by the examiner if you must go to the bathroom during the exam.
+\item Please clearly write your name and fill in your student ID by shading the appropriate entries on the grid above.
+\item Please write your answers on the white space below the question. 
+\item Please show as much of your work as possible; this includes explaining the reasoning behind your calculations, we really like to give partial credit.
+\item All problems can be solved without lengthy computations. We advise you to look for a simple solution if you can.
+\item This exam has {\bf 2 problems} (100 points total) on {\bf XX pages}, including this one.
+\end{itemize}
+\vspace{2cm}
+Good luck!
+
+
+
+\newpage
+\noindent \textbf{Problem 1:} \emph{Measuring information} (50 points total)\\
+Let us imagine that you want to transmit a word from the foreign language Icish to a friend. 
+In this language words have always only two letters, first a consonant then a vowel. 
+The consonants in the language are $\mathcal C=\{b,c,d,f\}$ and they occur respectively with probabilities $\{1/2,1/4,1/4,0\}$. 
+The vowels in the language are $\mathcal V=\{a,e,i,o,u\}$. The probability of having a vowel in a word depends on the consonant as follows:
+
+\[
+\begin{array}{c|c|c|c|c|c}  & a & e & i& o &u\\\hline b & 1/2 &1/4 &1/4 & &\\\hline c &  &1/2 &1/4 &1/4 &\\\hline d &1/4  & &1/2 &1/4 &\\\hline f &1/4  &1/4 & &1/2 &\end{array}
+\]
+\begin{enumerate}
+\item What is the entropy of $C$? (5 points) %more precise
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1a\hfill
+    \vspace{6cm}
+  }
+}
+
+\item What is the entropy of $V$? (5 points) 
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1b\hfill
+    \vspace{6cm}
+  }
+}
+
+\item What is the entropy of a vowel given that the consonant was $b$? (5 points) 
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1c\hfill
+    \vspace{6cm}
+  }
+}
+
+\item What is the entropy of a word? (15 points) 
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1d\hfill
+    \vspace{12cm}
+  }
+}
+
+\item Construct a Huffman code to transmit words (20 points)
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1e\hfill
+    \vspace{19cm}
+  }
+}
+
+\end{enumerate}
+\newpage
+\noindent \textbf{Problem 2:} \emph{} (50 points total)\\
+\end{document}
