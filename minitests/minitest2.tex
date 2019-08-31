@@ -40,12 +40,12 @@
 
 \begin{document}
 \vspace*{-3cm}
-TN3125: Information and Computation 2019-20 \hspace*{2cm}{September $11^{\mathrm{th}}$, 2019}\\
+TN3125: Information and Computation 2019-20 \hspace*{2cm}{September $18^{\mathrm{th}}$, 2019}\\
 
 \vspace{8cm}
 
 \noindent \begin{center}
-\textbf{{\Large Minitest 1}}\\
+\textbf{{\Large Minitest 2}}\\
 \par\end{center}
 
 \vspace*{1cm}
@@ -67,64 +67,28 @@ Good luck!
 
 
 \newpage
-\noindent \textbf{Problem 1:} \emph{Measuring information} (50 points total)\\
-Let us imagine that you want to transmit a word from the foreign language Icish to a friend. 
-In this language words have always only two letters, first a consonant then a vowel. 
-The consonants in the language are $\mathcal C=\{b,c,d,f\}$ and they occur respectively with probabilities $\{1/2,1/4,1/4,0\}$. 
-The vowels in the language are $\mathcal V=\{a,e,i,o,u\}$. The probability of having a vowel in a word depends on the consonant as follows:
-
-\[
-\begin{array}{c|c|c|c|c|c}  & a & e & i& o &u\\\hline b & 1/2 &1/4 &1/4 & &\\\hline c &  &1/2 &1/4 &1/4 &\\\hline d &1/4  & &1/2 &1/4 &\\\hline f &1/4  &1/4 & &1/2 &\end{array}
-\]
+\noindent \textbf{Problem 1:} \emph{Compressing a run} (50 points total)\\
+Let $X$ be an ensemble with probabilities $\{1/2,1/4,1/8,1/8\}$. 
 \begin{enumerate}
-\item What is the entropy of $C$? (5 points) %more precise
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1a\hfill
-    \vspace{6cm}
-  }
-}
-
-\item What is the entropy of $V$? (5 points) 
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1b\hfill
-    \vspace{6cm}
-  }
-}
-
-\item What is the entropy of a vowel given that the consonant was $b$? (5 points) 
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1c\hfill
-    \vspace{6cm}
-  }
-}
-
-\item What is the entropy of a word? (15 points) 
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1d\hfill
-    \vspace{12cm}
-  }
-}
-
-\item Prove that $H(X,Y)=H(X)+H(Y)$ if and only if $X$ and $Y$ are independent. Then use the result to show whether or not $C$ and $V$ are independent. (20 points)
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1e\hfill
-    \vspace{19cm}
-  }
-}
-
-\item Bonus question?
-
+\item (10 points) Indicate which of the following set of codes are instantaneous and which are uniquely decodable:
+\begin{itemize}
+\item $C_1=\{00,01,10,11\}$
+\item $C_2=\{0,00,1,10\}$
+\item $C_3=\{\}$
+\item $C_4=\{0,00,1,10\}$
+\end{itemize}
+\item (10 points) Construct the Huffman code for this ensemble and give its average length
+\item (10 points) Construct the Shannon code for this ensemble and give its average length
+\item (10 points) What can we deduce about the entropy of $X$ from the average lengths of the Huffman and Shannon codes?
+\item (10 points) Let us use $Y$ the first intermediate ensemble in the Huffman construction to estimate $X$. Let us call $X'$ the estimate. Give a bound on the entropy of $H(X|Y)$ as a function of the error in the estimation (Hint: you can use Fano's inequality).
+\item (10 points, bonus) Let us consider the opposite goal to our previous efforts. Suppose that you want to transform a sequence of uniform binary random variables $X_1,X_2,\ldots$ into some random variable $Y$:
+\begin{itemize}
+\item Describe a general procedure that allows to produce samples of $Y$ from outcomes of uniform binary random variables.
+\item Bound the average number of samples necessary to produce a sample of $Y$ is $Y$ is a binary random variable with probabilities $\{p,1-p\}.$
+\end{itemize}
 \end{enumerate}
+
+
 \newpage
 \noindent \textbf{Problem 2:} \emph{} (50 points total)\\
 \end{document}
