@@ -1,5 +1,8 @@
-\chapterimage{New_horizons_(NASA).jpg} 
+\usechapterimagetrue
+\chapterimage{nasa.jpg} % Chapter heading image
 \chapter{Channel coding}
+\usechapterimagefalse
+
 In the previous chapter we investigated the source coding problem. That is, given a source and some noiseless means of communication, the problem is to encode the source in such a way that we minimize the usage of the noiseless communications channel while we allow the receiver to recover the message. Here we will investigate a dual problem, the problem of transmitting a uniform source over a noisy channel. This problem, is the problem that your mobile phone faces each time that it wants to exchange information with the nearest base station, or the problem that your ADSL router faces to transmit information over fiber. It is also the same problem that your computer faces when it wants to store information on a disk in such a way that it can be recovered at a later time. This is as we see a very relevant problem. We won't have the time to dig into great depth, but the menu should allow you to get a solid understanding of the mathematical foundations and a glimpse about how we tackle it currently. In the figure above, you can see the XXXX space XXX. As you can imagine, the bandwidth of the communications channel linking it with earth is very limited, the information we want to exchange precious and the channel rather noisy. Space exploration has been one unexpected driver of progress for pushing the limits of error correcting codes. (why error correting?)
 \booksection{The communications problem}
 \begin{figure}[h!]
@@ -30,13 +33,49 @@ We define $C$, the capacity of a channel, as the maximum mutual information for 
 C = \max_{p(x)} I(\mathbf X;\mathbf Y)
 \end{eqnarray}
 
-\booksection{Linear codes}
+\booksection{Refresher on linear algebra}
 
+\booksection{Linear codes}
+%\booksection{Detection, correction and minimum distance}
+\booksection{Converse theorem for noisy channel coding}
+The converse statement follows from Fano's inequality \cite{Fano_61}. The intuition behind this part is that if we think of an encoding that achieves a vanishing error probability, then necessarily $R<I(\mathbf X;\mathbf Y)$~\cite{Cover_91}. 
+
+The past sections have been devoted to schemes that achieve a compression rate slightly larger than the entropy. We have called these schemes optimal. We also discussed that codes that have no error have an average length bounded from below by the entropy. In this section we will investigate what happens if we can tolerate some error. Surprisingly, we can not do much better than entropy. 
+
+Let us first introduce Fano's inequality as it will be the main tool in our argument. Suppose that we want to guess the value of random variable $X$ and we have access to random variable $Y$, let us call $\hat X=g(Y)$ the random variable that characterizes the guess. We denote by $E$ the random variable that takes value 1 if $X=\hat X$ and 0 when $X\neq\hat X$. we can now state Fano's inequality:
+\begin{theorem}[Fano's inequality]
+Let $X,Y$ be two random variables and $\hat X=g(Y)$ for some function $g:\mathcal Y\mapsto\mathcal X$ and let $E=I(X=\hat X)$. Then:
+\begin{equation}
+H(X|Y)\leq H(E) + p_E(E=1)\log(|\mathcal X -1|)
+\end{equation}
+\end{theorem}
+\begin{proof}
+Let us first expand $H(X,E|Y)$ in two different ways applying the chain rule. First:
+\begin{align}
+H(E,X|Y) &= H(E|Y)+H(X|E,Y)\\
+         &\leq H(E) + H(X|E,Y)\\
+         &= H(E) + p_E(0) H(X|E=0, Y) + p_E(1)H(X|E=1,Y)\\
+         &= H(E) + p_E(1)H(X|E=1,Y)\\
+         &\leq H(E) + p_E(1)\log(|\mathcal X|-1)
+\end{align}
+where the first equality follows from the chain rule, the first inequality since conditioning reduces entropy, the second equality follows from application of the definition of conditional entropy and the second one since in the event that the error is zero, there is no uncertainty on the value of $X$, the last inequality follows since entropy can never be larger than the logarithm of the number of outcomes.
+
+Let us note that $H(E,X|Y)$ can also be expanded as:
+\begin{align}
+H(E,X|Y)&=H(X|Y)+H(E|X,Y)\\
+        &=H(X|Y)
+\end{align}
+where the first equality follows from the chain rule and the second because if both $X$ and $Y$ are known, then $E$ is also known.
+
+The proof ends by joining \eqref{} with \eqref{}
+\end{proof}
+\begin{exercise}
+In \eqref{}, we have that $H(X|E=1,Y)\leq \log(|\mathcal X|-1)$. Why can we remove one outcome from the alphabet of $X$?
+\end{exercise}
 \booksection{Hamming codes}
 
-\booksection{Detection, correction and minimum distance}
-\booksection{Random codes}
-\booksection{Shannon's second theorem}
+%\booksection{Random codes}
+\booksection{Sketch of the noisy channel theorem}
 
 The capacity of a channel specifies the maximum rate at which a source can be reliably sent through a channel. On the other hand, no source with a rate over the capacity of the channel can be sent with a vanishing error probability.
 
@@ -73,14 +112,6 @@ R < I(\mathbf X;\mathbf Y)
 
 In conclusion, as long as the coding rate is below the mutual information between input and output for $n$ long enough we can construct a code that allows the decoder to distinguish between codewords with a vanishing probability of error.
 
-The converse statement follows from Fano's inequality \cite{Fano_61}. The intuition behind this part is that if we think of an encoding that achieves a vanishing error probability, then necessarily $R<I(\mathbf X;\mathbf Y)$~\cite{Cover_91}. 
-
-\begin{theorem}
-Fano's inequality
-\end{theorem}
-\begin{proof}
-a
-\end{proof}
 \booksection{The capacity of some basic channels}
 
 \subsection{Binary Symmetric Channel}
@@ -166,8 +197,6 @@ It might seem that the capacity of a {BSC} that flips bits with probability $p$ 
 \end{center}
 \end{figure}
 
+\booksection{Exercises}
 \booksection{Further reading}
-%------------------------------------------------
-\booksection{Exam problems}
-
-One time pad?
+Chapter 7 in \cite{Cover_91}. 

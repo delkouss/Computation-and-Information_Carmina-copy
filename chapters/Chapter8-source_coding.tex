@@ -1,6 +1,6 @@
 \usechapterimagetrue
-\chapterimage{Vibroplex_Anniversary.jpg} 
-\chapter{Source coding}
+\chapterimage{zip.png} 
+\chapter{Data compression}
 \usechapterimagefalse
 %------------------------------------------------
 In the previous chapter we posed a series of conditions that information measures should possess. We built on top of those conditions and found a series of information measures satisfying them. 
@@ -9,30 +9,33 @@ In this chapter we will begin a journey to show that not only entropy is a good 
 
 %We will also begin to investigate the difference between proofs of existence and constructive methods. This will be a common pattern in information theory, though of limited importance in our introductory course. In fact, it is in many circumstances, possible to prove that codes with desired properties must exist by relying on random ensembles of codes, while actually pointing an example is more complicated.
 
+%something about zip files
+
 \booksection{Transmitting the weather forecast}
-lossy/lossless
 
 Let us first go back to our example from the previous chapter. It will give us enough material to formalize the discussion. Let us suppose again that we have a distant but committed friend that has agreed to send us a daily message summarizing the weather forecast. However, we want a little bit more information that in the previous chapter and now we want our friend to tell us whether tomorrow will be sunny, will snow, will rain or will hail. Let us investigate different ways in which our friend can communicate this information to us:
 
-A first simple way would be to send a message containing the appropriate word: "sun", "rain", "snow", "hail". However, since there are only four possible messages, we could instead just send a number: "0" for rain, "1" for sun, 2 for snow and 3 for hail. 
+A first simple way would be to send a message containing the appropriate word: "sun", "rain", "snow", "hail". However, since there are only four possible messages, we could instead just send a number: $0$ for rain, $1$ for sun, $2$ for snow and $3$ for hail. 
 
 \begin{definition}
-Code
+A symbol code is a map $C:\mathcal A\mapsto\mathcal C^*$. We associate every symbol $a$ from the alphabet $\mathcal A$ with $C(a)$ a sequence of symbols from the code alphabet $\mathcal C$. We call $C(a)$ the codeword of $a$ and denote by $|C(a)|$ its length. %length notation elsewhere?
+% define somewhere ^*
 \end{definition}
-We could be more sophisticated. Let us assume that the four events occur with the following probability: it rains with probability $1/2$, it snows with probability $1/4$, and both sunny days and hailstone days happen with probability $1/8$. We could assign the following words to each event: rain $0$, snow $10$, sun $110$ and hail $111$. That is, we have assigned more likely events shorter words? Why is this better?
+
+We could be more sophisticated. Let us assume that the four events occur with the following probability: it rains with probability $1/2$, it snows with probability $1/4$, and both sunny days and hailstone days happen with probability $1/8$. We could assign the following codewords to each event: rain $0$, snow $10$, sun $110$ and hail $111$. That is, we have assigned more likely events shorter codewords? Why is this better?
 
 \begin{definition}
-Given a discrete random variable $X$ taking events in the finite alphabet $\mathcal X$ and a code $C$ from $\mathcal X$ to the code alphabet $\mathcal X$, we define the average length of the code as follows:
+we define the average length of the code as follows:
 \begin{equation}
 l(C)=\sum_{x\in\mathcal X}p(x)|C(x)|
 \end{equation}
 where $|C(x)|$ is the length of the codeword of event $x$.
 \end{definition}
-\begin{exercise}
-With the definition of average legnth, we find that the first code taking each event to a two bit word, has average length 2 while the second code with variable length has average length 1.375 which is significantly shorter. 
-\end{exercise}
+\begin{example}
+has average length 2 while the second code with variable length has average length 1.375 which is significantly shorter. 
+\end{example}
 
-Can we do better than 1.375? We can indeed, consider the code that assigns the events rain and sun the word 0 and the events snow and hail the word 1. 
+Can we do better than 1.375? We can indeed, consider the code that assigns the events rain and sun the codeword 0 and the events snow and hail the codeword 1. 
 This code has average length 1. 
 However, what is the problem? 
 The problem is that if we receive the message 0, we can not know whether tomorrow is going to rain or to be sunny. 
@@ -58,9 +61,7 @@ Let $C=\{asdfsadf\}$ is $C$ uniquely decodable? (Hint: if you can not find the s
 
 Let us now investigate a method to find if a code is uniquely decodable or not. This method was proposed by Sardinas and Patterson \cite{} and is also known as the method of the dangling suffixes. 
 
-
-\booksection{Formal problem}
-\subsection{Data Compression}
+\booksection{Length limits for lossless codes}
 Once presented an information measure, we review some of its operational interpretations, in particular its relation with the theoretical limits for data compression.
 
 A source code $C$ in alphabet $\mathcal{Y}$ for a random variable taking values in $\mathcal{X}$ is a function $c:\mathcal{X}\longrightarrow \mathcal{Y}^*$, where $\mathcal{Y}^*$ is any finite direct product of $\mathcal{Y}$. We call $c(x)$ the codeword for $x$ and $l(x)=|c(x)|$ the length of the codeword for $x$.
@@ -126,17 +127,52 @@ H_{|\mathcal{Y}|}(\mathbf{X}) - L &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1
 \end{eqnarray}
 \noindent where the first inequality is again an application of Jensen's result Th.~\ref{th:jensen} and the second one results from applying McMillan's Th.~\ref{th:mcmillan}.
 \end{proof}
-
-This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble $\mathbf{X}$. That is, a source  $\mathbf{X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C(\mathbf {X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source $\mathbf{X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source:
-
-\begin{eqnarray}
-R &=& L(C(\mathbf {X^n}))/n \nonumber\\
+This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble $\mathbf{X}$. That is, a source  $\mathbf{X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C(\mathbf {X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source $\mathbf{X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source: \begin{eqnarray} R &=& L(C(\mathbf {X^n}))/n \nonumber\\
   &\geq& H_{|\mathcal{Y}|}(\mathbf{X^n})/n \nonumber\\
  &=& H_{|\mathcal{Y}|}(\mathbf{X})
 \end{eqnarray}
 
-\booksection{Huffman codes}
-\booksection{Typical sequences}
-\booksection{Shannon's theorem for source coding}
+\booksection{Huffman codes and their optimality}
+We will now investigate a scheme that achieves the optimal encoding rate of a source. The algorithm is remarkably simple and was discovered by Huffman \cite{} while a master student. Let us describe the algorithm.
+
+Given an ensemble $X$ and let $C$ denote the Huffman code of $X$.
+\begin{enumerate}
+\item Let $a,b$ be two symbols with smallest probability. Create ensemble $X'$ identical to $X$ but replacing $a,b$ with a new symbol $c$ that has probability $p_{X'}(c)=p_X(a)+p_X(b)$. 
+\item Let $C(a)=C(c)0$ and $C(b)=C(c)1$.
+\item If $X'$ has an alphabet with more than one symbol go back to 1.
+\end{enumerate}
+A first observation on the algorithm is that computationally it is very simple. Since at each iteration there is one symbol less it will terminate in $\mathcal A_X$ iterations.
+\begin{exercise}
+Find the Huffman code of an ensemble $X$ with symbols $\mathcal A_X=\{x_1,x_2,x_3,x_4,x_5,x_6\}$ and corresponding probabilities $p_X=\{0.3,0.2,0.18,0.15,0.12,0.05\}$.
+\end{exercise}
+\begin{solution}
+
+\begin{table}[h!]
+  \begin{center}
+    \label{tab:table1}
+    \begin{tabular}{ccc} 
+      0.3             &0.30&0\\
+      0.2             &0.20&0\\
+      0.18            &0.18                        &0
+      %0.15            &\tikzmark{c}0.17\tm{e}&0\\
+      %0.12\tikzmark{a}&            0.15\tm{d} \\
+      %0.05\tikzmark{b}&   &  \\
+    \end{tabular}
+  \end{center}
+\end{table}
+  \begin{tikzpicture}[overlay, remember picture, yshift=.10\baselineskip, shorten >=.5pt, shorten <=.5pt]
+    %\draw [->] ({pic cs:a}) [bend left] to ({pic cs:b});
+    \draw [-] ([yshift=.0pt]{pic cs:a}) -- ({pic cs:c});
+    \draw [-] ([yshift=.0pt]{pic cs:b}) -- ({pic cs:c});
+  \end{tikzpicture}
+\end{solution}
+\booksection{Arithmetic codes}
+\booksection{Exercises}
 \booksection{Further reading}
-The references of the previous chapter are also relevant for this one. In particular sections X and Y of Shanon's original paper \cite{} and chapters A and B in Cover and Thomas \cite{}. A popular introduction to source coding is provided by xkcd (the comic stripe) \cite{}, in the post you will recognize the image that opens the chapter, perhaps you can explain it's relation with the topic. %https://what-if.xkcd.com/34/
+Both Shannon's original paper \cite{Shannon_48} and Cover and Thomas \cite{Cover_91} (chapter 5) provide further detail into the topics discussed here. A popular introduction to source coding is provided by xkcd (the comic stripe) \cite{xkcd}, in the post you will recognize the image that opens the chapter, perhaps you can explain it's relation with the topic. %https://what-if.xkcd.com/34/
+
+An important remark on our previous discussion is that we have only covered lossless codes. That is codes where no information is lost. While we showed that it is not possible to reliably code at rates below entropy, in many practical applications a certain amount of loss or unreliability is acceptable if in exchange one can increase the compression efficiency. 
+
+and the story goes that while a master student, a professor told the students that if they wrote a report on the optimal code for a source, they could skip the exam. Of course, the professor did not 
+
+Data compression has direct application in our daily activities: our emails are compressed using lossless compression algorithms

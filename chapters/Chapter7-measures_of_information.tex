@@ -1,5 +1,5 @@
 \usechapterimagetrue
-\chapterimage{chapter_head_shannon.jpg} % Chapter heading image
+\chapterimage{shannon.jpg} % Chapter heading image
 \chapter{Measures of information}
 \usechapterimagefalse
 %------------------------------------------------
@@ -7,8 +7,7 @@ This is the age of information.
 We open documents, consume media, exchange text messages, perform videoconferences or watch the weather forecast to name a few examples.
 But what is exactly information? Can we quantify it? Is it possible to say that
 one weather forecast contains more information than another? In this chapter,
-we will learn that this is indeed possible. Our exposition, follows to a great
-extent the visionary paper of Claude Shannon in 1948.
+we will learn that this is indeed possible. 
 
 \booksection{Surprising information}
 Let us warm up with a series of questions. 
@@ -20,23 +19,23 @@ You agree on a very simple encoding for the message, your friend will send a $1$
   \begin{center}
     \label{tab:table1}
     \begin{tabular}{l|l|l} 
-      \textbf{Location} & \textbf{Days of rain} & \textbf{Days with no rain}\\
+      \textbf{Location} & \textbf{Days with no rain} & \textbf{Days with rain}\\
       \hline
-      \text{Rotterdam\footnote{source:knmi.nl}} & 153 & 212\\%\footnote{source:knmi.nl}
-      \text{Atacama desert} & 5 & 360
+      \text{Rotterdam} & 212 & 153\\%\footnote{source:knmi.nl}
+      \text{Atacama desert} & 360 & 5
     \end{tabular}
     \caption{Summary of precipitations in the year 2018.}
   \end{center}
 \end{table}
 \begin{exercise}
-Let us assume that you are living in the Atacama desert where it rarely rains and you receive a $0$. How much information does this message carry? 
+Let us assume that you are living in the Atacama desert where it rarely rains. You receive a $0$. How much information does this message carry? 
 \end{exercise}
 \begin{exercise}
-Now let us assume that you live in the Netherlands where it does rain quite often, but certainly not every day. You also receive a $0$, does the message contain information? What about if you receive a $1$? Does the $1$ message contain more or less information than the message $0$? 
+Now let us assume that you live in the Netherlands where it does rain quite often, but certainly not every day. You receive a $0$. Does the message contain information? What about if you receive a $1$? Does the $1$ message contain more or less information than the message $0$? 
 \end{exercise}
 \begin{exercise}
 \label{ex:infcontext}
-Finally, let us assume that you live in the Netherlands and you happen to know that it is mid August. Does the message $0$ carry the same information as in winter?
+Finally, let us assume that you live in the Netherlands but (boldly) also that you are aware of the current season. You receive a $0$. Does the message $0$ carry the same information in summer and in winter?
 \end{exercise}
 
 Before you continue reading, pause for a moment and think what is common in your answers.
@@ -216,46 +215,42 @@ Note that entropy only depends on the values of the probabilities. In the follow
     0 \leq p(x) \leq 1 \Rightarrow -\log p(x) \geq 0 \Rightarrow H(X) \geq 0
   \end{equation}
 \end{solution}
+\begfin{definition} A function $f(x):(a,b)\mapsto\mathbb R$ is concave if any two points $x_1,x_2\in(a,b)$ and any $p\in[0,1]$ verify:
+        \begin{equation}
+        f(px_1+(1-p)x_2) \geq pf(x_1)+(1-p)f(x_2)
+         \end{equation}
+\end{definition}
 
-%\begin{definition} A function $f(x)$ defined on the interval $(a,b)$ is concave if any two points $x_1$, $x_2$ in the interval and any $t\in[0,1]$ verify:
-%        \begin{equation}
-%        f(tx_1+(1-t)x_2) \geq tf(x_1)+(1-t)f(x_2)
-%         \end{equation}
-%\end{definition}
-
-%We prove the corollary of Jensen's inequality for concave functions as it demonstrates the non-negativity of the entropy function~\cite{Cover_91}.
-
-The following is known as Jensen's inequality and will be of use in the following. See~\cite{Cover_91} for a proof.
-\begin{theorem}[Jensen's inequality] Let $f$ be a concave function and $X$ a random variable. Then: 
+The following is known as Jensen's inequality and will be of use in the following. 
+\begin{theorem}[Jensen's inequality] Let $f(x):(a,b)\mapsto\mathbb R$ be a concave function. Then for any set of points $\{x_i\}_{i=1}^n\in(a,b)$ and for any set of positive real numbers $\{p_i\}_{i=1}^n$ such that $\sum_{i=1}^np_i=1$: 
   \label{th:jensen}
   \begin{equation*}
-    f(E(\mathbf{X}))\geq E(f(\mathbf{X}))
+ f\left(\sum_{i=1}^np_ix_i\right) \geq \sum_{i=1}^np_if(x_i) 
   \end{equation*}
 \end{theorem}
-%
-%\begin{proof}
-%  We proceed to show by induction on the number of elements  in $\mathcal{X}$.
-%  \begin{equation}
-%    \label{eq:jensenbasis}
-%    f(p_1x_1+p_2x_2) \geq p_1f(x_1)+p_2f(x_2)
-%  \end{equation}
-%  \noindent Eq.~\ref{eq:jensenbasis}, that follows from the concavity of $f(x)$, shows that Jensen's inequality holds for $|\mathcal{X}|=2$, if we assume that it holds for $|\mathcal{X}|=n$:
-%
-%  \begin{equation}
-%    f(\sum_{i=1}^np_ix_i) \geq \sum_{i=1}^np_if(x_i)
-%  \end{equation}
-%  \noindent the induction hypothesis implies that it should also hold for $|\mathcal{X}|=n+1$
-%
-%  \begin{eqnarray}
-%    f(\sum_{i=1}^{n+1}p_ix_i) 
-%        & =    & f\left( p_{n+1}x_{n+1} + (1-p_{n+1}) \sum_{i=1}^{n}\frac{p_i}{1-p_{n+1}}x_i \right) \nonumber \\
-%        &\geq & p_{n+1}f(x_{n+1}) + (1-p_{n+1}) f\left( \sum_{i=1}^{n}\frac{p_i}{1-p_{n+1}}x_i \right) \nonumber \\
-%        &\geq & p_{n+1}f(x_{n+1}) + (1-p_{n+1}) \sum_{i=1}^{n}\frac{p_i}{1-p_{n+1}}f(x_i) \nonumber \\
-%        & = &    p_{n+1}f(x_{n+1}) + \sum_{i=1}^{n}p_if(x_i) \nonumber \\
-%        & = &   \sum_{i=1}^{n+1}p_if(x_i)
-%  \end{eqnarray}
-%  \noindent where the first inequality follows from the concavity of $f(x)$ and the second from the induction hypothesis.
-%\end{proof}
+
+\begin{proof}
+If $n=2$, the proof follows by the definition of concavity. We will complete the proof by induction.
+Let us suppose that it holds for $n=m$: 
+\begin{equation}
+ f\left(\sum_{i=1}^mp_ix_i\right) \geq \sum_{i=1}^mp_if(x_i) 
+\end{equation}
+and let us show that it implies that it also holds for $n=m+1$. Let 
+\begin{equation}
+x'=\sum_{i=1}^m\frac{p_i}{1-p_{m+1}}x_i
+\end{equation}
+Then we have from the definition of concavity that:
+\begin{align}
+f\left(\sum_{i=1}^{m+1}p_ix_i\right) &= f((1-p_{m+1}x'+p_{m+1}x_{m+1})\\
+                                     &\geq (1-p_{m+1})f(x')+p_{m+1}f(x_{m+1})
+\end{align}
+Finally from the induction hypothesis \eqref{} we have that:
+\begin{align}
+f(x')&=f\left(\sum_{i=1}^m\frac{p_i}{1-p_{m+1}}x_i\right)\\
+     &\geq \sum_{i=1}^m\frac{p_i}{1-p_{m+1}}f(x_i)
+\end{align}
+which we can plug in back in \eqref{} to complete the proof.
+\end{proof}
 %
 %\begin{lemma}The entropy of the uniform distribution equals the logarithm of the number of elements.
 %  \begin{equation*}
@@ -372,7 +367,7 @@ H(\mathbf{XY}) = - \sum_{x,y} p(x,y)\log p(x,y)
 \end{definition}
 
 Exercise \ref{ex:infcontext} suggests that the information content depends on the context. The second information measure that we introduce is conditional entropy.
-First, we can extend in a straightforward way the reasoning in Sec.~\ref{subsec:information} to define an information measure conditional on the knowledge of some event $y$. 
+First, we can extend in a straightforward way the reasoning in Sec.~\ref{sec:axent} to define an information measure conditional on the knowledge of some event $y$. 
 It can analogously be proved that a conditional information measure is of the form: 
 \begin{equation}
 h(a|b) = -\log p (a|b)
@@ -400,7 +395,7 @@ $H(\mathbf{X}|\mathbf{Y})$ is a sum of entropies, which are positive by Lem.~\re
 
 \begin{exercise}
 \label{lem:entgeqcond}
-Show that the entropy of the random variable $\mathbf{X}$ given any random variable $\mathbf{Y}$ is not greater than the entropy of $\mathbf{X}$.
+Let $X,Y$ be two random variables. Show that:
 \begin{equation*}
 H(\mathbf{X}|\mathbf{Y}) \leq H(\mathbf{X})
 \end{equation*}
@@ -516,22 +511,24 @@ A classic logical problem (also classic in information theory texts!) states tha
 \begin{enumerate}
 \item Give a non-trivial bound on the minimum number of weighings that could give the answer.
 \item Give an strategy that solves the problem if you know tha the counterfeit coin is heavier than normal coins.
-\item Give an strategy that solves the general problem.
+\item Give an strategy that solves the general problem. (difficult)
 \end{enumerate}
 \end{exercise}
 \begin{exercise}
-Convex mixtures
+Let $X_1,X_2$ be two independent random variables modelling two different bent coins. 
+Let $Y$ be a binary random variable that models a process where we throw $X_1$ with probability $p$ and $X_2$ with probability $1-p$. 
+Show that $H(Y)\geq pH(X_1)+(1-p)H(X_2)$.
 \end{exercise}
 \begin{exercise}
-Entropy of a sum goes to the minitest
+Entropy of a sum 
 \end{exercise}
 \begin{exercise}
 World series like exercise
 \end{exercise}
 \begin{exercise}
-to minitet, for $X$, $Y$ independent $H(X,Y)=H(X)+H(Y)$.
+The three or two cards
 \end{exercise}
 \booksection{Further reading}
-The mathematical foundations of information theory were to a certain extent developped single handedly by Claude Shannon. His original paper \cite{Shannon_48} developped the framework and also solved some of the most important problems. The text has not aged with time and remains a greatly written and accessible introduction to the field. A second excellent source for digging deeper into the material is the book of Cover and Thomas \cite{Cover_91}, it is the reference of the field and widely used in most introductory courses on information theory. 
+The mathematical foundations of information theory were to a certain extent developped single handedly by Claude Shannon. His original paper \cite{Shannon_48} developped the framework and also solved some of the most important problems. The text has not aged with time and remains a greatly written and accessible introduction to the field. A second excellent source for digging deeper into the material is the book of Cover and Thomas \cite{Cover_91}, it is the reference of the field and widely used in most introductory courses on information theory. Chapter 2 in \cite{Cover_91} develops in depth the material of this chapter.
 
 In section \ref{sec:axent} we sketched an axiomatic derivation of entropy. For a complete discussion on axiomatic derivations of entropy and information please refer to~ \cite{Aczel_74,Aczel_75,Csiszar_08,Feinstein_58}. 
