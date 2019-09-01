@@ -59,36 +59,36 @@ Note that it follows automatically from our definition that for all $x\in\mathca
 \end{example}
 \begin{example} An important example is the uniform distribution. Given a finite set $\mathcal X$, a uniform distribution on the set $\mathcal X$ is a function $p$ that for all $x\in\mathcal X$ assigns the value $$p(x)=\frac{1}{|\mathcal{X}|}\ .$$ where, we denote by $|\cdot|$ the number of elements in the set.
 \end{example}
-We define an ensemble $\mathbf X$ as the tuple of a probability distribution $p_{\mathbf X}$ together with its domain $\mathcal A_X$. 
-Generally, we will refer to $\mathcal A_X$ as the sample space of $\mathbf X$ and to its elements as events. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
-In information theory, $\mathbf X$ typically models an object in a communications setup (see \ref{}), in this context it is common to call $\mathcal A_X$ the alphabet of $\mathbf X$ and refer to its elements as letters. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
+We define an ensemble $X$ as the tuple of a probability distribution $p_{X}$ together with its domain $\mathcal A_X$. 
+Generally, we will refer to $\mathcal A_X$ as the sample space of $X$ and to its elements as events. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
+In information theory, $X$ typically models an object in a communications setup (see \ref{}), in this context it is common to call $\mathcal A_X$ the alphabet of $X$ and refer to its elements as letters. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
 
-Note that we can extend the definition of $p_{\mathbf X}$ to any subset $\mathcal{S}\subseteq \mathcal{A}_X$:
+Note that we can extend the definition of $p_{X}$ to any subset $\mathcal{S}\subseteq \mathcal{A}_X$:
 \begin{equation}
-p_{\mathbf X}(\mathcal{S})=\sum_{x\in \mathcal{S}}p_{\mathbf X}(x)
+p_{X}(\mathcal{S})=\sum_{x\in \mathcal{S}}p_{X}(x)
 \end{equation} 
 \begin{example}
-Let $\mathbf X$ be an ensemble with alphabet $\mathcal A_{mathbf X}=\{1,2,3\}$ and with $p_{\mathbf X}$ the uniform distribution. Then if $\mathcal S=\{1,2\}$, $p(\mathcal S)=1/3+1/3=2/3$ 
+Let $X$ be an ensemble with alphabet $\mathcal A_{mathbf X}=\{1,2,3\}$ and with $p_{X}$ the uniform distribution. Then if $\mathcal S=\{1,2\}$, $p(\mathcal S)=1/3+1/3=2/3$ 
 \end{example}
 Abusing notation, we will also call event any subset of the alphabet of an ensemble. For this particular case of set we will drop the calligraphic notation for sets.
 Let $a$ and $b$ be two events in $\mathcal{X}$, we define $a\cup b$ and $a\cap b$ as the union and intersection of $a$ and $b$. 
 $a\cup b$ is the event that contains all outcomes belonging to $a$, to $b$ and to both, we will also denote the event $a\cup b$ by $a \text{ or } b$. 
 $a\cap b$ is the event that contains all outcomes belonging to both $a$ and $b$, we will also denote the event $a\cap b$ by $a \text{ and } b$. Two events are disjoint if their intersection is null.
 
-Given an ensemble $\mathbf X$ and two events $a,b$ we say that they are independent if:
+Given an ensemble $X$ and two events $a,b$ we say that they are independent if:
 \begin{equation}
-p_{\mathbf X}(a \text{ and } b)=p_{\mathbf X}(a)p_{\mathbf X}(b)
+p_{X}(a \text{ and } b)=p_{X}(a)p_{X}(b)
 \end{equation}
-Let $a$ and $b$ be two events with non zero probability. We call $p_{\mathbf X}(a|b)=p_{\mathbf X}(a \text{ and } b)/p_{\mathbf X}(b)$ the conditional probability of $a$ given that $b$ occurs. It follows that if and only if $a$ and $b$ are independent $p_{\mathbf X}(a|b)=p_{\mathbf X}(a)$.
+Let $a$ and $b$ be two events with non zero probability. We call $p_{X}(a|b)=p_{X}(a \text{ and } b)/p_{X}(b)$ the conditional probability of $a$ given that $b$ occurs. It follows that if and only if $a$ and $b$ are independent $p_{X}(a|b)=p_{X}(a)$.
 
-In the following, we will use the explicit notation $p_{\mathbf X},\mathcal A_{\mathbf X}$ for the probability distribution of ensemble $\mathbf X$ and its alphabet whenever confusion can arise but we will drop the subscript whenever possible.
+In the following, we will use the explicit notation $p_{X},\mathcal A_{X}$ for the probability distribution of ensemble $X$ and its alphabet whenever confusion can arise but we will drop the subscript whenever possible.
 \begin{exercise}
-Let $\mathbf X$ be an ensemble modelling two fair coins. Identify two events $a,b$ that are independent and verify that $p_{\mathbf X}(a|b)=p_{\mathbf X}(a)$
+Let $X$ be an ensemble modelling two fair coins. Identify two events $a,b$ that are independent and verify that $p_{X}(a|b)=p_{X}(a)$
 \end{exercise}
 \begin{solution}
 A
 \end{solution}
-Given two alphabets $\mathcal A_{\mathbf X},\mathcal A_Y$ we can define a joint ensemble on them with sample space or alphabet the direct product: $\mathcal A_{XY} = \mathcal A_X \times \mathcal A_Y$. 
+Given two alphabets $\mathcal A_{X},\mathcal A_Y$ we can define a joint ensemble on them with sample space or alphabet the direct product: $\mathcal A_{XY} = \mathcal A_X \times \mathcal A_Y$. 
 We can associate, as well, a probability distribution function to map all tuples $(x,y)$ to $[0,1]$. 
 
 The probability of an event in the joint ensemble is equally defined as the sum of the probability of the individual events. 
@@ -289,7 +289,7 @@ H(p_1, ..., p_n)  - \log n & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \su
 %
 %The length of a source code $C$ is the sum of the lengths of every codeword in $C$ weighted by its relative frequency.
 %\begin{equation}
-%L(C(\mathbf X)) = \sum_{x} p(x) l(x)
+%L(C(X)) = \sum_{x} p(x) l(x)
 %\end{equation}
 %
 %A source code is uniquely decodable if any concatenation of codewords can only be generated by a unique concatenation of source symbols. In other words, the source symbols generating the codewords can be recovered with no possible equivocation. 
@@ -349,10 +349,10 @@ H(p_1, ..., p_n)  - \log n & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \su
 %\end{proof}
 %\end{theorem}
 %
-%This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble $\mathbf{X}$. That is, a source  $\mathbf{X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C(\mathbf {X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source $\mathbf{X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source:
+%This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble $\mathbf{X}$. That is, a source  $\mathbf{X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C({X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source $\mathbf{X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source:
 %
 %\begin{eqnarray}
-%R &=& L(C(\mathbf {X^n}))/n \nonumber\\
+%R &=& L(C({X^n}))/n \nonumber\\
 %  &\geq& H_{|\mathcal{Y}|}(\mathbf{X^n})/n \nonumber\\
 % &=& H_{|\mathcal{Y}|}(\mathbf{X})
 %\end{eqnarray}
