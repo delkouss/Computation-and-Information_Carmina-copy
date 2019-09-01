@@ -24,7 +24,7 @@ R=\frac{\log M}{n}
 \begin{exercise}
 Suppose that we want to transmit a message from a set of $16$ messages that a source will choose uniformly at random. We have two channels available, both are noiseless, one allows to transmit one bit per channel use and we can use it once per second. The second channel allows to transmit two bits per channel use and we can use it once per minute. Over which channel can we communicate at a higher rate? How does time influence this number?
 \end{exercise}
-The channel is a physical medium of transmission. Mathematically, we can model it as a system taking symbols from input alphabet $\mathcal{X}$ to symbols of output alphabet $\mathcal{Y}$ and characterized by a transition probability matrix that maps the probability of every symbol $y$ if symbol $x$ is sent. The receiver tries to undo the encoding given the noisy received signal and at the end of the scheme the destination receives the $\mathbf{\hat{m}}$ possibly identical to $m$.
+The channel is a physical medium of transmission. Mathematically, we can model it as a system taking symbols from input alphabet $\mathcal{X}$ to symbols of output alphabet $\mathcal{Y}$ and characterized by a transition probability matrix that maps the probability of every symbol $y$ if symbol $x$ is sent. The receiver tries to undo the encoding given the noisy received signal and at the end of the scheme the destination receives the ${\hat{m}}$ possibly identical to $m$.
 
 We define $C$, the capacity of a channel, as the maximum mutual information for all possible input distributions: 
 
@@ -88,15 +88,15 @@ The capacity of a channel specifies the maximum rate at which a source can be re
 \end{center}
 \end{figure}
 
-A sketch of the proof would be as follows. Encoder and decoder share a code-book of $2^{nR}$ codewords chosen within the $2^{nH(X)}$ typical sequences~\cite{Massey_77}. The encoder sends a codeword $\mathbf{x}$ drawn with uniform probability. The decoder outputs a word $\hat{\mathbf{x}}$ jointly typical with the received word $\mathbf{y}$. It declares an error if $\mathbf{x}$, $\mathbf{y}$ are not jointly typical and a decoding error can occur if there exists $\mathbf{x}'\neq \mathbf{x}$ jointly typical with $\mathbf{y}$. We know by Eq.~\ref{eq:jointtypical} that the probability of non-joint typicality for long enough $n$ can be made as small as desired. %We can bound the second source of error $p_e$ as well:
+A sketch of the proof would be as follows. Encoder and decoder share a code-book of $2^{nR}$ codewords chosen within the $2^{nH(X)}$ typical sequences~\cite{Massey_77}. The encoder sends a codeword ${x}$ drawn with uniform probability. The decoder outputs a word $\hat{{x}}$ jointly typical with the received word ${y}$. It declares an error if ${x}$, ${y}$ are not jointly typical and a decoding error can occur if there exists ${x}'\neq {x}$ jointly typical with ${y}$. We know by Eq.~\ref{eq:jointtypical} that the probability of non-joint typicality for long enough $n$ can be made as small as desired. %We can bound the second source of error $p_e$ as well:
 
 %\begin{eqnarray}
-%p_e &\leq&  \left( 2^{nR}-1 \right) \frac{2^{n(H(\mathbf{XY})-\delta )}}{2^{n(H(X)-\delta )}2^{n(H(Y)-\delta )}}\nonumber\\
+%p_e &\leq&  \left( 2^{nR}-1 \right) \frac{2^{n(H({XY})-\delta )}}{2^{n(H(X)-\delta )}2^{n(H(Y)-\delta )}}\nonumber\\
 %     &\leq & 2^{-n(I(X;Y)-R-3\delta)}
 %\end{eqnarray}
 %\noindent in the first inequality we have bounded the error probability as the probability that one among the $2^{nR-1}$ remaining codewords belongs to the set of jointly typical sequences. The error probability vanishes only if $R<I(X;Y)$. However, we did not impose any condition on the $p(x)$ in the above discussion. In other words, if we choose the distribution that maximizes $I(X;Y)$, the typical sequence encoding achieves the capacity of the channel.
 
-The intuition behind the achievability proof is simple. The decoder has access to two sets: the set of sequences jointly typical with $\mathbf{y}$, and the set of codewords. If the intersection is to be a single word, every codeword has to be jointly typical with a disjoint set of typical output words. 
+The intuition behind the achievability proof is simple. The decoder has access to two sets: the set of sequences jointly typical with ${y}$, and the set of codewords. If the intersection is to be a single word, every codeword has to be jointly typical with a disjoint set of typical output words. 
 
 Approximately, every codeword is jointly typical with $2^{nH(Y|X)}$ words. Then the number of jointly typical output words with input codewords is upper bounded by $2^{nR+nH(Y|X)}$, where $R$ is the coding rate. This number should be much smaller than the total number of typical sequences $2^{nH(Y)}$:
  

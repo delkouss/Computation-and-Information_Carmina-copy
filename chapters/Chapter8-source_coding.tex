@@ -75,7 +75,7 @@ A source code is uniquely decodable if any concatenation of codewords can only b
 
 The next inequality on the length of uniquely decodable source codes was first proved by McMillan~\cite{McMillan_56} however the following proof is a simpler version by Karush~\cite{Karush_61,Cover_91}.
 
-\begin{theorem} The length of a uniquely decodable source code $C$ for a random variable $\mathbf{X}$ taking values in alphabet $\mathcal{Y}$ verifies:
+\begin{theorem} The length of a uniquely decodable source code $C$ for a random variable ${X}$ taking values in alphabet $\mathcal{Y}$ verifies:
 \begin{equation*}
 \sum_{x}\frac{1}{|\mathcal{Y}|^{l(x)}} \leq 1
 \end{equation*}
@@ -112,14 +112,14 @@ We can consider the related expression on the aggregated length:
 We finish this brief overview of source coding with Th.~\ref{th:sourcecoding}~\cite{Cover_91}, it shows that the length  of a uniquely decodable code is lower bounded by the entropy of the random variable.
 \begin{theorem}
 \label{th:sourcecoding}
-The length of a uniquely decodable code taking values from finite alphabet $\mathcal{Y}$ for random variable $\mathbf{X}$ is lower bounded by the entropy of $\mathbf{X}$.
+The length of a uniquely decodable code taking values from finite alphabet $\mathcal{Y}$ for random variable ${X}$ is lower bounded by the entropy of ${X}$.
 \begin{equation*}
-L\geq H_{|\mathcal{Y}|}(\mathbf{X})
+L\geq H_{|\mathcal{Y}|}({X})
 \end{equation*}
 \end{theorem}
 \begin{proof}
 \begin{eqnarray}
-H_{|\mathcal{Y}|}(\mathbf{X}) - L &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1}{p(x)} - \sum_{x}p(x)l(x) \nonumber \\
+H_{|\mathcal{Y}|}({X}) - L &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1}{p(x)} - \sum_{x}p(x)l(x) \nonumber \\
                                       &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1}{p(x)} - \sum_{x} p(x)  \log_{|\mathcal{Y}|} |\mathcal{Y}|^{-l(x)} \nonumber \\
                                       &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{|\mathcal{Y}|^{-l(x)} }{p(x)} \nonumber \\
                                       &\leq & \log_{|\mathcal{Y}|} \sum_{x} |\mathcal{Y}|^{-l(x)} \nonumber \\
@@ -127,9 +127,9 @@ H_{|\mathcal{Y}|}(\mathbf{X}) - L &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1
 \end{eqnarray}
 \noindent where the first inequality is again an application of Jensen's result Th.~\ref{th:jensen} and the second one results from applying McMillan's Th.~\ref{th:mcmillan}.
 \end{proof}
-This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble $\mathbf{X}$. That is, a source  $\mathbf{X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C({X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source $\mathbf{X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source: \begin{eqnarray} R &=& L(C({X^n}))/n \nonumber\\
-  &\geq& H_{|\mathcal{Y}|}(\mathbf{X^n})/n \nonumber\\
- &=& H_{|\mathcal{Y}|}(\mathbf{X})
+This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble ${X}$. That is, a source  ${X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C({X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source ${X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source: \begin{eqnarray} R &=& L(C({X^n}))/n \nonumber\\
+  &\geq& H_{|\mathcal{Y}|}({X^n})/n \nonumber\\
+ &=& H_{|\mathcal{Y}|}({X})
 \end{eqnarray}
 
 \booksection{Huffman codes and their optimality}
