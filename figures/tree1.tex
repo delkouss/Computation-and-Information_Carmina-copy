@@ -1,0 +1,29 @@
+\documentclass[tikz,border=5]{standalone}
+\usetikzlibrary{graphs,graphdrawing,arrows.meta}
+\usegdlibrary{trees}
+\begin{document}
+\begin{tikzpicture}[>=Stealth]
+\graph[binary tree layout]{
+  a -> {   
+    b -> { 
+      c -> { 
+        d -> { e, f }, 
+        g 
+      }, 
+    h -> { i, j }
+    },
+    k -> {
+      l -> {
+        m -> { n, o },
+        p -> { q, r }
+      }, 
+      s -> {
+        v -> {w, x},
+        y -> {z}
+      }
+    }
+  }
+};
+\end{tikzpicture}
+\end{document}
+

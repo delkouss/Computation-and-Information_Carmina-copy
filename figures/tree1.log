@@ -1,0 +1,14 @@
+This is LuaTeX, Version 1.0.4 (TeX Live 2017/Debian)  (format=luatex 2019.8.20)  10 SEP 2019 17:44
+ restricted system commands enabled.
+**tree1.tex
+(./tree1.tex
+! Undefined control sequence.
+l.1 \documentclass
+                [tikz,border=5]{standalone}
+? 
+! Emergency stop.
+l.1 \documentclass
+                [tikz,border=5]{standalone}
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!
