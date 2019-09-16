@@ -45,7 +45,7 @@
 \documentclass[11pt,fleqn]{book} % Default font size and left-justified equations
 
 \input{structure.tex} % Insert the commands.tex file which contains the majority of the structure behind the template
-
+\input{inconly.tex}
 %\hypersetup{pdftitle={Title},pdfauthor={Author}} % Uncomment and fill out to include PDF metadata for the author and title of the book
 
 %----------------------------------------------------------------------------------------
@@ -71,17 +71,17 @@
 %	COPYRIGHT PAGE
 %----------------------------------------------------------------------------------------
 
-\newpage
-~\vfill
-\thispagestyle{empty}
+%\newpage
+%~\vfill
+%\thispagestyle{empty}
 
-\noindent Copyright \copyright\ 2019 David Elkouss, Carmen Garc\'ia Almudever \& Ryoichi Ishihara\\ % Copyright notice
+%\noindent Copyright \copyright\ 2019 David Elkouss, Carmen Garc\'ia Almudever \& Ryoichi Ishihara\\ % Copyright notice
 
 %\noindent \textsc{Published by Publisher}\\ % Publisher
 
 %\noindent \textsc{book-website.com}\\ % URL
 
-\noindent Licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License (the ``License''). You may not use this file except in compliance with the License. You may obtain a copy of the License at \url{http://creativecommons.org/licenses/by-nc/3.0}. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \textsc{``as is'' basis, without warranties or conditions of any kind}, either express or implied. See the License for the specific language governing permissions and limitations under the License.\\ % License information, replace this with your own license (if any)
+%\noindent Licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License (the ``License''). You may not use this file except in compliance with the License. You may obtain a copy of the License at \url{http://creativecommons.org/licenses/by-nc/3.0}. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \textsc{``as is'' basis, without warranties or conditions of any kind}, either express or implied. See the License for the specific language governing permissions and limitations under the License.\\ % License information, replace this with your own license (if any)
 
 %\noindent \textit{First version, March 2019} % Printing/edition date
 
@@ -100,6 +100,7 @@
 
 \pagestyle{fancy} % Enable headers and footers again
 
+
 %\input{foreword.tex}
 \part{Computation}
 %\input{chapters/Chapter1-computer_architecture.tex}
@@ -110,9 +111,10 @@
 %\input{chapters/Chapter6-complexity_theory.tex}
 
 \part{Information}
-\input{chapters/Chapter7-measures_of_information.tex}
-\input{chapters/Chapter8-source_coding.tex}
-%\input{chapters/Chapter9-channel-coding.tex}
+
+\include{chapters/Chapter7-measures_of_information}
+\include{chapters/Chapter8-source_coding}
+%\include{chapters/Chapter9-channel-coding}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY

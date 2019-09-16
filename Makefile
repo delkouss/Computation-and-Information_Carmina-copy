@@ -46,6 +46,7 @@ main.pdf: inconly.tex
 chap1.pdf: 
 	echo "\includeonly{chapters/Chapter7-measures_of_information}" > inconly.tex
 	latexmk -jobname=chap1 -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make main.tex 
+	cp chap1.pdf dln/
 
 chap2.pdf: 
 	echo "\includeonly{chapters/Chapter7-measures_of_information,chapters/Chapter8-source_coding}" > inconly.tex

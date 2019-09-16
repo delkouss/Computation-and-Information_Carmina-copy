@@ -21,10 +21,12 @@
 
 \usepackage{graphicx} % Required for including pictures
 \graphicspath{{figures/}} % Specifies the directory where pictures are stored
+\usepackage{subcaption}
 
 \usepackage{lipsum} % Inserts dummy text
 
 \usepackage{tikz} % Required for drawing custom shapes
+\usetikzlibrary{tikzmark}
 
 \usepackage[english]{babel} % English language/hyphenation
 
@@ -209,7 +211,7 @@
 
 %\newcommand{\or}{\text{ or }}
 %\newcommand{\and}{{\text{ and }}}
-
+\newcommand{\tm}[1]{{\tickzmark{#1}}}
 \newcommand{\intoo}[2]{\mathopen{]}#1\,;#2\mathclose{[}}
 \newcommand{\ud}{\mathop{\mathrm{{}d}}\mathopen{}}
 \newcommand{\intff}[2]{\mathopen{[}#1\,;#2\mathclose{]}}
@@ -511,6 +513,7 @@ innerbottommargin=5pt]{cBox}
 \end{tikzpicture}
 \par\vspace*{270\p@}}
 \makeatother
+\usepackage{tikz-qtree}
 
 %----------------------------------------------------------------------------------------
 %	LINKS
