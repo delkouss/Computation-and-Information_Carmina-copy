@@ -1,0 +1,16 @@
+\centering
+\tikzset{every tree node/.style={minimum width=2em,draw,circle},
+         blank/.style={draw=none},
+         edge from parent/.style=
+         {draw,edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}},
+         level distance=1.5cm}
+\begin{tikzpicture}
+\Tree
+[.{}     
+    [.{} ]
+    [.{} 
+        [.x ]
+        [.y ]
+    ]
+]
+\end{tikzpicture}
