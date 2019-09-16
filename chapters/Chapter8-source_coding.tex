@@ -11,75 +11,92 @@ In this chapter we will begin a journey to show that not only entropy is a good 
 
 %something about zip files
 
-\booksection{Transmitting the weather forecast}
 
-Let us first go back to our example from the previous chapter. It will give us enough material to formalize the discussion. Let us suppose again that we have a distant but committed friend that has agreed to send us a daily message summarizing the weather forecast. However, we want a little bit more information that in the previous chapter and now we want our friend to tell us whether tomorrow will be sunny, will snow, will rain or will hail. Let us investigate different ways in which our friend can communicate this information to us:
-
-A first simple way would be to send a message containing the appropriate word: "sun", "rain", "snow", "hail". However, since there are only four possible messages, we could instead just send a number: $0$ for rain, $1$ for sun, $2$ for snow and $3$ for hail. 
-
+\booksection{Codes}
 \begin{definition}
 A symbol code is a map $C:\mathcal A\mapsto\mathcal C^*$. We associate every symbol $a$ from the alphabet $\mathcal A$ with $C(a)$ a sequence of symbols from the code alphabet $\mathcal C$. We call $C(a)$ the codeword of $a$ and denote by $|C(a)|$ its length. %length notation elsewhere?
 % define somewhere ^*
 \end{definition}
+\begin{example}
+Let $X$ be an ensemble modelling a fair coin. We can consider the codes $C_1,C_2$ on the ensemble with: 
 
-We could be more sophisticated. Let us assume that the four events occur with the following probability: it rains with probability $1/2$, it snows with probability $1/4$, and both sunny days and hailstone days happen with probability $1/8$. We could assign the following codewords to each event: rain $0$, snow $10$, sun $110$ and hail $111$. That is, we have assigned more likely events shorter codewords? Why is this better?
-
+\noindent $C_1(\text{tails})=00$ and $C_1(\text{heads})=111$
+\noindent $C_2(\text{tails})=0$ and $C_2(\text{heads})=0$
+\noindent $C_3(\text{tails})=00$ and $C_2(\text{heads})=0$
+\end{example}
+%We could be more sophisticated. Let us assume that the four events occur with the following probability: it rains with probability $1/2$, it snows with probability $1/4$, and both sunny days and hailstone days happen with probability $1/8$. We could assign the following codewords to each event: rain $0$, snow $10$, sun $110$ and hail $111$. That is, we have assigned more likely events shorter codewords? Why is this better?
+You have probably noticed that the code $C_2$ in the previous example is not very useful. This consideration motivates the following definitions.
 \begin{definition}
-we define the average length of the code as follows:
+A code $C:\mathcal X\mapsto\mathcal Y$ is non-singular if $\forall x,y\in\mathcal X$ with $x\neq y$ $C(x)\neq C(y)$.
+\end{definition}
+If we receive a single symbol encoded with a non-singular code, correct decoding is guaranteed, all codewords are different. However, we might consider the use of a code for sending a sequence of symbols from some ensemble. Let $X$ be an ensemble, $C$ be a code on the ensemble and $x=(x_1,\ldots,x_n)\in\mathcal X^*$ a sequence of elements of $\mathcal X$ with finite length. We can extend the definition of $C$ and define its action on $x$ as follows: $C(x)=C(x_1)C(x_2)\ldots C(x_n)$. That is, the word associated with $x$ is the concatenation of the codewords for $x_1$, $x_2$ until $x_n$. Under this extended definition, some non-singular codes can lead to erroneous decodings. For instance, consider the code $C_3$ in the previous example and the word $000$. It can be decoded both as (tails,heads) or as (heads,tails).
+\begin{definition}
+A code $C:\mathcal X\mapsto\mathcal Y$ is uniquely decodable if $\forall x,y\in\mathcal X^*$ with $x\neq y$ $C(x)\neq C(y)$.
+\end{definition}
+If we think in the usefulness of a code, unique decodability is a basic requirement. A more practical requirement is that it should be possible to decode symbols as one reads a word instead of waiting until the end of the transmission. 
+A code is called instantaneous if it can be decoded symbol by symbol from left to right without regarding future symbols. 
+
+A convenient family of instantaneous codes are so called prefix codes. Before defining them, let $w_1,w_2\in D^*$, $w_1$ is a prefix of $w_2$ if there exist $t\in D^*$ such that $w_1$ concatenated with $t$ equals $w_2$. That is: $w_1,t=w_2$.
+\begin{definition}
+A prefix code is a code where no codeword is the prefix of any other codeword.
+\end{definition}
+It is easy to see that prefix codes are instantaneous, indeed as soon as a complete codeword is seen, it is possible to decode the associated symbol. Since the codeword can not be prefix of a subsequent codeword, there is no possibility of confusion. Moreover, it turns out that all instantaneous codes are also prefix, i.e. both concepts are equivalent. In order to prove this, we can argue the contrapositive. 
+
+Let $C$ be a non-prefix code and let's see that it implies it is not instantaneous. If $C$ is non prefix there exist codewords $w_1,w_2$ and $t$ such that $w_1,t=w_2$. Hence, if we receive $w_1$ we can not decode until additional symbols are received that allow to discriminate between $w_1$ and $w_2$.
+
+\begin{exercise}
+Let $w_1,w_2\in D^*$, $w_1$ is a suffix of $w_2$ if there exist $t\in D^*$ such that $t$ concatenated with $w_1$ equals $w_2$. We call a code a suffix code if no codeword is suffix of any other code word.
+\begin{enumerate}
+\item Are all suffix codes also prefix codes? If yes, prove it. If not, give a counterexample.
+\item Are suffix codes uniquely decodable?
+\item Are suffix codes instantaneous?
+\end{enumerate}
+\end{exercise}
+In the previous example, it was fairly easy to spot that the code was not uniquely decodable. However, for some codes it is not so simple.
+\begin{exercise}\label{ex:sardinas}
+Let $C_1=\{01,100,1101,0111\}$ and $C_2=\{01,100,1101,10111,01011\}$. Are $C_1,C_2$ uniquely decodable? (Hint: if you can not find the solution, continue reading and return to this exercise once you have understood the Sardinas-Patterson method)
+\end{exercise}
+
+Let us now investigate a method to find if a code is uniquely decodable or not. This method was proposed by Sardinas and Patterson \cite{sardinas1953necessary} and is also known as the method of the dangling suffixes. 
+
+The method works as follows:
+\begin{enumerate}
+\item Let $C_0$ be the set of codewords in the code
+\item Let $C_1=\{w\in\mathcal A^*:uw=v,\text{ where }u,v\in C_0\}$.
+\item For $n\geq 2$ do:
+\begin{enumerate}
+\item Let $C_n=\{w\in\mathcal A^*:uw=v,\text{ where }u\in C_0,v\in C_{n-1}\text{ or }u\in C_{n-1},v\in C_0\}$.
+\item If $C_n$ is empty, the code is uniquely decodable
+\item If there is $2\leq m<n$ such that $C_m=C_n$, i.e. if $C_n$ is a repeated set, then the code is uniquely decodable.
+\item If the intersection between $C_0$ and $C_n$ is non-empty. That is if there is some codeword in $C_n$. Then the code is not uniquely decodable.
+\item Else we increase $n$.
+\end{enumerate}
+\end{enumerate}
+
+This method is a little bit magical. Let us informally investigate some of its properties. One might wonder about two things. First, does the algorithm end for all codes? This first question is relatively straight forward if one observes that the sets $C_n$ for $n\geq 2$ are always composed of suffixes of $C_0$. Since the number of possible suffixes is finite, the number of sets of suffixes is also finite. Hence at some point the algorithm will end. The second question is whether or not the output of the algorithm is correct. This is a little more complicated and beyond the scope of the course see \cite{Salomon2010} for more information.
+
+\booksection{Code length and fundamental limits}
+\begin{definition}
+Given an ensemble $X$ and a code $C$ for this ensemble, we define the average length of the code as follows:
 \begin{equation}
 l(C)=\sum_{x\in\mathcal X}p(x)|C(x)|
 \end{equation}
 where $|C(x)|$ is the length of the codeword of event $x$.
 \end{definition}
 \begin{example}
-has average length 2 while the second code with variable length has average length 1.375 which is significantly shorter. 
+Consider the codes $C_1,C_2$ for a fair coin. $C_1(\text{tails})=0$,  $C_1(\text{heads})=10$, $C_2(\text{tails})=0$, $C_2(\text{tails})=1$. The average length of the codes is:
+\begin{align}
+L(C_1)&=\frac{1}{2}1+\frac{1}{2}2=1.5\\
+L(C_2)&=\frac{1}{2}1+\frac{1}{2}1=1
+\end{align}
 \end{example}
+Intuitively, it seems that we can not do better than $C_2$, how do we prove it? In the following we prove a fundamental relation between the length of a code and the entropy of the associated ensemble. Previous to that we need to prove Kraft-MacMillan's inequality. This  inequality was first proved by McMillan~\cite{McMillan_56} however the following proof is a simpler version by Karush~\cite{Karush_61,Cover_91}.
 
-Can we do better than 1.375? We can indeed, consider the code that assigns the events rain and sun the codeword 0 and the events snow and hail the codeword 1. 
-This code has average length 1. 
-However, what is the problem? 
-The problem is that if we receive the message 0, we can not know whether tomorrow is going to rain or to be sunny. 
-The code is not-singular.
-
-\begin{definition}
-A code $C:\mathcal X\mapsto\mathcal Y$ is singular if $\forall x,y\in\mathcal X$ with $x\neq y$ $C(x)\neq C(y)$.
-\end{definition}
-
-However, in order to recover the information content, it is not enough for a code to be singular. Consider the following code: rain 0, sun 1, hail $01$ and snow $10$. 
-And suppose that our friend wants to send the forecast of two consecutive days. 
-If we receive the message $010$, we could decode it as $01$ and $0$ with the meaning first day hail second day rain or we could decode it as $0$ and $10$ with the meaning rain and snow.
-The code can not be uniquely decoded.
-
-\begin{definition}
-Uniquely decodable
-\end{definition}
-
-In the example, it was fairly easy to spot that the code was not uniquely decodable. However, for some codes it is not so simple.
-\begin{exercise}
-Let $C=\{asdfsadf\}$ is $C$ uniquely decodable? (Hint: if you can not find the solution, continue reading and return to this exercise once you have understood the Sardinas-Patterson method)
-\end{exercise}
-
-Let us now investigate a method to find if a code is uniquely decodable or not. This method was proposed by Sardinas and Patterson \cite{} and is also known as the method of the dangling suffixes. 
-
-\booksection{Length limits for lossless codes}
-Once presented an information measure, we review some of its operational interpretations, in particular its relation with the theoretical limits for data compression.
-
-A source code $C$ in alphabet $\mathcal{Y}$ for a random variable taking values in $\mathcal{X}$ is a function $c:\mathcal{X}\longrightarrow \mathcal{Y}^*$, where $\mathcal{Y}^*$ is any finite direct product of $\mathcal{Y}$. We call $c(x)$ the codeword for $x$ and $l(x)=|c(x)|$ the length of the codeword for $x$.
-
-The length of a source code $C$ is the sum of the lengths of every codeword in $C$ weighted by its relative frequency.
-\begin{equation}
-L(C(X)) = \sum_{x} p(x) l(x)
-\end{equation}
-
-A source code is uniquely decodable if any concatenation of codewords can only be generated by a unique concatenation of source symbols. In other words, the source symbols generating the codewords can be recovered with no possible equivocation. 
-
-The next inequality on the length of uniquely decodable source codes was first proved by McMillan~\cite{McMillan_56} however the following proof is a simpler version by Karush~\cite{Karush_61,Cover_91}.
-
-\begin{theorem} The length of a uniquely decodable source code $C$ for a random variable ${X}$ taking values in alphabet $\mathcal{Y}$ verifies:
+\begin{theorem} \label{th:mcmillan}
+The length of a uniquely decodable code $C$ for a random variable ${X}$ taking values in alphabet $\mathcal{Y}$ verifies:
 \begin{equation*}
 \sum_{x}\frac{1}{|\mathcal{Y}|^{l(x)}} \leq 1
 \end{equation*}
-\label{th:mcmillan}
 \end{theorem}
 \begin{proof}
 Let $c(x_1, x_2, ..., x_k)$ be a concatenation of codewords of aggregated length $l(x_1, x_2, ..., x_k)=\sum_{i=1}^k l(x_i)$. Since $C$ is uniquely decodable for any aggregated length $k$, no more than $|\mathcal{Y}|^k$ different concatenation of codewords can be generated. 
@@ -108,8 +125,29 @@ We can consider the related expression on the aggregated length:
 \sum_{x }\frac{1}{|\mathcal{Y}|^{l(x)}}  &\leq 1
 \end{eqnarray}
 \end{proof}
+The Kraft-MacMillan inequality is in a sense an if and only if condition. Given a set of lengths satisfying the inequality, there exists a code $C$ with the same lengths that is a prefix code.  
+Let us see how to construct this associated prefix code. 
 
-We finish this brief overview of source coding with Th.~\ref{th:sourcecoding}~\cite{Cover_91}, it shows that the length  of a uniquely decodable code is lower bounded by the entropy of the random variable.
+We first observe that any prefix code can be represented by a tree with each codeword represented by a leave of the tree. For example, consider the code $C=\{0,10,1100,1101,1110,1111\}$ and its representation in figure \ref{fig:tree}.
+
+Second, consider a set of lengths $\{l_1,\ldots,l_n\}$ which we assume are ordered i.e. $l_1\leq\ldots\leq l_n$ and let us assume that this set verifies the Kraft-MacMillan inequality. We will construct the code by assigning to each codeword a number of leaves from a full binary tree of depth $l_n$. There are then a total of $2^{l_n}$ leaves to be assigned. The strategy will be to assign to codeword $i$ $2^{l_n-l_i}$ leaves. 
+We should verify that the number of leaves assigned is not larger than the total number of leaves in the tree. That is: 
+\begin{equation}
+\sum_i 2^{l_n-l_i}\leq 2^{l_n}.
+\end{equation}
+The inequality holds since if we divide both sides by $2^{l_n}$ we recover Kraft-MacMillan's inequality.
+
+Finally, we proceed to assign the leaves in the tree to each codeword consecutively and from left to right. The assignment is done in order of length from the shortest to the longest codeword. %Since each codeword is assigned $2^{l_n-l_i}$ leaves, we can assign a complete subtree to each one, that is 
+\begin{figure}
+\input{./aux/treefig1}
+\caption{Binary tree representing the code $C=\{0,10,1100,1101,1110,1111\}$.}\label{fig:tree}
+\end{figure}
+\begin{figure}
+\input{./aux/treefig2}
+\caption{Construction of a prefix code from the set of lengths: $1,2,4,4,4,4$.}
+\end{figure}
+
+We can now show that the length  of a uniquely decodable code is lower bounded by the entropy of the random variable.
 \begin{theorem}
 \label{th:sourcecoding}
 The length of a uniquely decodable code taking values from finite alphabet $\mathcal{Y}$ for random variable ${X}$ is lower bounded by the entropy of ${X}$.
@@ -127,13 +165,29 @@ H_{|\mathcal{Y}|}({X}) - L &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1}{p(x)}
 \end{eqnarray}
 \noindent where the first inequality is again an application of Jensen's result Th.~\ref{th:jensen} and the second one results from applying McMillan's Th.~\ref{th:mcmillan}.
 \end{proof}
-This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble ${X}$. That is, a source  ${X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C({X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source ${X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source: \begin{eqnarray} R &=& L(C({X^n}))/n \nonumber\\
-  &\geq& H_{|\mathcal{Y}|}({X^n})/n \nonumber\\
- &=& H_{|\mathcal{Y}|}({X})
-\end{eqnarray}
+One relevant question is: how far is the optimal code from the bound? In exercise \ref{ex:fundamentallim} you will show that at most one bit! Let us first introduce some notation.
+\begin{definition}
+We use the notation $\lceil\rceil$ and $\lfloor\rfloor$ to indicate the rounding "up" and "down" of a real number to the closest integer value. More precisely, let $x\in\mathbb R$:
+\begin{align}
+\lceil x \rceil &= \min\{n\in\mathbb N: n\geq x\}\\
+\lfloor x \rfloor &= \max\{n\in\mathbb N: n\leq x\}
+\end{align}
+\end{definition}
+\begin{example}
+$\lceil 0.3\rceil =1$,$\lfloor 0.3\rfloor =0$,$\lceil -0.3\rceil =0$ and $\lfloor -0.3\rfloor =-1$.
+\end{example}
+\begin{exercise} Let $p\in(0,1)$, show that $-\lceil \log (1/p)\rceil=\lfloor\log p\rfloor$.
+\end{exercise}
+\begin{exercise}
+\label{ex:fundamentallim}
+Let $X$ be an ensemble and consider a binary code $C$ with lengths $l(C(x))=\lceil \log 1/p_X(x)\rceil$ for all symbols $x\in\mathcal X$. Show that there exist a code $C$  with the indicated lengths that satisfies:
+\begin{equation}
+H(X)\leq L(C)\leq H(X)+1
+\end{equation}
+\end{exercise}
 
 \booksection{Huffman codes and their optimality}
-We will now investigate a scheme that achieves the optimal encoding rate of a source. The algorithm is remarkably simple and was discovered by Huffman \cite{} while a master student. Let us describe the algorithm.
+We will now investigate a scheme that achieves the optimal encoding rate of an ensemble. The algorithm is remarkably simple and was discovered by Huffman \cite{huffman1952method} while a master student. Let us describe the algorithm.
 
 Given an ensemble $X$ and let $C$ denote the Huffman code of $X$.
 \begin{enumerate}
@@ -141,38 +195,178 @@ Given an ensemble $X$ and let $C$ denote the Huffman code of $X$.
 \item Let $C(a)=C(c)0$ and $C(b)=C(c)1$.
 \item If $X'$ has an alphabet with more than one symbol go back to 1.
 \end{enumerate}
-A first observation on the algorithm is that computationally it is very simple. Since at each iteration there is one symbol less it will terminate in $\mathcal A_X$ iterations.
+A first observation on the algorithm is that computationally it is very simple. Since at each iteration there is one symbol less it will terminate in $|\mathcal A_X|$ iterations.
 \begin{exercise}
 Find the Huffman code of an ensemble $X$ with symbols $\mathcal A_X=\{x_1,x_2,x_3,x_4,x_5,x_6\}$ and corresponding probabilities $p_X=\{0.3,0.2,0.18,0.15,0.12,0.05\}$.
 \end{exercise}
-\begin{solution}
+%\begin{solution}
 
-\begin{table}[h!]
-  \begin{center}
-    \label{tab:table1}
-    \begin{tabular}{ccc} 
-      0.3             &0.30&0\\
-      0.2             &0.20&0\\
-      0.18            &0.18                        &0
+%\begin{table}[h!]
+  %\begin{center}
+    %\label{tab:table1}
+    %\begin{tabular}{ccc} 
+      %0.3             &0.30&0\\
+      %0.2             &0.20&0\\
+      %0.18            &0.18                        &0
       %0.15            &\tikzmark{c}0.17\tm{e}&0\\
       %0.12\tikzmark{a}&            0.15\tm{d} \\
       %0.05\tikzmark{b}&   &  \\
-    \end{tabular}
-  \end{center}
-\end{table}
-  \begin{tikzpicture}[overlay, remember picture, yshift=.10\baselineskip, shorten >=.5pt, shorten <=.5pt]
+    %\end{tabular}
+  %\end{center}
+%\end{table}
+  %\begin{tikzpicture}[overlay, remember picture, yshift=.10\baselineskip, shorten >=.5pt, shorten <=.5pt]
     %\draw [->] ({pic cs:a}) [bend left] to ({pic cs:b});
-    \draw [-] ([yshift=.0pt]{pic cs:a}) -- ({pic cs:c});
-    \draw [-] ([yshift=.0pt]{pic cs:b}) -- ({pic cs:c});
-  \end{tikzpicture}
-\end{solution}
-\booksection{Arithmetic codes}
+    %\draw [-] ([yshift=.0pt]{pic cs:a}) -- ({pic cs:c});
+    %\draw [-] ([yshift=.0pt]{pic cs:b}) -- ({pic cs:c});
+  %\end{tikzpicture}
+%\end{solution}
+
+The prove of optimality of Huffman codes is indirect. What we will prove is that no other code can have lower length based on some properties of the trees associated with Huffman codes. Our discussion is limited to binary trees, for the full discussion, please see the references in Section \ref{sec:frsc}.
+
+\begin{lemma}
+If $x,y$ are the two symbols with smallest probability, there exists an optimal code $C$ where $C\left(x\right),C(y)$ are the longest codewords, have the same size and differ only in the last bit.
+\end{lemma}
+\begin{proof}
+Consider the tree representation of any code $C$ where the two longest words are of unequal size, i.e. $|C(a)|>|C(b)|$ where $a,b$ are the symbols with longest codewords. Then we could construct a new code where we remove the last bits of codeword $C(b)$ until it has length $|C(a)$. The new code would be shorter. See Fig. \ref{fig:huff1} for a graphical representation.
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \input{./aux/huffa}
+  \caption{} \label{fig:hfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+ \input{./aux/huffb} 
+  \caption{} \label{fig:hfig2}
+\end{subfigure}
+\caption{On the left we have an abstract representation of a code $C$ where $a,b$, the two symbols with the longest codewords have different lengths. On the right we have the representation of a new code $C'$ with the longest codeword trimmed.}\label{fig:huff1}
+\end{figure}
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \input{./aux/huff3}
+  \caption{} \label{fig:hfig3}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+ \input{./aux/huff4} 
+  \caption{} \label{fig:hfig4}
+\end{subfigure}
+\caption{On the left we have an abstract representation of a code $C$ where $x,y$, the two symbols with smallest probability have equal and maximum lengths differing only in the last bit value. On the right we have the representation of a new code $C'$ without symbols $x,y$ and with a new symbol $z$.}\label{fig:huff3}
+\end{figure}
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \input{./aux/huff1}
+  \caption{} \label{fig:hfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+ \input{./aux/huff2} 
+  \caption{} \label{fig:hfig2}
+\end{subfigure}
+\caption{On the left we have an abstract representation of a code $C$ where $x$, one of the two symbols with smallest probability has not maximum length while $a$ which is not one of the two symbols with smallest probability has a maximum length codeword. On the right we have the representation of a new code $C'$ with the codewords of symbols $x$ and $a$ swapped.}\label{fig:huff2}
+\end{figure}
+Let us then assume that the longest codewords are of the same length, but that at least one of $a,b$ is different from $x,y$. Suppose that $a$ is neither $x$ or $y$ and consider a new code $C'$ where we swap $C(a)$ with $C(x)$. That is: $C'(a)=C(x)$ and $C'(x)=C(a)$. Now, we will show that the average length of the new code can not be larger than the average length of $C$.
+\begin{align}
+L(C)-L(C')&=\sum_{t\in\mathcal X}p_X(t)|C(t)|-\sum_{t\in\mathcal X}p_X(t)|C'(t)|\\
+          &=p_X(x)|C(x)|+p_X(a)|C(a)|-p_X(x)|C'(x)|-p_X(a)|C'(a)|\\
+          &=p_X(x)(|C(x)|-|C(a)|)-p_X(a)(|C(x)|-|C(a)|)\\
+          &=(p_X(x)-p_X(a))(|C(x)|-|C(a)|)
+\end{align}
+The proof is complete since $p_X(x)\leq p_X(a)$ and $|C(x)|\leq |C(a)|$, which implies that $L(C)-L(C')$ is greater than zero.
+\end{proof}
+\begin{lemma}
+For any code $C$ satisfying that the two symbols with smallest probability have codewords of equal length differing only in the last bit and the code $C\prime$ that results from removing symbols $x,y$ and adding symbol $z$ with $p\left(z\right)=p\left(x\right)+p(y)$.
+\begin{equation}
+L\left(C\right)=L\left(C^\prime\right)+p(z)  
+\end{equation}
+\end{lemma}
+\begin{proof}
+Recall that from the statement we have that $|C(x)|=|C(y)|=|C(z)|-1$ and consider the following chain of equalities:
+\begin{align}
+L(C)-L(C')&=\sum_{t}p(t)|C(t)|-\sum_{t}p(t)|C'(t)|\\
+          &= p(x)|C(x)|+p(y)|C(y)|-p(z)|C'(z)|\\
+          &= p(z)
+\end{align}
+\end{proof}
+The previous two lemmas strongly point to Huffman codes being optimal. We will not complete the proof here. If you are interested, please look at the references provided in Section \ref{sec:frsc}
+\begin{theorem}
+Given an ensemble $X$, the Huffman code $C$ produces an optimal encoding for the ensemble. That is, for any othe uniquely decodable code $C'$ it holds that $L(C)\leq L(C')$.
+\end{theorem}
+You might have noticed, that while optimal, Huffman codes are not satisfactory in extreme scenarios. 
+For instance, you could think about the Huffman code for a binary ensemble where one of the symbols have almost unit probability. 
+While the average length is less than one bit from the entropy, if we take the ratio between the average length and the entropy it diverges when one of the elements of the ensemble approaches unit probability. 
+
+If we want to transmit not one, but several symbols of some ensemble $X$, one solution to the situation we described above is to instead of encoding the symbols of the ensemble one by one encode $n$ symbols together. We can model this communication scenario with a joint ensemble that we denote by $X^n$. The alphabet of the joint ensemble is the cartesian product of the alphabets of the original ensemble and its probability distribution is given by:
+\begin{equation}
+p_{X^n}(x_1,\ldots,x_n)=\prod_{i=1}^np_X(x_i)
+\end{equation}
+under the assumption that all symbols are drawn independently and identically from the distribution $p_X$.
+\begin{example}
+Let $X$ be a binary ensemble with symbols $\{a,b\}$ that occur with probabilities $\{0.7,0.3\}$. The alphabet of $X^2$ is $\{a,b\}\times\{a,b\}=\{aa,ab,ba,bb\}$ and the probability of each word is:
+\begin{align}
+p_{X^2}(aa)&=p_X(a)p_X(a)=0.49\\
+p_{X^2}(ab)&=p_X(a)p_X(b)=0.21\\
+p_{X^2}(ba)&=p_X(b)p_X(a)=0.21\\
+p_{X^2}(bb)&=p_X(b)p_X(b)=0.09
+\end{align}
+\end{example}
+
+\begin{exercise}
+Prove that if $X,Y$ are two independent ensembles, then $H(XY)=H(X)+H(Y)$.
+\end{exercise}
+\begin{exercise}
+Prove that $H(X^n)=nH(X)$.
+\end{exercise}
+% TODO: have independent ensembles or random variables been properly defined?
+%Code extension, next year, can introduce typicallity by extending an ensemble and showing how it looks!
+Hence, we have on the one hand that $H(X^n)=nH(X)$ and on the other hand that for each extended ensemble there exists a code $C_n$ with length at most one bit from entropy. That is: $L(C_n)\leq H(X^n)+1=nH(X)+1$. If we normalize by $n$ we obtain the following relation:
+\begin{equation}
+H(X)\leq \frac{L(C_n)}{n}\leq H(X)+\frac{1}{n}
+\end{equation}
+In consequence, by extending any ensemble enough we can ensure the existence of codes with normalized average length arbitrarily close to the entropy of the original ensemble.
+%\booksection{Arithmetic codes}
 \booksection{Exercises}
-\booksection{Further reading}
-Both Shannon's original paper \cite{Shannon_48} and Cover and Thomas \cite{Cover_91} (chapter 5) provide further detail into the topics discussed here. A popular introduction to source coding is provided by xkcd (the comic stripe) \cite{xkcd}, in the post you will recognize the image that opens the chapter, perhaps you can explain it's relation with the topic. %https://what-if.xkcd.com/34/
+\begin{exercise}
+Consider a binary ensemble $X$ with probabilities $\{0.1,0.9\}$. 
+\begin{enumerate}
+\item Find the Huffman code of $X$ and of the ensemble extensions $X^2$ and $X^3$. 
+\item Find the average length of the three codes.
+\item Compare the average lengths to the entropy of the corresponding ensemble.
+\end{enumerate}
+\end{exercise}
+\begin{exercise}
+A dyadic distribution, is a probability distribution where all symbols have probability $2^{-n}$ for some integer $n$. Show that ensembles with dyadic distributions have Huffman codes with average length equal to the entropy of the ensemble.
+\end{exercise}
+\booksection{Solutions to selected exercises}
+\begin{solution}[Exercise~\ref{ex:sardinas}]
+We will solve the problem for the first code.
 
-An important remark on our previous discussion is that we have only covered lossless codes. That is codes where no information is lost. While we showed that it is not possible to reliably code at rates below entropy, in many practical applications a certain amount of loss or unreliability is acceptable if in exchange one can increase the compression efficiency. 
+\noindent We let $C_0=\{01,100,1101,0111\}$.
 
-and the story goes that while a master student, a professor told the students that if they wrote a report on the optimal code for a source, they could skip the exam. Of course, the professor did not 
+\noindent We construct $C_1=\{11\}$ the set of dangling suffixes from the codewords.
 
-Data compression has direct application in our daily activities: our emails are compressed using lossless compression algorithms
+\noindent For the next step we take the union of the suffixes in $C_1$ with respect to the codewords and the suffixes in the set of codewords with respect to the words in $C_1$. This set is $C_2=\{01\}$. 
+
+\noindent The algorithm ends here because $C_2$ contains a codeword. Hence the code is not uniquely decodable.
+\end{solution}
+\begin{solution}[Exercise~\ref{ex:fundamentallim}]
+Let us first verify that the lengths given satisfy the Kraft-MacMillan's inequality:
+\begin{align}
+\sum_{x\in\mathcal X}2^{-\lceil \log 1/p_X(x)\rceil}&=\sum_{x\in\mathcal X}2^{\lfloor \log p_X(x)\rfloor}\\
+&\leq \sum_{x\in\mathcal X}2^{\log p_X(x)}\\
+&=\sum_{x\in\mathcal X}{p_X(x)}\\
+&=1
+\end{align}
+Since the inequality is verified, this implies the existence of a prefix code with the given lengths satisfying $H(X)\leq L(C)$. 
+
+Let us now estimate the average length of the code:
+\begin{align}
+L(C)&=\sum_{x\in\mathcal X}p_X(x)|C(x)|\\
+    &=\sum_{x\in\mathcal X}p_X(x)\lceil \log 1/p_X(x)\rceil\\
+    &\leq \sum_{x\in\mathcal X}p_X(x) (\log 1/p_X(x)+1)\\
+    &\leq H(X)+1
+\end{align}
+\end{solution}
+\booksection{Further reading}\label{sec:frsc}
+Both Shannon's original paper \cite{Shannon_48} and Cover and Thomas \cite{Cover_91} (chapter 5) provide further detail into the topics discussed here. A popular introduction to data compression is provided by xkcd (the comic stripe) \cite{xkcd}. %https://what-if.xkcd.com/34/
+
+An important remark on our exposition is that we have only covered lossless codes. That is codes where no information is lost. While we showed that it is not possible to reliably code at rates below entropy, in many practical applications a certain amount of loss or unreliability is acceptable if in exchange one can increase the compression efficiency. The different theoretical trade-offs and schemes go beyond the scope of this course. For the interested reader we can point to Salomon's encyclopedic treatise on the topic \cite{Salomon2010}.
+
+%Data compression has direct application in our daily activities: our emails are compressed using lossless compression algorithms
+

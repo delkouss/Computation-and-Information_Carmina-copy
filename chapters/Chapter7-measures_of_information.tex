@@ -61,14 +61,14 @@ Note that it follows automatically from our definition that for all $x\in\mathca
 \end{example}
 We define an ensemble $X$ as the tuple of a probability distribution $p_{X}$ together with its domain $\mathcal A_X$. 
 Generally, we will refer to $\mathcal A_X$ as the sample space of $X$ and to its elements as events. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
-In information theory, $X$ typically models an object in a communications setup (see \ref{}), in this context it is common to call $\mathcal A_X$ the alphabet of $X$ and refer to its elements as letters. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
+In information theory, $X$ typically models an object in a communications setup (see \ref{sec:comprob}), in this context it is common to call $\mathcal A_X$ the alphabet of $X$ and refer to its elements as letters. %and its elements differently depending on the context. as the sample space and to any non empty subset of it as an event. 
 
 Note that we can extend the definition of $p_{X}$ to any subset $\mathcal{S}\subseteq \mathcal{A}_X$:
 \begin{equation}
 p_{X}(\mathcal{S})=\sum_{x\in \mathcal{S}}p_{X}(x)
 \end{equation} 
 \begin{example}
-Let $X$ be an ensemble with alphabet $\mathcal A_{mathbf X}=\{1,2,3\}$ and with $p_{X}$ the uniform distribution. Then if $\mathcal S=\{1,2\}$, $p(\mathcal S)=1/3+1/3=2/3$ 
+Let $X$ be an ensemble with alphabet $\mathcal A_{X}=\{1,2,3\}$ and with $p_{X}$ the uniform distribution. Then if $\mathcal S=\{1,2\}$, $p(\mathcal S)=1/3+1/3=2/3$ 
 \end{example}
 Abusing notation, we will also call event any subset of the alphabet of an ensemble. For this particular case of set we will drop the calligraphic notation for sets.
 Let $a$ and $b$ be two events in $\mathcal{X}$, we define $a\cup b$ and $a\cap b$ as the union and intersection of $a$ and $b$. 
@@ -83,11 +83,12 @@ Let $a$ and $b$ be two events with non zero probability. We call $p_{X}(a|b)=p_{
 
 In the following, we will use the explicit notation $p_{X},\mathcal A_{X}$ for the probability distribution of ensemble $X$ and its alphabet whenever confusion can arise but we will drop the subscript whenever possible.
 \begin{exercise}
+\label{ex:ensemble}
 Let $X$ be an ensemble modelling two fair coins. Identify two events $a,b$ that are independent and verify that $p_{X}(a|b)=p_{X}(a)$
 \end{exercise}
-\begin{solution}
-A
-\end{solution}
+%\begin{solution}[Exercise~\ref{ex:ensemble}]\\
+%A
+%\end{solution}
 Given two alphabets $\mathcal A_{X},\mathcal A_Y$ we can define a joint ensemble on them with sample space or alphabet the direct product: $\mathcal A_{XY} = \mathcal A_X \times \mathcal A_Y$. 
 We can associate, as well, a probability distribution function to map all tuples $(x,y)$ to $[0,1]$. 
 
@@ -167,18 +168,9 @@ h(\mathcal S) = -\log p_X(\mathcal S)
 \end{equation}
 \end{definition}
 \begin{exercise}
+\label{ex:basicinf}
 Let $X$ be an ensemble modelling a fair coin, that is with alphabet $\mathcal A_X=\{\text{heads},\text{tails}\}$ and with $p_X$ the uniform distribution. What is the information of the event heads and of the event tails?
 \end{exercise}
-\begin{solution}
-As $p_X$ is uniform, we have that $p(\text{heads})=p(\text{tails})=1/2$. Hence:
-\begin{equation*}
-h(\text{heads})=-\log(1/2)=1\text{ bit}
-\end{equation*}
-and
-\begin{equation*}
-h(\text{heads})=-\log(1/2)=1\text{ bit}\ .
-\end{equation*}
-\end{solution}
 Let us end this section by checking that all our desired conditions hold. First since the $\log$ function is continuous and monotonically increasing in the range $(0,1]$ it holds that $h$ is also continuous and monotonically decreasing in the range. Finally, if two events $a,b$ are independent, $p(a \text{ and } b)=p(a)p(b)$ and in consequence 
 \begin{align}
 h(a \text{ and } b) &= -\log \left(p(a \text{ and } b)\right)\\
@@ -193,7 +185,7 @@ We define the entropy of an ensemble as the average information content it provi
         \begin{equation}\label{eq:entr}
         H({X})=-\sum_{x} p(x)\log p(x)   
         \end{equation}
-\noindent where we take the convention that $0\log 0=0$, i.e. adding a  zero-probability event to a source does not affect its entropy.
+\noindent where we take the convention that $0\log 0=0$, i.e. adding a  zero-probability event to a probability distribution does not affect its entropy.
 \end{definition}
 We can rewrite the definition of entropy as the expectation of the random variable $h(X)$. That is a random variable that associated each event with the negative logarithm of its probability: 
 
@@ -205,21 +197,19 @@ We can rewrite the definition of entropy as the expectation of the random variab
 Note that entropy only depends on the values of the probabilities. In the following we will sometimes be interested in the entropy a probability distribution independently of an ensemble. We will use the notation $H(p_1,\ldots,p_n)$ to indicate the probability distribution. Let us now investigate some basic properties of entropy that we will use through this course.
 
 \begin{exercise}Show that entropy can not be negative.
-  \label{lem:entropynonnegative}
+  \label{ex:entropynonnegative}
   \begin{equation*}
     H({X})\geq 0
   \end{equation*}
 \end{exercise}
-\begin{solution}
-  \begin{equation}
-    0 \leq p(x) \leq 1 \Rightarrow -\log p(x) \geq 0 \Rightarrow H(X) \geq 0
-  \end{equation}
-\end{solution}
 \begin{definition} A function $f(x):(a,b)\mapsto\mathbb R$ is concave if any two points $x_1,x_2\in(a,b)$ and any $p\in[0,1]$ verify:
         \begin{equation}
         f(px_1+(1-p)x_2) \geq pf(x_1)+(1-p)f(x_2)
          \end{equation}
 \end{definition}
+\begin{example}
+Some examples of concave functions are $-x^2$, $-x^4$, cosine is concave in the interval $[-\pi/2,\pi/2]$ and the logarithm function. To prove the concavity of these functions, you might recall from your calculus course that if a function is twice differentiable in the interval of interest, then it is concave if and only if the second derivative is non-negative.
+\end{example}
 
 The following is known as Jensen's inequality and will be of use in the following. 
 \begin{theorem}[Jensen's inequality] Let $f(x):(a,b)\mapsto\mathbb R$ be a concave function. Then for any set of points $\{x_i\}_{i=1}^n\in(a,b)$ and for any set of positive real numbers $\{p_i\}_{i=1}^n$ such that $\sum_{i=1}^np_i=1$: 
@@ -233,6 +223,7 @@ The following is known as Jensen's inequality and will be of use in the followin
 If $n=2$, the proof follows by the definition of concavity. We will complete the proof by induction.
 Let us suppose that it holds for $n=m$: 
 \begin{equation}
+\label{eq:jensenindhyp}
  f\left(\sum_{i=1}^mp_ix_i\right) \geq \sum_{i=1}^mp_if(x_i) 
 \end{equation}
 and let us show that it implies that it also holds for $n=m+1$. Let 
@@ -242,14 +233,14 @@ x'=\sum_{i=1}^m\frac{p_i}{1-p_{m+1}}x_i
 Then we have from the definition of concavity that:
 \begin{align}
 f\left(\sum_{i=1}^{m+1}p_ix_i\right) &= f((1-p_{m+1}x'+p_{m+1}x_{m+1})\\
-                                     &\geq (1-p_{m+1})f(x')+p_{m+1}f(x_{m+1})
+                                     &\geq (1-p_{m+1})f(x')+p_{m+1}f(x_{m+1})\label{eq:jensenfinal}
 \end{align}
-Finally from the induction hypothesis \eqref{} we have that:
+Finally from the induction hypothesis \eqref{eq:jensenindhyp} we have that:
 \begin{align}
 f(x')&=f\left(\sum_{i=1}^m\frac{p_i}{1-p_{m+1}}x_i\right)\\
      &\geq \sum_{i=1}^m\frac{p_i}{1-p_{m+1}}f(x_i)
 \end{align}
-which we can plug in back in \eqref{} to complete the proof.
+which we can plug in back in \eqref{eq:jensenfinal} to complete the proof.
 \end{proof}
 %
 %\begin{lemma}The entropy of the uniform distribution equals the logarithm of the number of elements.
@@ -263,99 +254,13 @@ which we can plug in back in \eqref{} to complete the proof.
 %  \end{equation}
 %\end{proof}
 
-\begin{lemma}
-\label{lem:uniform}
+\begin{exercise}
+\label{ex:uniform}
 The distribution that maximizes entropy for any alphabet is the uniform distribution.
 \begin{equation*}
 H(p_1, ..., p_n)\leq \log n
 \end{equation*}
-\end{lemma}
-\begin{proof}
-\begin{eqnarray}
-H(p_1, ..., p_n)  - \log n & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \sum_{i=1}^n \dfrac{1}{n} \log n \nonumber \\
-                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \log n \sum_{i=1}^n \dfrac{1}{n} \nonumber \\
-                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \log n \sum_{i=1}^n p_i \nonumber \\
-                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \sum_{i=1}^n p_i \log n \nonumber \\
-                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{np_i} \nonumber \\                                      
-                                       & \leq &  \log \sum_{i=1}^n \dfrac{1}{n} = 0\nonumber \\
-\end{eqnarray}
-\noindent where the second equality follows from the fact that a probability distribution adds up to one and the last inequality holds from $\log$ being a concave function and applying Jensen's inequality.
-\end{proof}
-
-%\subsection{Data Compression}
-%Once presented an information measure, we review some of its operational interpretations, in particular its relation with the theoretical limits for data compression.
-%
-%A source code $C$ in alphabet $\mathcal{Y}$ for a random variable taking values in $\mathcal{X}$ is a function $c:\mathcal{X}\longrightarrow \mathcal{Y}^*$, where $\mathcal{Y}^*$ is any finite direct product of $\mathcal{Y}$. We call $c(x)$ the codeword for $x$ and $l(x)=|c(x)|$ the length of the codeword for $x$.
-%
-%The length of a source code $C$ is the sum of the lengths of every codeword in $C$ weighted by its relative frequency.
-%\begin{equation}
-%L(C(X)) = \sum_{x} p(x) l(x)
-%\end{equation}
-%
-%A source code is uniquely decodable if any concatenation of codewords can only be generated by a unique concatenation of source symbols. In other words, the source symbols generating the codewords can be recovered with no possible equivocation. 
-%
-%The next inequality on the length of uniquely decodable source codes was first proved by McMillan~\cite{McMillan_56} however the following proof is a simpler version by Karush~\cite{Karush_61,Cover_91}.
-%
-%\begin{theorem} The length of a uniquely decodable source code $C$ for a random variable ${X}$ taking values in alphabet $\mathcal{Y}$ verifies:
-%\begin{equation*}
-%\sum_{x}\frac{1}{|\mathcal{Y}|^{l(x)}} \leq 1
-%\end{equation*}
-%\label{th:mcmillan}
-%\end{theorem}
-%\begin{proof}
-%Let $c(x_1, x_2, ..., x_k)$ be a concatenation of codewords of aggregated length $l(x_1, x_2, ..., x_k)=\sum_{i=1}^k l(x_i)$. Since $C$ is uniquely decodable for any aggregated length $k$, no more than $|\mathcal{Y}|^k$ different concatenation of codewords can be generated. 
-%
-%We can consider the related expression on the aggregated length:
-%\begin{eqnarray}
-%\left( \sum_{x}\frac{1}{|\mathcal{Y}|^{l(x)}} \right)^n &=& \sum_{x_1}\frac{1}{|\mathcal{Y}|^{l(x_1)}} \sum_{x_2}\frac{1}{|\mathcal{Y}|^{l(x_2)}} \dots \sum_{x_n }\frac{1}{|\mathcal{Y}|^{l(x_n)}} \nonumber \\
-%&=& \sum_{x_1,x_2,\dots,x_n }\frac{1}{|\mathcal{Y}|^{l(x_1)+l(x_2)+\dots +l(x_n)}} \nonumber \\
-%&=& \sum_{x_1,x_2,\dots,x_n }\frac{1}{|\mathcal{Y}|^{l(x_1+x_2+\dots +x_n)}}
-%\end{eqnarray}
-%\noindent which can also be written as the sum for all possible lengths $i$ of the number $T_i$ of concatenation of $n$ codewords:
-%
-%\begin{eqnarray}
-%\left( \sum_{x }\frac{1}{|\mathcal{Y}|^{l(x)}} \right)^n &=& \sum_{i=1}^{nl_{max}}\frac{T_i}{|\mathcal{Y}|^i} \nonumber \\
-%&\leq & \sum_{i=1}^{nl_{max}}\frac{|\mathcal{Y}|^i}{|\mathcal{Y}|^i} \nonumber \\
-%&\leq & nl_{max}
-%\end{eqnarray}
-%\noindent where $l_{max} = \max_{x}l(x)$. And taking the $n$-th root in both sides:
-%
-%\begin{eqnarray}
-%\sum_{x }\frac{1}{|\mathcal{Y}|^{l(x)}}  &\leq & (nl_{max})^{1/n}
-%\end{eqnarray}
-%\noindent now since the limit $\lim_{n \to \infty } (nl_{max})^{1/n} = 1$ and the result holds for all $n$:
-%
-%\begin{eqnarray}
-%\sum_{x }\frac{1}{|\mathcal{Y}|^{l(x)}}  &\leq 1
-%\end{eqnarray}
-%\end{proof}
-%
-%We finish this brief overview of source coding with Th.~\ref{th:sourcecoding}~\cite{Cover_91}, it shows that the length  of a uniquely decodable code is lower bounded by the entropy of the random variable.
-%\begin{theorem}
-%\label{th:sourcecoding}
-%The length of a uniquely decodable code taking values from finite alphabet $\mathcal{Y}$ for random variable ${X}$ is lower bounded by the entropy of ${X}$.
-%\begin{equation*}
-%L\geq H_{|\mathcal{Y}|}({X})
-%\end{equation*}
-%\begin{proof}
-%\begin{eqnarray}
-%H_{|\mathcal{Y}|}({X}) - L &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1}{p(x)} - \sum_{x}p(x)l(x) \nonumber \\
-%                                      &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{1}{p(x)} - \sum_{x} p(x)  \log_{|\mathcal{Y}|} |\mathcal{Y}|^{-l(x)} \nonumber \\
-%                                      &=& \sum_{x} p(x) \log_{|\mathcal{Y}|} \frac{|\mathcal{Y}|^{-l(x)} }{p(x)} \nonumber \\
-%                                      &\leq & \log_{|\mathcal{Y}|} \sum_{x} |\mathcal{Y}|^{-l(x)} \nonumber \\
-%                                      &\leq & \log_{|\mathcal{Y}|} 1 = 0
-%\end{eqnarray}
-%\noindent where the first inequality is again an application of Jensen's result Th.~\ref{th:jensen} and the second one results from applying McMillan's Th.~\ref{th:mcmillan}.
-%\end{proof}
-%\end{theorem}
-%
-%This result can be extended to consider a source code $C$ for a sequence of $n$ random variables {iid} from the ensemble ${X}$. That is, a source  ${X}$ as we defined it in Sec.~\ref{subsec:entropy}. Let $R=L(C({X^n}))/n$, the length per symbol of $C$, be the encoding rate of the source ${X}$. It is trivial to see that the rate is also lower bounded by the entropy of the source:
-%
-%\begin{eqnarray}
-%R &=& L(C({X^n}))/n \nonumber\\
-%  &\geq& H_{|\mathcal{Y}|}({X^n})/n \nonumber\\
-% &=& H_{|\mathcal{Y}|}({X})
-%\end{eqnarray}
+\end{exercise}
 
 \booksection{Joint entropy, conditional entropy and mutual information}
 We will now explore three information measures that derive from entropy as we defined it in the previous section. The first measure is joint entropy, which is a direct application of the definition of entropy to a joint source.
@@ -384,63 +289,39 @@ H({X}|{Y})=\sum_yH(X|y)
 Show that $H(X|Y)=H(XY)-H(Y)$.
 \end{exercise}
 Let us investigate some basic properties of the conditional entropy.
-\begin{exercise}Show that the conditional entropy is non-negative.
+\begin{exercise}
+\label{ex:condentpos}
+Show that the conditional entropy is non-negative.
 \begin{equation*}
 H({X}|{Y}) \geq 0
 \end{equation*}
 \end{exercise}
-\begin{solution}
-$H({X}|{Y})$ is a sum of entropies, which are positive by Lem.~\ref{lem:entropynonnegative}, weighed by the probabilities of each event which are also positive.
-\end{solution}
 
 \begin{exercise}
-\label{lem:entgeqcond}
+\label{ex:entgeqcond}
 Let $X,Y$ be two random variables. Show that:
 \begin{equation*}
 H({X}|{Y}) \leq H({X})
 \end{equation*}
 \end{exercise}
-\begin{solution}
-\begin{eqnarray}
-H({X}|{Y}) - H({X}) &=& \sum_{y }p(y) \sum_{x} p(x|y)\log \frac{1}{p(x|y)} - \sum_{x}p(x) \log  \frac{1}{p(x)}\nonumber \\
-                         &=& \sum_{y}\sum_{x}p(x,y) \log \frac{1}{p(x|y)} + \sum_{x,y}p(x,y) \log  p(x) \nonumber \\
-                         &=& \sum_{x,y}p(x,y) \log  \frac{p(x)}{p(x|y)} \nonumber \\
-                         &=& \sum_{x,y}p(x,y) \log  \frac{p(x)p(y)}{p(x,y)} \nonumber \\
-                         &\leq & \log \sum_{x,y} p(x) p(y) = 0
-\end{eqnarray}
-\end{solution}
 
 \begin{exercise}
-\label{lem:function}
+\label{ex:function}
 Given random variables ${X}$ and ${Y}$ if ${X}=f({Y})$: 
 \begin{equation*}
 H({X}|{Y}) = 0
 \end{equation*}
 \end{exercise}
-\begin{solution}
-If ${X}=f({Y})$, then given ${Y}$ we know ${X}$ with absolute certainty, in other words, given ${Y}$ there is just one possible outcome.
-\begin{eqnarray}
-H({X}|{Y})&=&\sum_{y}p(y) H({X}|y)\nonumber\\
-         &=& 0
-\end{eqnarray}
-\end{solution}
 
 %We now derive the so called chain rule of joint entropy.
 
-\begin{exercise} Show that the following relation holds for any two ensembles $XY$:
+\begin{exercise} 
+\label{ex:chainrule}
+Show that the following relation holds for any two ensembles $XY$:
 \begin{equation*}
 H({XY}) = H({X}) + H({Y}|{X})
 \end{equation*}
 \end{exercise}
-\begin{solution}
-\begin{eqnarray}
-H({XY}) &=& - \sum_{x,y} p(x,y)\log p(x,y) \nonumber \\
-       &=& - \sum_{x}p(x)\sum_{y} p(y|x)\log p(x)p(y|x) \nonumber \\
-       &=& - \sum_{x}p(x)\log p(x)\sum_{y} p(y|x) \nonumber \\
-       & & - \sum_{x}p(x)\sum_{y} p(y|x)\log p(y|x) \nonumber \\
-       &=& H({X}) + H({Y}|{X})
-\end{eqnarray}
-\end{solution}
 
 %The joint and conditional entropy definitions can be also naturally extended to multiple variables. %We show a %second 
 %chain rule for the joint entropy of ${X}$ and ${Y}$ given a variable ${Z}$.  
@@ -515,20 +396,89 @@ A classic logical problem (also classic in information theory texts!) states tha
 \end{enumerate}
 \end{exercise}
 \begin{exercise}
-Let $X_1,X_2$ be two independent random variables modelling two different bent coins. 
-Let $Y$ be a binary random variable that models a process where we throw $X_1$ with probability $p$ and $X_2$ with probability $1-p$. 
-Show that $H(Y)\geq pH(X_1)+(1-p)H(X_2)$.
+Let $X_1,X_2$ be two independent random variables modelling two different but otherwise indistinguishable bent coins. 
+Let $Y$ be a binary random variable that models a process where we throw $X_1$ with probability $t$ and $X_2$ with probability $1-t$. 
+Show that $H(Y)\geq tH(X_1)+(1-t)H(X_2)$.
 \end{exercise}
-\begin{exercise}
-Entropy of a sum 
+\begin{exercise}\label{ex:telescopic}
+Let $X_1,X_2$ be two independent random variables modelling two different bent coins from two different countries, i.e. the outcomes can be clearly distinguished.
+Let $Y$ be a binary random variable that models a process where we throw $X_1$ with probability $t$ and $X_2$ with probability $1-t$. 
+Show that $H(Y)= H(t,1-t)+tH(X_1)+(1-t)H(X_2)$.
 \end{exercise}
-\begin{exercise}
-World series like exercise
-\end{exercise}
-\begin{exercise}
-The three or two cards
-\end{exercise}
+\booksection{Solutions to selected exercises}
+\begin{solution}[Exercise~\ref{ex:basicinf}]
+As $p_X$ is uniform, we have that $p(\text{heads})=p(\text{tails})=1/2$. Hence:
+\begin{equation*}
+h(\text{heads})=-\log(1/2)=1\text{ bit}
+\end{equation*}
+and
+\begin{equation*}
+h(\text{heads})=-\log(1/2)=1\text{ bit}\ .
+\end{equation*}
+\end{solution}
+\begin{solution}[Exercise~\ref{ex:entropynonnegative}]
+  \begin{equation}
+    0 \leq p(x) \leq 1 \Rightarrow -\log p(x) \geq 0 \Rightarrow H(X) \geq 0
+  \end{equation}
+\end{solution}
+\begin{solution}[Exercise~\ref{ex:uniform}]
+\begin{eqnarray}
+H(p_1, ..., p_n)  - \log n & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \sum_{i=1}^n \dfrac{1}{n} \log n \nonumber \\
+                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \log n \sum_{i=1}^n \dfrac{1}{n} \nonumber \\
+                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \log n \sum_{i=1}^n p_i \nonumber \\
+                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{p_i} - \sum_{i=1}^n p_i \log n \nonumber \\
+                                       & =      & \sum_{i=1}^n p_i \log \dfrac{1}{np_i} \nonumber \\                                      
+                                       & \leq &  \log \sum_{i=1}^n \dfrac{1}{n} = 0\nonumber \\
+\end{eqnarray}
+\noindent where the second equality follows from the fact that a probability distribution adds up to one and the last inequality holds from $\log$ being a concave function and applying Jensen's inequality.
+\end{solution}
+\begin{solution}[Exercise~\ref{ex:condentpos}]
+$H({X}|{Y})$ is a sum of entropies, which are positive as we proved in Exercise~\ref{ex:entropynonnegative}, weighed by the probabilities of each event which are also positive.
+\end{solution}
+\begin{solution}[Exercise~\ref{ex:entgeqcond}]
+\begin{eqnarray}
+H({X}|{Y}) - H({X}) &=& \sum_{y }p(y) \sum_{x} p(x|y)\log \frac{1}{p(x|y)} - \sum_{x}p(x) \log  \frac{1}{p(x)}\nonumber \\
+                         &=& \sum_{y}\sum_{x}p(x,y) \log \frac{1}{p(x|y)} + \sum_{x,y}p(x,y) \log  p(x) \nonumber \\
+                         &=& \sum_{x,y}p(x,y) \log  \frac{p(x)}{p(x|y)} \nonumber \\
+                         &=& \sum_{x,y}p(x,y) \log  \frac{p(x)p(y)}{p(x,y)} \nonumber \\
+                         &\leq & \log \sum_{x,y} p(x) p(y) = 0
+\end{eqnarray}
+\end{solution}
+\begin{solution}[Exercise~\ref{ex:function}]
+
+If ${X}=f({Y})$, then given ${Y}$ we know ${X}$ with absolute certainty, in other words, given ${Y}$ there is just one possible outcome.
+\begin{eqnarray}
+H({X}|{Y})&=&\sum_{y}p(y) H({X}|y)\nonumber\\
+         &=& 0
+\end{eqnarray}
+\end{solution}
+\begin{solution}[Exercise~\ref{ex:chainrule}]
+\begin{eqnarray}
+H({XY}) &=& - \sum_{x,y} p(x,y)\log p(x,y) \nonumber \\
+       &=& - \sum_{x}p(x)\sum_{y} p(y|x)\log p(x)p(y|x) \nonumber \\
+       &=& - \sum_{x}p(x)\log p(x)\sum_{y} p(y|x) \nonumber \\
+       & & - \sum_{x}p(x)\sum_{y} p(y|x)\log p(y|x) \nonumber \\
+       &=& H({X}) + H({Y}|{X})
+\end{eqnarray}
+\end{solution}
+\begin{solution}[Exercise~\ref{ex:telescopic}]
+Since $X_1$ is chosen with probability $t$ we have that for a symbol $x_1\in\mathcal X_1$, the probability $p_Y(x_1)=tp_{X_1}(x_1)$. 
+Similarly for $X_2$, we have that for a symbol $x_2\in\mathcal X_2$ the probability $p_Y(x_2)=(1-t)p_{X_2}(x_2)$. With this observation, let us expand $H(Y)$:
+\begin{align*}
+H(Y)&=-\sum_yp_Y(y)\log p_Y(y)\\
+    &=-\sum_{x_1\in\mathcal X_1} tp_{X_1}(x_1)\log(tp_{X_1}(x_1))-\sum_{x_2\in\mathcal X_2} tp_{X_2}(x_2)\log(tp_{X_2}(x_2))\\
+    &=-t\sum_{x_1\in\mathcal X_1} p_{X_1}(x_1)\left(\log(t)+\log(p_{X_1}(x_1))\right)-(1-t)\sum_{x_2\in\mathcal X_2} p_{X_2}(x_2)\left(\log(1-t)+\log(p_{X_2}(x_2))\right)\\
+    &=-t\log t + tH(X_1)-(1-t)\log (1-t) + (1-t)H(X_2)\\
+    &=H(t,1-t)+tH(X_1)+(1-t)H(X_2)
+\end{align*}
+\end{solution}
 \booksection{Further reading}
-The mathematical foundations of information theory were to a certain extent developped single handedly by Claude Shannon. His original paper \cite{Shannon_48} developped the framework and also solved some of the most important problems. The text has not aged with time and remains a greatly written and accessible introduction to the field. A second excellent source for digging deeper into the material is the book of Cover and Thomas \cite{Cover_91}, it is the reference of the field and widely used in most introductory courses on information theory. Chapter 2 in \cite{Cover_91} develops in depth the material of this chapter.
+The mathematical foundations of information theory were to a certain extent developped single handedly by Claude Shannon. 
+His original paper \cite{Shannon_48} developped the framework and also solved some of the most important problems. 
+The text has not aged with time and remains a greatly written and accessible introduction to the field. 
+A second excellent source for digging deeper into the material is the book of Cover and Thomas \cite{Cover_91}, it is the reference of the field and widely used in most introductory courses on information theory. 
+Similar to Cover and Thomas but with a more informal treatment, the book of MacKay~\cite{mackay2003information} is also a recommended source.
+Chapter 2 in both \cite{Cover_91} and \cite{mackay2003information} develop in depth the material of this chapter.
 
 In section \ref{sec:axent} we sketched an axiomatic derivation of entropy. For a complete discussion on axiomatic derivations of entropy and information please refer to~ \cite{Aczel_74,Aczel_75,Csiszar_08,Feinstein_58}. 
+
