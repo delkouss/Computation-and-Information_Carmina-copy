@@ -1,0 +1,86 @@
+\noindent \textbf{Problem 1:} \emph{Measuring information} (50 points total)\\
+\begin{enumerate}
+\item (5 points) Let $X$ be an ensemble with the uniform distribution over the set $\{-2,-1,0,1,2\}$. What is the value of $p_X(-2)$?
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1a\hfill
+    \qu{\vspace{2cm}}
+
+    \soln{Since there are five elements in the set we have that $p_X(-2)=1/5$.}
+  }
+}
+\item (5 points) Let $f=x^2$, and $Y=f(X)$. What is the value of $p_Y(1)$?
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1b\hfill
+    \qu{\vspace{2cm}}
+
+    \soln{By definition $$p_Y(1)=\sum_{x:f(x)=1}p_X(x)=p_X(-1)+p_X(1)=2/5$$}
+  }
+}
+\end{enumerate}
+Let us imagine that you want to transmit a word from the foreign language Icish to a friend. 
+In this language words have always only two letters, first a consonant then a vowel. 
+The consonants in the language are $\mathcal C=\{b,c\}$ and they occur respectively with probabilities $\{1/2,1/2\}$. 
+The vowels in the language are $\mathcal V=\{a,e\}$. The probability of having a vowel in a word depends on the consonant as follows:
+
+\noindent\[
+\begin{array}{c|c|c}  & a & e  \\\hline b & 1/2 &1/2 \\\hline c & 1/4 &3/4 \end{array}
+\]
+Let $CV$ be the joint ensemble that represents the occurrence of the different words and $C,V$ be the ensembles representing the occurrence of consonants and vowels respectively.
+\begin{enumerate}
+\item[(c)] What is the entropy of $C$? (10 points) %more precise
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1a\hfill
+    \qu{\vspace{6cm}}
+
+    \soln{$$H(C)=-\sum_{c}p_C(c)\log p_C(c)=-(1/2\log(1/2)+1/2\log(1/2))=1$$}
+  }
+}
+
+\item[(c)] What is the entropy of $V$? (10 points) 
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1c\hfill
+    \qu{\vspace{9.3cm}}
+
+    \soln{Let us first find the probabilities of the two vowels. $$p_V(a)=\sum_cp_{VC}(a,c)=\sum_cp_{VC}(a|c)p(c)=\frac{1}{2}(\frac{1}{2}+\frac{1}{4})=\frac{3}{8}$$ $$p_V(e)=\sum_cp_{VC}(a,c)=\sum_cp_{VC}(a|c)p(c)=\frac{1}{2}(\frac{1}{2}+\frac{3}{4})=\frac{5}{8}$$
+Now we can find the entropy: $$H(V)=-\sum_{v}p_V(v)\log p_V(v)=-(3/8\log(3/8)+5/8\log(5/8))$$}
+  }
+}
+
+\item[(d)] What is the entropy of a vowel given that the consonant was $b$? (10 points) 
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1d\hfill
+    \qu{\vspace{9.3cm}}
+
+    \soln{From the definition: $$H(V|b)=-\sum_v p_{VC}(v|b)\log p_{VC}(v|b)=-(1/2\log(1/2)+1/2\log(1/2))=1$$}
+  }
+}
+\end{enumerate}
+
+We have focused our study on information measures on the entropy function. 
+However, there is a whole zoo of entropic measures with different properties and operational interpretations. 
+Given an ensemble $X$, we define its collision entropy as follows:$$H_c(X)=-\log\sum_{x\in\mathcal X}(p_X(x))^2\ .$$
+This is also a very useful quantity with applications in cryptography (you will learn about it if you take the master's course Quantum communications and cryptography). 
+\begin{enumerate}
+\item[(e)] (10 points) Prove that the collision entropy can not be greater than entropy. 
+That is prove: $H(X)\geq H_c(X)$. (Hint: Jensen's inequality can make this proof very simple)
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 1e\hfill
+    \qu{\vspace{15cm}}
+
+    \soln{We have by convexity of the log and direct application of Jensen's inequality that: $$\sum_xp_x\log \frac{1}{p_x}\leq\log\left(\sum_x(p_x)^2\right), $$ that is: $-H(X)\leq -H_c(X)$, from which follows the desired statement.}
+  }
+}
+
+\end{enumerate}

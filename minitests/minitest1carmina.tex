@@ -1,0 +1,109 @@
+\noindent \textbf{Problem 2:} \emph{Coding information} (40 points total)\\
+This  assembly language instruction $add$  $\$t0,\$t3, \$t5$  performs an addition between two operands.
+Its corresponding R-type instruction has the following field values: 
+
+\begin{table}[h!]
+\begin{tabular}{llllcl}
+\hline
+\multicolumn{1}{|c|}{0} & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8} & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{32} \\ \hline
+6 bits                  & 5 bits                  & 5 bits                  & 5 bits                 & 5 bits                 & 6 bits                 
+\end{tabular}
+\end{table}
+
+
+\begin{enumerate}
+
+\item Convert this instruction into machine code (hexadecimal). (10 points) %more precise
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 2a\hfill
+    \vspace{8cm}
+  }
+}
+
+\item Take the four most significant digits of the previous hexadecimal number and convert the resulting 4-digit hexadecimal number to decimal. (5 points) 
+(Use $015F_{16}$ in case you did not obtain the hexadecimal number in question 2a)
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 2b\hfill
+    \vspace{4cm}
+  }
+}
+
+\newpage
+\item Let's assume now that the values stored in registers $\$t3$ and $\$t5$ are the following 6-bit two's complement numbers: 110110 and 100011. What is the decimal number they represent?  (5 points) 
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 2c\hfill
+    \vspace{6cm}
+  }
+}
+
+
+\item Convert the previous 6-bit numbers to decimal assuming now they are 6-bit sign/magnitude numbers (5 points). 
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 2d\hfill
+    \vspace{6cm}
+  }
+}
+
+\newpage
+\item Perform the addition of the two 6-bit two's complement numbers of question 2c (assume the result is also a 6-bit two's complement number). Is the result correct? If not, explain why. (5 points) 
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 2e\hfill
+    \vspace{6cm}
+  }
+}
+
+\item Convert the previous 6-bit two's complement numbers to 8-bit two's complement numbers.  (10 points)
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 2f\hfill
+    \vspace{6cm}
+  }
+}
+
+
+
+
+
+%\item Bonus question
+\end{enumerate}
+
+\newpage
+
+\noindent \textbf{Problem 3:} \emph{Representation of switching functions} (10 points total)\\
+
+Consider the the following switching expression: $f(x_1,x_2,x_3)=x_{1}^{'}x_{2} + x_{2}^{'}x_{3} + x_{1}x_{2}x_{3}^{'} $
+
+\begin{enumerate}
+
+\item Determine its truth table (8 points) %more precise
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 3a\hfill
+    \vspace{6cm}
+  }
+}
+
+\item What is its 1-set? (2 points) %more precise
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+Answer 2b\hfill
+    \vspace{6cm}
+  }
+}
+
+
+\end{enumerate}
+

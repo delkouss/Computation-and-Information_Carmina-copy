@@ -36,7 +36,7 @@
 
 \makeatother
 
-\def \solutions{0}
+\def \solutions{1}
 
 \begin{document}
 \vspace*{-3cm}
@@ -67,64 +67,7 @@ Good luck!
 
 
 \newpage
-\noindent \textbf{Problem 1:} \emph{Measuring information} (50 points total)\\
-Let us imagine that you want to transmit a word from the foreign language Icish to a friend. 
-In this language words have always only two letters, first a consonant then a vowel. 
-The consonants in the language are $\mathcal C=\{b,c,d,f\}$ and they occur respectively with probabilities $\{1/2,1/4,1/4,0\}$. 
-The vowels in the language are $\mathcal V=\{a,e,i,o,u\}$. The probability of having a vowel in a word depends on the consonant as follows:
-
-\[
-\begin{array}{c|c|c|c|c|c}  & a & e & i& o &u\\\hline b & 1/2 &1/4 &1/4 & &\\\hline c &  &1/2 &1/4 &1/4 &\\\hline d &1/4  & &1/2 &1/4 &\\\hline f &1/4  &1/4 & &1/2 &\end{array}
-\]
-\begin{enumerate}
-\item What is the entropy of $C$? (5 points) %more precise
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1a\hfill
-    \vspace{6cm}
-  }
-}
-
-\item What is the entropy of $V$? (5 points) 
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1b\hfill
-    \vspace{6cm}
-  }
-}
-
-\item What is the entropy of a vowel given that the consonant was $b$? (5 points) 
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1c\hfill
-    \vspace{6cm}
-  }
-}
-
-\item What is the entropy of a word? (15 points) 
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1d\hfill
-    \vspace{12cm}
-  }
-}
-
-\item Prove that $H(X,Y)=H(X)+H(Y)$ if and only if $X$ and $Y$ are independent. Then use the result to show whether or not $C$ and $V$ are independent. (20 points)
-
-\noindent\fbox{
-  \parbox{.9\textwidth}{
-Answer 1e\hfill
-    \vspace{19cm}
-  }
-}
-
-\item Bonus question?
-
-\end{enumerate}
+\input{minitest1david}
 \newpage
-\noindent \textbf{Problem 2:} \emph{} (50 points total)\\
+\input{minitest1carmina}
 \end{document}

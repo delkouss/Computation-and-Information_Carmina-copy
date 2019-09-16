@@ -64,31 +64,8 @@ TN3125: Information and Computation 2019-20 \hspace*{2cm}{September $18^{\mathrm
 \vspace{2cm}
 Good luck!
 
-
-
 \newpage
-\noindent \textbf{Problem 1:} \emph{Compressing a run} (50 points total)\\
-Let $X$ be an ensemble with probabilities $\{1/2,1/4,1/8,1/8\}$. 
-\begin{enumerate}
-\item (10 points) Indicate which of the following set of codes are instantaneous and which are uniquely decodable:
-\begin{itemize}
-\item $C_1=\{00,01,10,11\}$
-\item $C_2=\{0,00,1,10\}$
-\item $C_3=\{\}$
-\item $C_4=\{0,00,1,10\}$
-\end{itemize}
-\item (10 points) Construct the Huffman code for this ensemble and give its average length
-\item (10 points) Construct the Shannon code for this ensemble and give its average length
-\item (10 points) What can we deduce about the entropy of $X$ from the average lengths of the Huffman and Shannon codes?
-\item (10 points) Let us use $Y$ the first intermediate ensemble in the Huffman construction to estimate $X$. Let us call $X'$ the estimate. Give a bound on the entropy of $H(X|Y)$ as a function of the error in the estimation (Hint: you can use Fano's inequality).
-\item (10 points, bonus) Let us consider the opposite goal to our previous efforts. Suppose that you want to transform a sequence of uniform binary random variables $X_1,X_2,\ldots$ into some random variable $Y$:
-\begin{itemize}
-\item Describe a general procedure that allows to produce samples of $Y$ from outcomes of uniform binary random variables.
-\item Bound the average number of samples necessary to produce a sample of $Y$ is $Y$ is a binary random variable with probabilities $\{p,1-p\}.$
-\end{itemize}
-\end{enumerate}
-
-
+\input{minitest2david}
 \newpage
-\noindent \textbf{Problem 2:} \emph{} (50 points total)\\
+\input{minitest2carmina}
 \end{document}
