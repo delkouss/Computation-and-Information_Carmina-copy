@@ -1,12 +1,12 @@
 # You want latexmk to *always* run, because make does not have all the info.
 # # Also, include non-file targets in .PHONY so they are run regardless of any
 # # file of the given name existing.
-.PHONY: chap1.pdf chap2.pdf main.pdf all clean
+.PHONY: main.pdf all clean
 
 #
 # # The first rule in a Makefile is the one executed by default ("make"). It
 # # should always be the "all" rule, so that "make" and "make all" are identical.
-all: main.idx main.bcf main.ind main.bbl inconly.tex main.pdf chap1.pdf chap2.pdf
+all: main.idx main.bcf main.ind main.bbl inconly.tex main.pdf 
 #
 # # CUSTOM BUILD RULES
 #
@@ -42,16 +42,6 @@ inconly.tex:
 main.pdf: inconly.tex
 	echo "\includeonly{chapters/Chapter7-measures_of_information,chapters/Chapter8-source_coding,chapters/Chapter9-channel-coding}" > inconly.tex
 	latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make main.tex 
-
-chap1.pdf: 
-	echo "\includeonly{chapters/Chapter7-measures_of_information}" > inconly.tex
-	latexmk -jobname=chap1 -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make main.tex 
-	cp chap1.pdf dln/
-
-chap2.pdf: 
-	echo "\includeonly{chapters/Chapter7-measures_of_information,chapters/Chapter8-source_coding}" > inconly.tex
-	latexmk -jobname=chap12 -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make main.tex 
-
 
 #
 clean: 
