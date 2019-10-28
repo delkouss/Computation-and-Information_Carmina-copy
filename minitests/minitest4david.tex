@@ -1,0 +1,79 @@
+\noindent \textbf{Problem 1:} \emph{Parity check matrix} (25 points total)\\
+Consider the following parity check matrix:
+\begin{equation*}
+\begin{pmatrix}
+0 & 0 & 0 & 1 & 1 & 1\\
+0 & 1 & 1 & 0 & 0 & 1\\
+1 & 0 & 1 & 0 & 0 & 0\\
+\end{pmatrix}
+\end{equation*}
+
+\begin{enumerate}
+\item (5 points) Does the matrix correspond to a Hamming code? Explain why yes or no.
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+\hfill
+    \qu{\vspace{3cm}}
+
+    \soln{}
+  }
+}
+
+\item (15 points) Find the minimum distance of a code with the previous parity check matrix.
+
+\noindent \fbox{
+  \parbox{.9\textwidth}{
+\hfill
+    \qu{\vspace{13cm}}
+
+    \soln{}
+  }
+}
+
+\item (5 points) Suppose that you receive the word $y=(0011001)$, is $y$ a codeword of the code with the previous parity check matrix?
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+\hfill
+    \qu{\vspace{10cm}}
+
+    \soln{}
+  }
+}
+
+\end{enumerate}
+
+\noindent \textbf{Problem 2:} \emph{Channel capacity} (25 points total)\\
+Consider a discrete memoryless channel with input alphabet of size four and output alphabet of size six. The transition matrix is given by
+\begin{equation*}
+p(y|x)=\begin{pmatrix}
+1-e & e & 0 & 0 &0&0\\
+0 & e & 1-e & 0 &0&0\\
+0 & 0 &0  & 1-e & e&0\\
+0 & 0 &0  & 0 & e &1-e
+\end{pmatrix}
+\end{equation*}
+where $p\in[0,1]$.
+\begin{enumerate}
+\item (5 points) Does the transition matrix above correspond to a weakly symmetric channel? Indicate why or why not.
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+\hfill
+    \qu{\vspace{3cm}}
+
+    \soln{}
+  }
+}
+\item (20 points) What is the capacity of the channel in bits? (We will give partial credit if you can find non-trivial bounds on the value)
+
+\noindent\fbox{
+  \parbox{.9\textwidth}{
+\hfill
+    \qu{\vspace{19cm}}
+
+    \soln{}
+  }
+}
+\end{enumerate}

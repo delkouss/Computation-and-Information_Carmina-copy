@@ -1,0 +1,71 @@
+\documentclass[11pt,a4paper,twoside]{article}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{ifthen}
+%\usepackage{fdsymbol}
+\usepackage{tikz}
+%\usepackage{revsymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+
+\makeatletter
+
+\pagenumbering{arabic}
+
+
+\setlength{\oddsidemargin}{0.3cm}
+\setlength{\evensidemargin}{0.3cm}
+\setlength{\textwidth}{15.9cm}
+
+\newcommand{\checkedSquare}{\mbox{\ooalign{$\checkmark$\cr\hidewidth$\square$\hidewidth\cr}}}
+\newcommand{\soln}[1]
+{
+\ifthenelse{\equal{\solutions}{1}}{ \textcolor[RGB]{40, 60, 250}{#1}}{}
+}
+\newcommand{\qu}[1]
+{
+\ifthenelse{\equal{\solutions}{0}}{#1}{}
+}
+\newcommand{\anticomm}[2]{\{#1,#2\}}
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+
+\makeatother
+
+\def \solutions{0}
+
+\begin{document}
+\vspace*{-3cm}
+TN3125: Information and Computation 2019-20 \hspace*{2cm}{September $25^{\mathrm{th}}$, 2019}\\
+
+\vspace{8cm}
+
+\noindent \begin{center}
+\textbf{{\Large Minitest 3}}\\
+\par\end{center}
+
+\vspace*{1cm}
+
+\noindent \textbf{Important notes:}
+
+\begin{itemize}
+\item This exam is CLOSED book.
+\item The use of phones is not permitted. Please leave your phone by the examiner if you must go to the bathroom during the exam.
+\item Please clearly write your name and fill in your student ID by shading the appropriate entries on the grid above.
+\item Please write your answers on the white space below the question. 
+\item Please show as much of your work as possible; this includes explaining the reasoning behind your calculations, we really like to give partial credit.
+\item All problems can be solved without lengthy computations. We advise you to look for a simple solution if you can.
+\item This exam has {\bf 2 problems} (100 points total) on {\bf XX pages}, including this one.
+\end{itemize}
+\vspace{2cm}
+Good luck!
+
+\newpage
+\input{minitest3david}
+\newpage
+\input{minitest3carmina}
+\end{document}
